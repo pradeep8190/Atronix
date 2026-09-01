@@ -1,0 +1,285 @@
+.code-tab-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Unified Single Install Card (Outer Card Glass Border Restored) */
+.install-card-unified {
+  position: relative;
+  z-index: 50; /* Higher Stacking Context for Dropdown Overlay */
+  width: 100%;
+  border-radius: 16px;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.install-command-left {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.command-text {
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace;
+  font-size: 13.5px;
+  color: #ffffff;
+}
+
+.install-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 60;
+}
+
+/* Liquid Glass Pill Mode Toggle for CLI | Manual */
+.install-mode-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 3px;
+  border-radius: 10px;
+  border: none;
+  overflow: hidden;
+}
+
+.install-mode-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  font-size: 12.5px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-weight: 500;
+  border-radius: 7px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  user-select: none;
+}
+
+.install-mode-btn:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.install-mode-btn.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.install-btn-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Custom Liquid Glass Package Manager Dropdown Trigger */
+.custom-pm-dropdown-container {
+  position: relative;
+  display: inline-block;
+  z-index: 100;
+}
+
+.custom-pm-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: none;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  overflow: hidden;
+}
+
+.custom-pm-trigger:hover,
+.custom-pm-trigger.open {
+  color: #ffffff;
+}
+
+.custom-pm-trigger span,
+.custom-pm-trigger svg {
+  position: relative;
+  z-index: 2;
+}
+
+/* Floating Glass Menu Popup Overlay */
+.custom-pm-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 110px;
+  background: rgba(18, 18, 22, 0.95);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: none;
+  border-radius: 12px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 1000;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95);
+}
+
+.custom-pm-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 12.5px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  user-select: none;
+  overflow: hidden;
+}
+
+.custom-pm-item:hover {
+  color: #ffffff;
+}
+
+.custom-pm-item.selected {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.pm-item-text,
+.pm-item-check {
+  position: relative;
+  z-index: 2;
+}
+
+/* Pure Black Dual-Tone Code Sandbox (Outer Card Glass Border Restored) */
+.code-sandbox {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-radius: 18px;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8);
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  background: #000000;
+  border-bottom: none;
+}
+
+.code-filename {
+  font-size: 13.5px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Code Container Grid with Line Numbers */
+.code-container {
+  display: flex;
+  background: #000000;
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace;
+  font-size: 13.5px;
+  line-height: 1.7;
+  max-height: 560px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.code-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.code-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+/* Line Numbers Column (Color: #3f3f46, No Border Line) */
+.line-numbers {
+  padding: 20px 16px 20px 24px;
+  background: #000000;
+  color: #3f3f46;
+  text-align: right;
+  user-select: none;
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  min-width: 58px;
+}
+
+.line-number {
+  height: 23px;
+  font-size: 13px;
+  color: #3f3f46;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Code Content Area */
+.code-content {
+  padding: 20px 28px;
+  background: #000000;
+  color: #ffffff;
+  white-space: pre;
+  flex: 1;
+}
+
+.code-line {
+  height: 23px;
+  display: flex;
+  align-items: center;
+  white-space: pre;
+  color: #ffffff;
+}
+
+/* Strict Two-Color Palette: Light Red (#ff758c) & White (#ffffff) */
+.code-highlight-red {
+  color: #ff758c;
+  font-weight: 500;
+}
+
+.code-white {
+  color: #ffffff;
+}

@@ -1,0 +1,86 @@
+.hook-rail-nav {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.hook-rail-label {
+  padding-bottom: 10px;
+  padding-left: 2px;
+  padding-right: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hook-rail-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hook-rail-container,
+.hook-rail-line,
+.hook-rail-svg {
+  pointer-events: none !important;
+}
+
+.hook-rail-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.hook-rail-line {
+  position: absolute;
+  left: 2px;
+  width: 1px;
+}
+
+.hook-rail-svg {
+  position: absolute;
+  left: 2px;
+}
+
+.hook-rail-item {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  display: block;
+  border-radius: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 20px;
+  padding-right: 8px;
+  text-align: left;
+  font-size: 13.5px;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hook-rail-item.inactive {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.hook-rail-item.inactive:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.hook-rail-item.active {
+  color: #ffffff;
+  font-weight: 500;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Apple Pay Success Sound</title>
+</head>
+<body>
+  <h1>Official Apple Pay Success Sound</h1>
+  <p id="status">Loading official Apple Pay sound into memory...</p>
+
+  <div>
+    <button id="btn-applepay" onclick="playApplePaySound()" disabled>
+      Play Official Apple Pay Success
+    </button>
+  </div>
+
+  <br>
+  <div>
+    <strong>Log:</strong>
+    <div id="log">Initializing...</div>
+  </div>
+
+  <script>
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+    let applePayBuffer = null;
+
+    // Official Apple Pay sound extracted directly from iOS UISounds
+    const APPLE_PAY_SOUND_URL = 'https://raw.githubusercontent.com/extratone/iOSSystemSounds/main/mp3/payment_success.mp3';
+
+    function log(msg) {
+      document.getElementById('log').innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    }
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Preload & decode official audio into RAM for 0ms latency
+    async function preloadApplePaySound() {
+      const statusEl = document.getElementById('status');
+      const btn = document.getElementById('btn-applepay');
+      initAudioContext();
+
+      try {
+        const response = await fetch(APPLE_PAY_SOUND_URL);
+        const arrayBuffer = await response.arrayBuffer();
+        applePayBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+        
+        btn.disabled = false;
+        statusEl.innerText = 'Official Apple Pay sound loaded in memory (0ms latency ready).';
+        log('Ready. Click the button to play.');
+      } catch (err) {
+        console.error('Failed to load Apple Pay sound:', err);
+        statusEl.innerText = 'Failed to load audio file.';
+        log('Error loading sound.');
+      }
+    }
+
+    // Instant playback from memory buffer
+    function playApplePaySound() {
+      const ctx = initAudioContext();
+
+      if (!applePayBuffer) {
+        log('Sound is still loading...');
+        return;
+      }
+
+      const source = ctx.createBufferSource();
+      source.buffer = applePayBuffer;
+      source.connect(ctx.destination);
+      source.start(0);
+
+      log('Played Official Apple Pay Success Sound');
+    }
+
+    window.addEventListener('DOMContentLoaded', preloadApplePaySound);
+  </script>
+</body>
+</html>
