@@ -73,9 +73,6 @@ export const ProjectGrid: React.FC = () => {
           >
             {/* Cardless Image directly on body */}
             <div className="project-image-wrapper">
-              {/* Liquid glass diagonal light sweep */}
-              <div className="card-glass-shine" />
-
               <img
                 src={item.image}
                 alt={item.name}

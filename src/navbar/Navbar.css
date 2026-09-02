@@ -105,18 +105,51 @@
 }
 
 .nav-link {
+  position: relative;
+  display: inline-block;
+  padding: 6px 0;
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
   letter-spacing: -0.1px;
   white-space: nowrap;
-  transition: color 0.25s ease, text-shadow 0.25s ease;
+  transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Individual Link Underline (Expands smoothly from center under this link only) */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  box-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 16px rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  pointer-events: none;
 }
 
 .nav-link:hover {
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 /* Right Section Controls */

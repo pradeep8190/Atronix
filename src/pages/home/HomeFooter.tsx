@@ -29,6 +29,9 @@ export const HomeFooter: React.FC = () => {
 
   return (
     <div ref={endingRef} className="home-page-ending">
+      {/* Soft Ambient White Glow Layer */}
+      <div className="footer-ambient-glow" aria-hidden="true" />
+
       {/* Top Glowing Divider Line */}
       <div className="ending-divider-wrap">
         <div className="ending-line" />
@@ -77,10 +80,10 @@ export const HomeFooter: React.FC = () => {
         </div>
 
         <div className="ending-bottom-links">
-          <span className="ending-status-pill">
-            <span className="ending-pulse-dot" />
-            More components dropping weekly
-          </span>
+          <span className="ending-meta-tag">Open Source (MIT)</span>
+          <span className="ending-brand-divider">•</span>
+          <span className="ending-meta-tag">Built for React & Next.js</span>
+          <span className="ending-brand-divider">•</span>
           <button
             className="ending-back-to-top"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
