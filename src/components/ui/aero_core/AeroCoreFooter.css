@@ -1,15 +1,15 @@
 /* ==========================================================================
-   Liquid Mitosis Footer & Props Reference Styles
+   Aero Core Footer & Props Reference Styles
    ========================================================================== */
 
-.liquid-mitosis-props-section {
+.aero-core-props-section {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 48px;
 }
 
-.liquid-mitosis-props-section .props-title {
+.aero-core-props-section .props-title {
   font-size: 20px;
   font-weight: 700;
   color: #ffffff;
@@ -18,7 +18,7 @@
   margin-bottom: 20px;
 }
 
-.liquid-mitosis-props-section .props-table-wrapper {
+.aero-core-props-section .props-table-wrapper {
   width: 100%;
   border-radius: 16px;
   background: #000000;
@@ -27,7 +27,7 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
-.liquid-mitosis-props-section .props-table {
+.aero-core-props-section .props-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
@@ -35,7 +35,7 @@
   font-size: 13.5px;
 }
 
-.liquid-mitosis-props-section .props-table th {
+.aero-core-props-section .props-table th {
   background: rgba(255, 255, 255, 0.02);
   color: rgba(255, 255, 255, 0.45);
   font-weight: 600;
@@ -46,39 +46,39 @@
   border-bottom: none;
 }
 
-.liquid-mitosis-props-section .props-table td {
+.aero-core-props-section .props-table td {
   padding: 16px 22px;
   border-bottom: none;
   color: rgba(255, 255, 255, 0.85);
 }
 
-.liquid-mitosis-props-section .prop-name {
+.aero-core-props-section .prop-name {
   font-family: 'Fira Code', 'JetBrains Mono', monospace;
   font-size: 13px;
   color: #ff758c;
   font-weight: 500;
 }
 
-.liquid-mitosis-props-section .prop-type {
+.aero-core-props-section .prop-type {
   font-family: 'Fira Code', 'JetBrains Mono', monospace;
   font-size: 12.5px;
   color: rgba(255, 255, 255, 0.9);
 }
 
-.liquid-mitosis-props-section .prop-default {
+.aero-core-props-section .prop-default {
   font-family: 'Fira Code', 'JetBrains Mono', monospace;
   font-size: 12.5px;
   color: #3f3f46;
 }
 
-.liquid-mitosis-props-section .prop-desc {
+.aero-core-props-section .prop-desc {
   font-size: 13.5px;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.5;
 }
 
 /* Physics Architecture Callout Box */
-.liquid-physics-note {
+.aero-core-props-section .liquid-physics-note {
   margin-top: 24px;
   padding: 22px 26px;
   background: #000000;
@@ -87,7 +87,7 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
-.liquid-physics-note h4 {
+.aero-core-props-section .liquid-physics-note h4 {
   font-size: 14.5px;
   font-weight: 600;
   color: #ffffff;
@@ -96,7 +96,7 @@
   font-family: 'Ubuntu Sans', sans-serif;
 }
 
-.liquid-physics-note p {
+.aero-core-props-section .liquid-physics-note p {
   font-size: 13.5px;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.6);
@@ -104,7 +104,7 @@
   font-family: 'Ubuntu Sans', sans-serif;
 }
 
-.liquid-physics-note strong {
+.aero-core-props-section .liquid-physics-note strong {
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
 }

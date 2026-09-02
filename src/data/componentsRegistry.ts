@@ -5,6 +5,24 @@ import folderCode from '../components/ui/frost_vault/Folder.tsx?raw';
 import LiquidMitosis from '../components/ui/liquid_mitosis/LiquidMitosis';
 import LiquidMitosisFooter from '../components/ui/liquid_mitosis/LiquidMitosisFooter';
 import liquidMitosisCode from '../components/ui/liquid_mitosis/LiquidMitosis.tsx?raw';
+import CascadeSelect from '../components/ui/cascade_select/CascadeSelect';
+import CascadeSelectFooter from '../components/ui/cascade_select/CascadeSelectFooter';
+import cascadeSelectCode from '../components/ui/cascade_select/CascadeSelect.tsx?raw';
+import MercurySlider from '../components/ui/mercury_slider/MercurySlider';
+import MercurySliderFooter from '../components/ui/mercury_slider/MercurySliderFooter';
+import mercurySliderCode from '../components/ui/mercury_slider/MercurySlider.tsx?raw';
+import PhaseToggle from '../components/ui/phase_toggle/PhaseToggle';
+import PhaseToggleFooter from '../components/ui/phase_toggle/PhaseToggleFooter';
+import phaseToggleCode from '../components/ui/phase_toggle/PhaseToggle.tsx?raw';
+import HydroButton from '../components/ui/hydro_button/HydroButton';
+import HydroButtonFooter from '../components/ui/hydro_button/HydroButtonFooter';
+import hydroButtonCode from '../components/ui/hydro_button/HydroButton.tsx?raw';
+import FlowingTabs from '../components/ui/flowing_tabs/FlowingTabs';
+import FlowingTabsFooter from '../components/ui/flowing_tabs/FlowingTabsFooter';
+import flowingTabsCode from '../components/ui/flowing_tabs/FlowingTabs.tsx?raw';
+import AeroCore from '../components/ui/aero_core/AeroCore';
+import AeroCoreFooter from '../components/ui/aero_core/AeroCoreFooter';
+import aeroCoreCode from '../components/ui/aero_core/AeroCore.tsx?raw';
 
 export interface ComponentItem {
   id: string;
@@ -56,126 +74,103 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     cliCommand: 'npx atronix add liquid-mitosis',
     hint: 'Hover over the capsule to trigger GPU fluid mitosis and capillary separation!',
   },
-  'liquid-orb': {
-    id: 'liquid-orb',
-    name: 'Liquid Orb',
+  'cascade-select': {
+    id: 'cascade-select',
+    name: 'Cascade Select',
     category: 'Components',
-    description: 'Dynamic reactive fluid sphere powered by real-time particle shaders and audio-reactive physics.',
-    component: Folder,
-    code: '// Liquid Orb Component coming soon\nexport default function LiquidOrb() { return <div>Liquid Orb</div>; }',
-    dependencies: ['motion', 'three'],
-    cliCommand: 'npx atronix add liquid-orb',
-  },
-  'dynamic-island': {
-    id: 'dynamic-island',
-    name: 'Dynamic Island',
-    category: 'Components',
-    description: 'Adaptive status pill with fluid morphing dimensions, audio feedback, and spring micro-interactions.',
-    component: Folder,
-    code: '// Dynamic Island Component\nexport default function DynamicIsland() { return <div>Dynamic Island</div>; }',
+    description: 'GPU-accelerated WebGL fluid cascade dropdown. Features gravity-driven meniscus stretching, Inigo Quilez smooth minimum fusion, damped harmonic recoil kinematics, and frosted liquid glass optics.',
+    component: CascadeSelect,
+    footerComponent: CascadeSelectFooter,
+    code: cascadeSelectCode,
+    colorOptions: ['black', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
     dependencies: ['motion'],
-    cliCommand: 'npx atronix add dynamic-island',
+    cliCommand: 'npx atronix add cascade-select',
+    hint: 'Click the trigger button to release the WebGL liquid cascade!',
   },
-  'gravion-motion': {
-    id: 'gravion-motion',
-    name: 'Gravion Motion',
+  'mercury-slider': {
+    id: 'mercury-slider',
+    name: 'Mercury Slider',
     category: 'Components',
-    description: 'Physics-based gravity field with cursor-reactive collision simulation and ambient inertia damping.',
-    component: Folder,
-    code: '// Gravion Motion Component\nexport default function GravionMotion() { return <div>Gravion Motion</div>; }',
+    description: 'Hydrodynamic liquid mercury bead slider in an optical frosted glass channel. Features Poisson volume-preserving stretch, viscous surface drag, and rubberized elastic overdrag recoil.',
+    component: MercurySlider,
+    footerComponent: MercurySliderFooter,
+    code: mercurySliderCode,
+    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
     dependencies: ['motion'],
-    cliCommand: 'npx atronix add gravion-motion',
+    cliCommand: 'npx atronix add mercury-slider',
+    hint: 'Drag the liquid mercury bead along the frosted glass channel!',
   },
-  'obsidian-card': {
-    id: 'obsidian-card',
-    name: 'Obsidian Card',
+  'phase-toggle': {
+    id: 'phase-toggle',
+    name: 'Phase Toggle',
     category: 'Components',
-    description: 'Ultra-deep obsidian glass card with dynamic optical glare and specular edge refraction.',
-    component: Folder,
-    code: '// Obsidian Card Component\nexport default function ObsidianCard() { return <div>Obsidian Card</div>; }',
+    description: 'Kinetic mercury switch inside a dual-chamber optical frosted glass vessel. Features high-speed capillary throat squirt kinematics, directional 3D liquid metal glints, and impact fluid wave dispersion.',
+    component: PhaseToggle,
+    footerComponent: PhaseToggleFooter,
+    code: phaseToggleCode,
+    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
     dependencies: ['motion'],
-    cliCommand: 'npx atronix add obsidian-card',
+    cliCommand: 'npx atronix add phase-toggle',
+    hint: 'Click to squirt the liquid mercury bead through the capillary throat!',
   },
-  'quantum-modal': {
-    id: 'quantum-modal',
-    name: 'Quantum Modal',
+  'hydro-button': {
+    id: 'hydro-button',
+    name: 'Hydro Button',
     category: 'Components',
-    description: 'Spring-driven glassmorphic dialog with backdrop blur layers and fluid exit gesture drag.',
-    component: Folder,
-    code: '// Quantum Modal Component\nexport default function QuantumModal() { return <div>Quantum Modal</div>; }',
+    description: 'Incompressible hydrostatic water bag button. Features localized stone-drop indentation craters, volume-preserving outer border pressure bulges, and hydrodynamic capillary wave reflection.',
+    component: HydroButton,
+    footerComponent: HydroButtonFooter,
+    code: hydroButtonCode,
+    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
     dependencies: ['motion'],
-    cliCommand: 'npx atronix add quantum-modal',
+    cliCommand: 'npx atronix add hydro-button',
+    hint: 'Click anywhere on the capsule to drop a stone and watch the water displace!',
   },
-  'hyper-glow-button': {
-    id: 'hyper-glow-button',
-    name: 'Hyper Glow Button',
+  'flowing-tabs': {
+    id: 'flowing-tabs',
+    name: 'Flowing Tab',
     category: 'Components',
-    description: 'Specular laser reactive CTA button with glowing perimeter border beam and haptic response.',
-    component: Folder,
-    code: '// Hyper Glow Button Component\nexport default function HyperGlowButton() { return <div>Hyper Glow Button</div>; }',
+    description: 'Hydraulic multi-chamber fluid switcher. Models real water surge dynamics: viscous floor creep leading the flow, wave cresting through the sluice gate, and slosh resonance upon chamber impact.',
+    component: FlowingTabs,
+    footerComponent: FlowingTabsFooter,
+    code: flowingTabsCode,
+    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
     dependencies: ['motion'],
-    cliCommand: 'npx atronix add hyper-glow-button',
+    cliCommand: 'npx atronix add flowing-tabs',
+    hint: 'Switch between Preview and Code to watch the water creep, roll, and slosh across the gate!',
   },
-  'matrix-grid': {
-    id: 'matrix-grid',
-    name: 'Matrix Grid',
+  'aero-core': {
+    id: 'aero-core',
+    name: 'Aero Core',
     category: 'Components',
-    description: 'Interactive ambient background grid mesh with ripple disturbance wave physics.',
-    component: Folder,
-    code: '// Matrix Grid Component\nexport default function MatrixGrid() { return <div>Matrix Grid</div>; }',
+    description: 'Voice-reactive volumetric smoke and celestial nebula orb. Features 5-octave rotational FBM domain warping, acoustic speech billowing, radiant luminous core pulses, and interactive pointer smoke stirring.',
+    component: AeroCore,
+    footerComponent: AeroCoreFooter,
+    code: aeroCoreCode,
+    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
     dependencies: ['motion'],
-    cliCommand: 'npx atronix add matrix-grid',
-  },
-  'prism-slider': {
-    id: 'prism-slider',
-    name: 'Prism Slider',
-    category: 'Components',
-    description: 'Fluid stepped range slider with liquid thumb tracking and tactile value indicator tooltip.',
-    component: Folder,
-    code: '// Prism Slider Component\nexport default function PrismSlider() { return <div>Prism Slider</div>; }',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add prism-slider',
-  },
-  'nexus-tabs': {
-    id: 'nexus-tabs',
-    name: 'Nexus Tabs',
-    category: 'Components',
-    description: 'Liquid morphing segmented navigation bar with stretch spring physics and magnetic hover.',
-    component: Folder,
-    code: '// Nexus Tabs Component\nexport default function NexusTabs() { return <div>Nexus Tabs</div>; }',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add nexus-tabs',
-  },
-  'aether-dropdown': {
-    id: 'aether-dropdown',
-    name: 'Aether Dropdown',
-    category: 'Components',
-    description: 'Frosted glass animated select dropdown with keyboard navigation and spring accordion flow.',
-    component: Folder,
-    code: '// Aether Dropdown Component\nexport default function AetherDropdown() { return <div>Aether Dropdown</div>; }',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add aether-dropdown',
-  },
-  'starlight-tooltip': {
-    id: 'starlight-tooltip',
-    name: 'Starlight Tooltip',
-    category: 'Components',
-    description: 'Adaptive floating tooltip bubble with physics collision bounds and soft optical halo.',
-    component: Folder,
-    code: '// Starlight Tooltip Component\nexport default function StarlightTooltip() { return <div>Starlight Tooltip</div>; }',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add starlight-tooltip',
-  },
-  'vortex-drawer': {
-    id: 'vortex-drawer',
-    name: 'Vortex Drawer',
-    category: 'Components',
-    description: 'Directional bottom and side sheet drawer with velocity-based flick dismiss and rubber-band drag.',
-    component: Folder,
-    code: '// Vortex Drawer Component\nexport default function VortexDrawer() { return <div>Vortex Drawer</div>; }',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add vortex-drawer',
+    cliCommand: 'npx atronix add aero-core',
+    hint: 'Move cursor to stir the smoke wisps, or speak to watch the luminous cloud billow and pulse!',
   },
 };
 
 export default componentsRegistry;
+

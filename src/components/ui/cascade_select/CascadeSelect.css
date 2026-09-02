@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Cascade Select Component Styles (Signature Atronix Liquid Glass)
+   ========================================================================== */
+
+.cascade-select-container {
+  position: relative;
+  display: inline-block;
+  width: 248px;
+  min-height: 44px;
+  margin-top: -45px; /* Elegantly balanced vertical position */
+  user-select: none;
+  font-family: inherit;
+  transform-origin: top center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.cascade-select-container.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Underlying WebGL Liquid Glass Canvas */
+.cascade-select-canvas {
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  width: 260px;
+  height: 236px;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Header Trigger Button (Exact LiquidMitosis optical backdrop) */
+.cascade-select-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 44px;
+  padding: 0 18px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  cursor: pointer;
+  z-index: 3;
+  box-sizing: border-box;
+  text-align: left;
+  transition: opacity 0.2s ease;
+}
+
+.cascade-select-trigger:focus-visible {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+  border-radius: 22px;
+}
+
+.trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.cascade-trigger-icon {
+  opacity: 0.8;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.cascade-select-container:hover .cascade-trigger-icon {
+  opacity: 1;
+  transform: scale(1.12) rotate(12deg);
+}
+
+.trigger-label {
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s ease;
+}
+
+.cascade-select-container:hover .trigger-label {
+  color: #ffffff;
+}
+
+.trigger-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.trigger-badge {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.trigger-chevron {
+  opacity: 0.75;
+  transition: opacity 0.25s ease;
+  transform-origin: center center;
+}
+
+.cascade-select-container:hover .trigger-chevron {
+  opacity: 1;
+}
+
+/* Cascading Menu Options List */
+.cascade-options-list {
+  position: absolute;
+  top: 46px;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 4px 8px;
+  list-style: none;
+  z-index: 4;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Individual Option Item */
+.cascade-option-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.16s ease, color 0.16s ease;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.cascade-option-item:hover,
+.cascade-option-item.is-highlighted {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cascade-option-item.is-selected {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cascade-option-item.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.option-label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+}
+
+.cascade-option-item:hover .option-label {
+  color: #ffffff;
+}
+
+.option-check-icon {
+  color: #ffffff;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+/* ==========================================================================
+   Themes: Sapphire, Purple, Emerald (Matching LiquidMitosis colorways)
+   ========================================================================== */
+
+/* Theme: Sapphire Blue */
+.cascade-select-container.theme-blue .trigger-label {
+  color: rgba(219, 234, 254, 0.95);
+}
+.cascade-select-container.theme-blue:hover .trigger-label {
+  color: #eff6ff;
+  text-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
+}
+.cascade-select-container.theme-blue .trigger-badge,
+.cascade-select-container.theme-blue .option-badge {
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  color: #93c5fd;
+}
+.cascade-select-container.theme-blue .cascade-option-item.is-selected {
+  background: rgba(96, 165, 250, 0.15);
+}
+.cascade-select-container.theme-blue .option-check-icon {
+  color: #60a5fa;
+}
+
+/* Theme: Purple */
+.cascade-select-container.theme-purple .trigger-label {
+  color: rgba(243, 232, 255, 0.95);
+}
+.cascade-select-container.theme-purple:hover .trigger-label {
+  color: #faf5ff;
+  text-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+}
+.cascade-select-container.theme-purple .trigger-badge,
+.cascade-select-container.theme-purple .option-badge {
+  background: rgba(192, 132, 252, 0.15);
+  border: 1px solid rgba(192, 132, 252, 0.25);
+  color: #d8b4fe;
+}
+.cascade-select-container.theme-purple .cascade-option-item.is-selected {
+  background: rgba(192, 132, 252, 0.15);
+}
+.cascade-select-container.theme-purple .option-check-icon {
+  color: #c084fc;
+}
+
+/* Theme: Emerald */
+.cascade-select-container.theme-emerald .trigger-label {
+  color: rgba(209, 250, 229, 0.95);
+}
+.cascade-select-container.theme-emerald:hover .trigger-label {
+  color: #ecfdf5;
+  text-shadow: 0 0 12px rgba(52, 211, 153, 0.4);
+}
+.cascade-select-container.theme-emerald .trigger-badge,
+.cascade-select-container.theme-emerald .option-badge {
+  background: rgba(52, 211, 153, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  color: #6ee7b7;
+}
+.cascade-select-container.theme-emerald .cascade-option-item.is-selected {
+  background: rgba(52, 211, 153, 0.15);
+}
+.cascade-select-container.theme-emerald .option-check-icon {
+  color: #34d399;
+}

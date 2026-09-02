@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Mercury Slider Component Styles (Atronix Liquid Glass & Metal)
+   ========================================================================== */
+
+.mercury-slider-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 280px;
+  user-select: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.mercury-slider-container.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Header Row: Label & Current Value */
+.mercury-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.mercury-label-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.mercury-label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.mercury-value {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Interactive Glass Channel Track Wrapper */
+.mercury-track-wrapper {
+  position: relative;
+  width: 280px;
+  height: 48px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.mercury-slider-container.is-dragging .mercury-track-wrapper {
+  cursor: grabbing;
+}
+
+/* Underlying WebGL Liquid Mercury Canvas (with 30px buffer so tips never clip) */
+.mercury-canvas {
+  position: absolute;
+  left: -30px;
+  top: -8px;
+  width: 340px;
+  height: 64px;
+  pointer-events: none;
+  z-index: 5;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ==========================================================================
+   Themes: Sapphire, Purple, Emerald
+   ========================================================================== */
+
+/* Theme: Desert Titanium / Liquid Amber Gold */
+.mercury-slider-container.theme-amber .mercury-label {
+  color: rgba(254, 243, 199, 0.95);
+}
+.mercury-slider-container.theme-amber .mercury-value {
+  color: #fbbf24;
+  text-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+}
+
+/* Theme: Sapphire Blue */
+.mercury-slider-container.theme-blue .mercury-label {
+  color: rgba(219, 234, 254, 0.95);
+}
+.mercury-slider-container.theme-blue .mercury-value {
+  color: #93c5fd;
+  text-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
+}
+
+/* Theme: Purple */
+.mercury-slider-container.theme-purple .mercury-label {
+  color: rgba(243, 232, 255, 0.95);
+}
+.mercury-slider-container.theme-purple .mercury-value {
+  color: #d8b4fe;
+  text-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+}
+
+/* Theme: Emerald */
+.mercury-slider-container.theme-emerald .mercury-label {
+  color: rgba(209, 250, 229, 0.95);
+}
+.mercury-slider-container.theme-emerald .mercury-value {
+  color: #6ee7b7;
+  text-shadow: 0 0 12px rgba(52, 211, 153, 0.4);
+}

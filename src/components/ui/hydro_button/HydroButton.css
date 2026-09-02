@@ -1,0 +1,143 @@
+/* ==========================================================================
+   Hydro Button (Incompressible Water Bag & Stone Drop Physics) Styles
+   ========================================================================== */
+
+.hydro-button-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.hydro-button-container.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Main Interactive Button Trigger (220px x 52px Pill Vessel) */
+.hydro-button-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 52px;
+  border-radius: 26px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: visible; /* Prevents clipping the fluid bulges */
+  touch-action: none;
+}
+
+/* Floating Submerged Typography with Liquid Buoyancy */
+.hydro-button-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.hydro-button-label {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  white-space: nowrap;
+}
+
+.hydro-button-trigger:hover .hydro-button-label {
+  color: #ffffff;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+}
+
+.hydro-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.hydro-button-trigger:hover .hydro-icon-box {
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+/* Underlying WebGL Hydrostatic Bag Canvas (with 30px horizontal and 22px vertical buffer) */
+.hydro-canvas {
+  position: absolute;
+  left: -30px;
+  top: -22px;
+  width: 280px;
+  height: 96px;
+  pointer-events: none;
+  z-index: 5;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ==========================================================================
+   Themes: Obsidian Chrome, Desert Titanium Amber, Sapphire, Amethyst, Emerald
+   ========================================================================== */
+
+/* Theme: Desert Titanium Gold */
+.hydro-button-container.theme-amber .hydro-button-label {
+  color: rgba(254, 243, 199, 0.95);
+}
+.hydro-button-container.theme-amber:hover .hydro-button-label {
+  color: #fef08a;
+  text-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+}
+.hydro-button-container.theme-amber .hydro-icon-box {
+  color: #fbbf24;
+}
+
+/* Theme: Sapphire Blue */
+.hydro-button-container.theme-blue .hydro-button-label {
+  color: rgba(219, 234, 254, 0.95);
+}
+.hydro-button-container.theme-blue:hover .hydro-button-label {
+  color: #eff6ff;
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.5);
+}
+.hydro-button-container.theme-blue .hydro-icon-box {
+  color: #38bdf8;
+}
+
+/* Theme: Purple */
+.hydro-button-container.theme-purple .hydro-button-label {
+  color: rgba(243, 232, 255, 0.95);
+}
+.hydro-button-container.theme-purple:hover .hydro-button-label {
+  color: #faf5ff;
+  text-shadow: 0 0 16px rgba(192, 132, 252, 0.5);
+}
+.hydro-button-container.theme-purple .hydro-icon-box {
+  color: #c084fc;
+}
+
+/* Theme: Emerald */
+.hydro-button-container.theme-emerald .hydro-button-label {
+  color: rgba(209, 250, 229, 0.95);
+}
+.hydro-button-container.theme-emerald:hover .hydro-button-label {
+  color: #ecfdf5;
+  text-shadow: 0 0 16px rgba(52, 211, 153, 0.5);
+}
+.hydro-button-container.theme-emerald .hydro-icon-box {
+  color: #34d399;
+}

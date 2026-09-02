@@ -95,7 +95,7 @@ export const LiquidMitosisFooter: React.FC = () => {
       <div className="liquid-physics-note">
         <h4>Physics & Shader Architecture</h4>
         <p>
-          Powered by a custom <strong>Signed Distance Field (SDF)</strong> fragment shader running on WebGL. Fluid fusion is governed by an <strong>Inigo Quilez $C^1$-smooth minimum ($smin$)</strong>, while droplet pinch-off models physical <strong>Rayleigh-Plateau capillary instability</strong>. Surface tension dynamics are computed in real time via a damped harmonic oscillator at 120 FPS with zero external 3D libraries.
+          Powered by a custom <strong>Signed Distance Field (SDF)</strong> fragment shader running on WebGL. Fluid fusion is governed by an <strong>Inigo Quilez C¹-smooth minimum (smin)</strong>, while droplet pinch-off models physical <strong>Rayleigh-Plateau capillary instability</strong>. Surface tension dynamics are computed in real time via a damped harmonic oscillator at 120 FPS with zero external 3D libraries.
         </p>
       </div>
     </div>

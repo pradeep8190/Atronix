@@ -46,18 +46,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const componentItems = [
     { label: 'Frost Vault', id: 'frost-vault' },
     { label: 'Liquid Mitosis', id: 'liquid-mitosis' },
-    { label: 'Liquid Orb', id: 'liquid-orb' },
-    { label: 'Dynamic Island', id: 'dynamic-island' },
-    { label: 'Gravion Motion', id: 'gravion-motion' },
-    { label: 'Obsidian Card', id: 'obsidian-card' },
-    { label: 'Quantum Modal', id: 'quantum-modal' },
-    { label: 'Hyper Glow Button', id: 'hyper-glow-button' },
-    { label: 'Matrix Grid', id: 'matrix-grid' },
-    { label: 'Prism Slider', id: 'prism-slider' },
-    { label: 'Nexus Tabs', id: 'nexus-tabs' },
-    { label: 'Aether Dropdown', id: 'aether-dropdown' },
-    { label: 'Starlight Tooltip', id: 'starlight-tooltip' },
-    { label: 'Vortex Drawer', id: 'vortex-drawer' },
+    { label: 'Cascade Select', id: 'cascade-select' },
+    { label: 'Mercury Slider', id: 'mercury-slider' },
+    { label: 'Phase Toggle', id: 'phase-toggle' },
+    { label: 'Hydro Button', id: 'hydro-button' },
+    { label: 'Flowing Tab', id: 'flowing-tabs' },
+    { label: 'Aero Core', id: 'aero-core' },
   ];
 
   return (

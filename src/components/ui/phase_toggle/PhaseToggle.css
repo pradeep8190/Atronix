@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Phase Toggle Component Styles (Atronix Liquid Glass & Metal)
+   ========================================================================== */
+
+.phase-toggle-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+  font-family: inherit;
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+  z-index: 20;
+}
+
+.phase-toggle-container.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Accessible Focus Ring */
+.phase-toggle-container:focus-visible .phase-toggle-switch-wrapper {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+  border-radius: 24px;
+}
+
+/* Clean Label */
+.phase-toggle-label {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.85);
+  transition: color 0.25s ease;
+}
+
+.phase-toggle-container:hover .phase-toggle-label {
+  color: #ffffff;
+}
+
+/* Switch Vessel Wrapper (84px x 44px capsule) */
+.phase-toggle-switch-wrapper {
+  position: relative;
+  width: 84px;
+  height: 44px;
+  border-radius: 22px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phase-toggle-container:active:not(.is-disabled) .phase-toggle-switch-wrapper {
+  transform: scale(0.96);
+}
+
+/* Underlying WebGL Liquid Glass Canvas with 20px Buffer (No Flat Cuts) */
+.phase-toggle-canvas {
+  position: absolute;
+  left: -20px;
+  top: -15px;
+  width: 124px;
+  height: 74px;
+  pointer-events: none;
+  z-index: 5;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ==========================================================================
+   Themes: Obsidian, Desert Titanium Amber, Sapphire, Amethyst, Emerald
+   ========================================================================== */
+
+/* Theme: Desert Titanium Gold */
+.phase-toggle-container.theme-amber.is-active .phase-toggle-label {
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+}
+
+/* Theme: Sapphire Blue */
+.phase-toggle-container.theme-blue.is-active .phase-toggle-label {
+  color: #93c5fd;
+  text-shadow: 0 0 12px rgba(96, 165, 250, 0.35);
+}
+
+/* Theme: Purple */
+.phase-toggle-container.theme-purple.is-active .phase-toggle-label {
+  color: #d8b4fe;
+  text-shadow: 0 0 12px rgba(192, 132, 252, 0.35);
+}
+
+/* Theme: Emerald */
+.phase-toggle-container.theme-emerald.is-active .phase-toggle-label {
+  color: #6ee7b7;
+  text-shadow: 0 0 12px rgba(52, 211, 153, 0.35);
+}
