@@ -58,6 +58,17 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // Universal Dynamic Document Title for Home & All Components
+  useEffect(() => {
+    if (currentPage === 'home') {
+      document.title = 'Atronix UI — Physical Realism for the Modern Web';
+    } else {
+      const comp = componentsRegistry[selectedComponentId];
+      const compName = comp ? comp.name : 'Component';
+      document.title = `${compName} — Atronix UI`;
+    }
+  }, [currentPage, selectedComponentId]);
+
   const handleSelectComponent = useCallback((componentId: string) => {
     const normalizedId = componentId.toLowerCase().replace(/_/g, '-');
     const validId = componentsRegistry[normalizedId] ? normalizedId : 'frost-vault';
