@@ -62,11 +62,18 @@
   animation: heroLandingReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.26s both;
 }
 
+/* ==========================================================================
+   Refined Non-Generic CTA Action Buttons
+   No boring uplift (translateY) — Pure optical refraction, laser light sweeps,
+   dynamic cursor-following specular spotlight, and conic border runners.
+   ========================================================================== */
+
+/* Primary Button: Liquid Pearl Capsule */
 .home-btn-primary {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
+  padding: 11px 24px;
   border-radius: 9999px;
   background: #ffffff;
   color: #000000;
@@ -74,35 +81,372 @@
   font-weight: 550;
   text-decoration: none;
   letter-spacing: -0.01em;
-  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.2);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.2s ease;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  
+  /* Multilayer specular depth without harsh border lines */
+  box-shadow: 
+    0 4px 20px rgba(255, 255, 255, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.25);
+    
+  /* Smooth tactile physics */
+  transition: 
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s ease;
 }
 
-.home-btn-primary:hover {
-  transform: translateY(-2px);
-  background: #f0f0f5;
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
-}
-
-.home-btn-secondary {
+/* Content layout layer */
+.btn-primary-content {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
-  padding: 10px 20px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: transform 0.25s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  gap: 9px;
 }
 
-.home-btn-secondary:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.09);
+/* Kinetic mechanical arrow glide */
+.btn-arrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-arrow-svg {
+  transition: stroke 0.2s ease;
+}
+
+/* Dynamic cursor-following specular spotlight */
+.btn-cursor-glow {
+  position: absolute;
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 50%);
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(200, 230, 255, 0.45) 35%,
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+/* High-speed specular light ray sweep */
+.btn-light-sweep {
+  position: absolute;
+  top: -60%;
+  left: -140%;
+  width: 75%;
+  height: 220%;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.6) 48%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.6) 52%,
+    rgba(255, 255, 255, 0) 80%,
+    transparent 100%
+  );
+  transform: skewX(-24deg);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Hover state: NO vertical jump! Optical bloom, magnetic expansion, and flare sweep */
+.home-btn-primary:hover {
+  transform: scale(1.028);
+  box-shadow: 
+    0 0 28px 2px rgba(255, 255, 255, 0.42),
+    0 0 55px 6px rgba(120, 200, 255, 0.22),
+    0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.home-btn-primary:hover .btn-cursor-glow {
+  opacity: 1;
+}
+
+.home-btn-primary:hover .btn-light-sweep {
+  opacity: 1;
+  animation: primaryLaserSweep 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.home-btn-primary:hover .btn-arrow-wrap {
+  transform: translateX(4px);
+}
+
+/* Active tactile haptic click press */
+.home-btn-primary:active {
+  transform: scale(0.965);
+  box-shadow: 
+    0 0 16px 2px rgba(255, 255, 255, 0.25),
+    0 2px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+@keyframes primaryLaserSweep {
+  0% {
+    left: -140%;
+  }
+  100% {
+    left: 180%;
+  }
+}
+
+
+/* ==========================================================================
+   Secondary Button: Pure Liquid Water Droplet Separation (Silk-Smooth 120fps)
+   Continuous single-curve spring physics, zero multi-keyframe stutter.
+   ========================================================================== */
+.home-btn-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  overflow: visible;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Apple-Grade Specular Convex Water Lens Gloss */
+.water-gloss-highlight {
+  position: absolute;
+  top: 1px;
+  left: 8px;
+  right: 8px;
+  height: 48%;
+  border-radius: 9999px 9999px 60% 60%;
+  background: radial-gradient(
+    110% 100% at 50% 0%,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Secondary Button Container */
+.home-btn-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  overflow: visible;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Real Liquid Metaball Bridge Stage (fuses and separates via mathematical alpha threshold) */
+.liquid-goo-stage {
+  position: absolute;
+  inset: -6px -28px -6px -6px;
+  filter: url(#liquid-goo-filter);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.goo-mother-pill {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: calc(100% - 28px);
+  height: calc(100% - 12px);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.goo-satellite-pill {
+  position: absolute;
+  left: calc(100% - 50px);
+  top: 50%;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+  transform: translate3d(-10px, -50%, 0) scale(0.6);
+  opacity: 0;
+  transition: 
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease,
+    width 0.55s ease,
+    border-radius 0.55s ease;
+}
+
+.home-btn-secondary:hover .goo-mother-pill {
+  transform: translate3d(-3.5px, 0, 0);
+}
+
+.home-btn-secondary:hover .goo-satellite-pill {
+  transform: translate3d(24px, -50%, 0) scale(1);
+  width: 68px;
+  border-radius: 9999px;
+  opacity: 1;
+}
+
+/* Main Liquid Water Capsule (Apple Optical Glass) */
+.btn-secondary-main {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.042);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  z-index: 3;
+  transform: translate3d(0, 0, 0);
+  
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.16),
+    0 8px 24px rgba(0, 0, 0, 0.3);
+    
+  transition: 
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s ease,
+    color 0.2s ease,
+    box-shadow 0.35s ease;
+}
+
+.btn-doc-icon {
+  opacity: 0.8;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.home-btn-secondary:hover .btn-secondary-main {
+  transform: translate3d(-3.5px, 0, 0);
+  background: rgba(255, 255, 255, 0.065);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
+    0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.home-btn-secondary:hover .btn-doc-icon {
+  opacity: 1;
+  transform: scale(1.1) rotate(-3deg);
+}
+
+/* Child Liquid Droplet: Apple Mitosis Pill (100% Smooth Capsule Curve) */
+.btn-satellite-pill {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translate3d(-6px, -50%, 0) scale(0.7);
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.045);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  z-index: 3;
+  overflow: hidden;
+  
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.18),
+    0 8px 28px rgba(0, 0, 0, 0.35);
+    
+  transition: 
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+}
+
+.home-btn-secondary:hover .btn-satellite-pill {
+  transform: translate3d(14px, -50%, 0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Child pill liquid surface reflection */
+.btn-satellite-pill .water-gloss-highlight {
+  top: 1px;
+  left: 6px;
+  right: 6px;
+  height: 50%;
+  border-radius: 9999px 9999px 60% 60%;
+}
+
+/* Content unfurls gracefully as the droplet separates */
+.satellite-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-btn-secondary:hover .satellite-content {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 0.18s;
+}
+
+/* Seamless hover bridge between water droplets */
+.btn-satellite-pill::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: -8px;
+  bottom: -8px;
+  width: 26px;
+}
+
+.satellite-arrow {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-btn-secondary:hover .satellite-arrow {
+  transform: translate3d(3px, 0, 0);
+}
+
+/* Active tactile haptic click press */
+.home-btn-secondary:active .btn-secondary-main {
+  transform: scale(0.968) translate3d(-3.5px, 0, 0);
+  background: rgba(255, 255, 255, 0.045);
+  transition: transform 0.1s ease;
+}
+
+.home-btn-secondary:active .btn-satellite-pill {
+  transform: translate3d(14px, -50%, 0) scale(0.965);
+  transition: transform 0.1s ease;
+}
+
+/* SVG Metaball Defs Hidden */
+.liquid-metaball-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
 }
 
 /* Structured Section Divider */

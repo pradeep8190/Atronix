@@ -9,6 +9,7 @@ import nothricImg from '../../assets/project_images/nothric.png';
 import protonImg from '../../assets/project_images/proton.png';
 import zeoxImg from '../../assets/project_images/zeox.png';
 import './HomePage.css';
+import { LiquidDocButton } from './LiquidDocButton';
 
 interface ProjectItem {
   id: string;
@@ -60,6 +61,30 @@ export const HomePage: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Dynamic cursor position tracking for CTA primary button (RAF optimized to prevent layout thrashing)
+  const rafRef = useRef<number | null>(null);
+  const handleButtonMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (rafRef.current) return;
+    const target = e.currentTarget;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = target.getBoundingClientRect();
+      target.style.setProperty('--mouse-x', `${clientX - rect.left}px`);
+      target.style.setProperty('--mouse-y', `${clientY - rect.top}px`);
+      rafRef.current = null;
+    });
+  };
+
+  const handleButtonMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    e.currentTarget.style.removeProperty('--mouse-x');
+    e.currentTarget.style.removeProperty('--mouse-y');
+  };
+
   return (
     <main className="home-page-container">
       {/* Hero Header Section */}
@@ -74,17 +99,39 @@ export const HomePage: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="home-hero-actions">
-          <a href="#components" className="home-btn-primary">
-            <span>Explore Components</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
+          <a
+            href="#components"
+            className="home-btn-primary"
+            onMouseMove={handleButtonMouseMove}
+            onMouseLeave={handleButtonMouseLeave}
+          >
+            {/* Dynamic cursor-following specular spotlight */}
+            <span className="btn-cursor-glow" aria-hidden="true" />
+            {/* High-speed specular light ray sweep */}
+            <span className="btn-light-sweep" aria-hidden="true" />
+            
+            <span className="btn-primary-content">
+              <span>Explore Components</span>
+              <span className="btn-arrow-wrap" aria-hidden="true">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="btn-arrow-svg"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
+            </span>
           </a>
 
-          <a href="#docs" className="home-btn-secondary">
-            Documentation
-          </a>
+          <LiquidDocButton href="#docs" />
         </div>
       </section>
 
