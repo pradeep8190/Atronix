@@ -220,11 +220,33 @@ export const LiquidDocButton: React.FC<LiquidDocButtonProps> = ({
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-    // On-Demand Render Loop with Auto-Sleep (0% CPU & 0% GPU when idle)
-    const isRunningRef = { current: false };
-
-    const drawFrame = (progress: number) => {
+    // Spring simulation render loop at 120 FPS
+    const render = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      // Damped harmonic oscillator: Calm, luxurious Apple ProMotion fluid flow
+      const target = targetRef.current;
+      const current = progressRef.current;
+      const k = 56.0; // Calm, silky fluid speed
+      const c = 13.6; // Critical damping (zero harsh rebound)
+      const dt = 0.016;
+
+      const force = -k * (current - target) - c * velocityRef.current;
+      velocityRef.current += force * dt;
+      progressRef.current += velocityRef.current * dt;
+
+      // Real-time zero convergence upon unhover (eliminates lingering tail)
+      if (target === 0 && progressRef.current < 0.04) {
+        progressRef.current *= 0.85;
+      }
+
+      if (Math.abs(progressRef.current - target) < 0.0008 && Math.abs(velocityRef.current) < 0.0015) {
+        progressRef.current = target;
+        velocityRef.current = 0;
+      }
+
+      const progress = progressRef.current;
+
       const cssWidth = 260;
       const cssHeight = 54;
       const pixelWidth = Math.floor(cssWidth * dpr);
@@ -247,66 +269,16 @@ export const LiquidDocButton: React.FC<LiquidDocButtonProps> = ({
       gl.uniform1f(uDprLoc, dpr);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-    };
 
-    const render = () => {
-      // Damped harmonic oscillator: Calm, luxurious Apple ProMotion fluid flow
-      const target = targetRef.current;
-      const current = progressRef.current;
-      const k = 56.0; // Calm, silky fluid speed
-      const c = 13.6; // Critical damping (zero harsh rebound)
-      const dt = 0.016;
-
-      const force = -k * (current - target) - c * velocityRef.current;
-      velocityRef.current += force * dt;
-      progressRef.current += velocityRef.current * dt;
-
-      // Real-time zero convergence upon unhover (eliminates lingering tail)
-      if (target === 0 && progressRef.current < 0.04) {
-        progressRef.current *= 0.85;
-      }
-
-      const isSettled =
-        Math.abs(progressRef.current - target) < 0.0006 &&
-        Math.abs(velocityRef.current) < 0.0012;
-
-      if (isSettled) {
-        progressRef.current = target;
-        velocityRef.current = 0;
-        drawFrame(target);
-        isRunningRef.current = false;
-        animFrameRef.current = null;
-        return; // Complete GPU Sleep (0% CPU / 0% GPU load)
-      }
-
-      drawFrame(progressRef.current);
       animFrameRef.current = requestAnimationFrame(render);
     };
 
-    const startAnimation = () => {
-      if (!isRunningRef.current) {
-        isRunningRef.current = true;
-        animFrameRef.current = requestAnimationFrame(render);
-      }
-    };
-
-    // Draw initial resting frame once, then sleep
-    drawFrame(0);
-
-    // Watch for hover changes to wake the engine
-    const checkWake = () => {
-      startAnimation();
-    };
-
-    containerRef.current?.addEventListener("mouseenter", checkWake);
-    containerRef.current?.addEventListener("mouseleave", checkWake);
+    animFrameRef.current = requestAnimationFrame(render);
 
     return () => {
       if (animFrameRef.current) {
         cancelAnimationFrame(animFrameRef.current);
       }
-      containerRef.current?.removeEventListener("mouseenter", checkWake);
-      containerRef.current?.removeEventListener("mouseleave", checkWake);
     };
   }, []);
 
