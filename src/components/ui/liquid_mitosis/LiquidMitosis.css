@@ -1,0 +1,156 @@
+/* ==========================================================================
+   Liquid Mitosis Component Styles (WebGL Fluid Physics)
+   ========================================================================== */
+
+.liquid-mitosis-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 154px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  overflow: visible;
+  backdrop-filter: brightness(1.2) contrast(1.15);
+  -webkit-backdrop-filter: brightness(1.2) contrast(1.15);
+  transform-origin: center center;
+  transition: opacity 0.2s ease, filter 0.3s ease;
+}
+
+.liquid-mitosis-btn.is-active {
+  opacity: 0.92;
+}
+
+/* Underlying WebGL Canvas */
+.liquid-mitosis-canvas {
+  position: absolute;
+  left: -2px;
+  top: -5px;
+  width: 260px;
+  height: 54px;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* Typography Content Container */
+.liquid-mitosis-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Mother Capsule Text & Icon */
+.liquid-mitosis-mother {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  height: 100%;
+  width: 154px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: color 0.25s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-mitosis-btn.is-hovered .liquid-mitosis-mother {
+  color: #ffffff;
+  transform: translate3d(-3.5px, 0, 0);
+}
+
+.liquid-mitosis-icon {
+  opacity: 0.8;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.liquid-mitosis-btn.is-hovered .liquid-mitosis-icon {
+  opacity: 1;
+  transform: scale(1.12) rotate(12deg);
+}
+
+/* Satellite Pill Content (Dynamic Launch / Action Pill) */
+.liquid-mitosis-satellite {
+  position: absolute;
+  left: 168px;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 72px;
+  height: 36px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate3d(-10px, -50%, 0) scale(0.85);
+  transition: 
+    opacity 0.32s ease 0.28s,
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.28s;
+  pointer-events: none;
+}
+
+.liquid-mitosis-btn.is-hovered .liquid-mitosis-satellite {
+  opacity: 1;
+  transform: translate3d(0, -50%, 0) scale(1);
+  pointer-events: auto;
+}
+
+.satellite-arrow {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-mitosis-btn.is-hovered .satellite-arrow {
+  transform: translate3d(2px, -2px, 0);
+}
+
+/* ==========================================================================
+   Themes: Sapphire, Purple, Emerald, Obsidian
+   ========================================================================== */
+
+.liquid-mitosis-btn.theme-blue .liquid-mitosis-mother {
+  color: rgba(219, 234, 254, 0.95);
+}
+.liquid-mitosis-btn.theme-blue.is-hovered .liquid-mitosis-mother {
+  color: #eff6ff;
+  text-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
+}
+.liquid-mitosis-btn.theme-blue .liquid-mitosis-satellite {
+  color: #93c5fd;
+}
+
+.liquid-mitosis-btn.theme-purple .liquid-mitosis-mother {
+  color: rgba(243, 232, 255, 0.95);
+}
+.liquid-mitosis-btn.theme-purple.is-hovered .liquid-mitosis-mother {
+  color: #faf5ff;
+  text-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+}
+.liquid-mitosis-btn.theme-purple .liquid-mitosis-satellite {
+  color: #d8b4fe;
+}
+
+.liquid-mitosis-btn.theme-emerald .liquid-mitosis-mother {
+  color: rgba(209, 250, 229, 0.95);
+}
+.liquid-mitosis-btn.theme-emerald.is-hovered .liquid-mitosis-mother {
+  color: #ecfdf5;
+  text-shadow: 0 0 12px rgba(52, 211, 153, 0.4);
+}
+.liquid-mitosis-btn.theme-emerald .liquid-mitosis-satellite {
+  color: #6ee7b7;
+}

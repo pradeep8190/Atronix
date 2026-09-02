@@ -222,6 +222,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
               component={item.component}
               color={selectedColor}
               size={selectedSize}
+              hint={item.hint}
             />
           </motion.div>
         ) : (

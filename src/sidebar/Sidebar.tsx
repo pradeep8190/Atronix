@@ -45,6 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const componentItems = [
     { label: 'Frost Vault', id: 'frost-vault' },
+    { label: 'Liquid Mitosis', id: 'liquid-mitosis' },
     { label: 'Liquid Orb', id: 'liquid-orb' },
     { label: 'Dynamic Island', id: 'dynamic-island' },
     { label: 'Gravion Motion', id: 'gravion-motion' },

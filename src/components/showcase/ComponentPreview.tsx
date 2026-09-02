@@ -5,12 +5,14 @@ interface ComponentPreviewProps {
   component: React.ComponentType<{ color?: string; size?: string }>;
   color?: string;
   size?: string;
+  hint?: string;
 }
 
 export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   component: ComponentToRender,
   color,
   size,
+  hint,
 }) => {
   return (
     <div className="preview-sandbox">
@@ -21,7 +23,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
           <line x1="12" y1="16" x2="12" y2="12" />
           <line x1="12" y1="8" x2="12.01" y2="8" />
         </svg>
-        Hover & click on the folder vault to open/close cards!
+        {hint || 'Hover and interact to experience the fluid physics & micro-animations!'}
       </div>
     </div>
   );

@@ -1,0 +1,31 @@
+.liquid-mitosis-props-section {
+  width: 100%;
+  margin-top: 32px;
+}
+
+.liquid-physics-note {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.liquid-physics-note h4 {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.liquid-physics-note p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.liquid-physics-note strong {
+  color: rgba(255, 255, 255, 0.9);
+}

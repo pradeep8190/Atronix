@@ -5,13 +5,27 @@
   bottom: 0;
   width: 270px;
   z-index: 90;
-  padding: 24px 20px;
+  padding: 24px 20px 52px 20px;
   overflow-y: auto;
   user-select: none;
   background: transparent;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+
+  /* Apple macOS / iPadOS Smooth Alpha Fade Mask */
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black calc(100% - 50px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black calc(100% - 50px),
+    transparent 100%
+  );
 }
 
 .sidebar-container::-webkit-scrollbar {

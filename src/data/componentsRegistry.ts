@@ -2,6 +2,9 @@ import React from 'react';
 import Folder from '../components/ui/frost_vault/Folder';
 import FolderFooter from '../components/ui/frost_vault/FolderFooter';
 import folderCode from '../components/ui/frost_vault/Folder.tsx?raw';
+import LiquidMitosis from '../components/ui/liquid_mitosis/LiquidMitosis';
+import LiquidMitosisFooter from '../components/ui/liquid_mitosis/LiquidMitosisFooter';
+import liquidMitosisCode from '../components/ui/liquid_mitosis/LiquidMitosis.tsx?raw';
 
 export interface ComponentItem {
   id: string;
@@ -17,6 +20,7 @@ export interface ComponentItem {
   defaultSize?: string;
   dependencies?: string[];
   cliCommand?: string;
+  hint?: string;
 }
 
 export const componentsRegistry: Record<string, ComponentItem> = {
@@ -34,6 +38,23 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     defaultSize: 'md',
     dependencies: ['motion'],
     cliCommand: 'npx atronix add frost-vault',
+    hint: 'Hover & click on the folder vault to open/close cards!',
+  },
+  'liquid-mitosis': {
+    id: 'liquid-mitosis',
+    name: 'Liquid Mitosis',
+    category: 'Components',
+    description: 'GPU-accelerated WebGL Signed Distance Field (SDF) fluid mitosis button. Features Inigo Quilez C1-smooth metaball fusion, Rayleigh-Plateau capillary pinch-off physics, and Atronix signature optical liquid glass caustics.',
+    component: LiquidMitosis,
+    footerComponent: LiquidMitosisFooter,
+    code: liquidMitosisCode,
+    colorOptions: ['black', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
+    dependencies: ['motion'],
+    cliCommand: 'npx atronix add liquid-mitosis',
+    hint: 'Hover over the capsule to trigger GPU fluid mitosis and capillary separation!',
   },
   'liquid-orb': {
     id: 'liquid-orb',
