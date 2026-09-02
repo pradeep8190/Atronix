@@ -198,7 +198,7 @@ export const CascadeSelect: React.FC<CascadeSelectProps> = ({
         if (u <= 0.001) {
           vec2 center = vec2(centerX, baseCenterY);
           vec2 halfSize = vec2(halfW, baseH / 2.0);
-          return sdRoundedBox(p - center, halfSize, vec4(14.0 * u_dpr));
+          return sdRoundedBox(p - center, halfSize, vec4(18.0 * u_dpr));
         }
 
         // True Liquid Flow Downward:
@@ -227,7 +227,7 @@ export const CascadeSelect: React.FC<CascadeSelectProps> = ({
         float actualH = totalBottomY - 6.0 * u_dpr;
         vec2 fluidCenter = vec2(centerX, 6.0 * u_dpr + actualH / 2.0);
         vec2 fluidHalf = vec2(halfW, actualH / 2.0);
-        float cornerRadius = mix(14.0, 16.0, u) * u_dpr;
+        float cornerRadius = mix(18.0, 20.0, u) * u_dpr;
 
         float d = sdRoundedBox(pFluid - fluidCenter, fluidHalf, vec4(cornerRadius));
 

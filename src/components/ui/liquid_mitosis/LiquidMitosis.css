@@ -83,13 +83,13 @@
 /* Satellite Pill Content (Dynamic Launch / Action Pill) */
 .liquid-mitosis-satellite {
   position: absolute;
-  left: 168px;
+  left: 167px;
   top: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  width: 72px;
+  width: 77px;
   height: 36px;
   color: #ffffff;
   font-size: 13px;

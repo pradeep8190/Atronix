@@ -1,37 +1,13 @@
 import React from 'react';
-import Folder from '../components/ui/frost_vault/Folder';
-import FolderFooter from '../components/ui/frost_vault/FolderFooter';
-import folderCode from '../components/ui/frost_vault/Folder.tsx?raw';
-import LiquidMitosis from '../components/ui/liquid_mitosis/LiquidMitosis';
-import LiquidMitosisFooter from '../components/ui/liquid_mitosis/LiquidMitosisFooter';
-import liquidMitosisCode from '../components/ui/liquid_mitosis/LiquidMitosis.tsx?raw';
-import CascadeSelect from '../components/ui/cascade_select/CascadeSelect';
-import CascadeSelectFooter from '../components/ui/cascade_select/CascadeSelectFooter';
-import cascadeSelectCode from '../components/ui/cascade_select/CascadeSelect.tsx?raw';
-import MercurySlider from '../components/ui/mercury_slider/MercurySlider';
-import MercurySliderFooter from '../components/ui/mercury_slider/MercurySliderFooter';
-import mercurySliderCode from '../components/ui/mercury_slider/MercurySlider.tsx?raw';
-import PhaseToggle from '../components/ui/phase_toggle/PhaseToggle';
-import PhaseToggleFooter from '../components/ui/phase_toggle/PhaseToggleFooter';
-import phaseToggleCode from '../components/ui/phase_toggle/PhaseToggle.tsx?raw';
-import HydroButton from '../components/ui/hydro_button/HydroButton';
-import HydroButtonFooter from '../components/ui/hydro_button/HydroButtonFooter';
-import hydroButtonCode from '../components/ui/hydro_button/HydroButton.tsx?raw';
-import FlowingTabs from '../components/ui/flowing_tabs/FlowingTabs';
-import FlowingTabsFooter from '../components/ui/flowing_tabs/FlowingTabsFooter';
-import flowingTabsCode from '../components/ui/flowing_tabs/FlowingTabs.tsx?raw';
-import AeroCore from '../components/ui/aero_core/AeroCore';
-import AeroCoreFooter from '../components/ui/aero_core/AeroCoreFooter';
-import aeroCoreCode from '../components/ui/aero_core/AeroCore.tsx?raw';
 
 export interface ComponentItem {
   id: string;
   name: string;
   category: string;
   description: string;
-  component: React.ComponentType<any>;
-  footerComponent?: React.ComponentType<any>;
-  code: string;
+  component: React.LazyExoticComponent<React.ComponentType<any>>;
+  footerComponent?: React.LazyExoticComponent<React.ComponentType<any>>;
+  loadCode: () => Promise<string>;
   colorOptions?: string[];
   sizeOptions?: string[];
   defaultColor?: string;
@@ -47,9 +23,9 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     name: 'Frost Vault',
     category: 'Components',
     description: 'An interactive 3D glass folder component featuring animated card reveals, customizable color themes, spring dynamics, and responsive scale options.',
-    component: Folder,
-    footerComponent: FolderFooter,
-    code: folderCode,
+    component: React.lazy(() => import('../components/ui/frost_vault/Folder')),
+    footerComponent: React.lazy(() => import('../components/ui/frost_vault/FolderFooter')),
+    loadCode: () => import('../components/ui/frost_vault/Folder.tsx?raw').then((m) => m.default),
     colorOptions: ['black', 'white', 'blue'],
     sizeOptions: ['sm', 'md', 'lg'],
     defaultColor: 'black',
@@ -63,9 +39,9 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     name: 'Liquid Mitosis',
     category: 'Components',
     description: 'GPU-accelerated WebGL Signed Distance Field (SDF) fluid mitosis button. Features Inigo Quilez C1-smooth metaball fusion, Rayleigh-Plateau capillary pinch-off physics, and Atronix signature optical liquid glass caustics.',
-    component: LiquidMitosis,
-    footerComponent: LiquidMitosisFooter,
-    code: liquidMitosisCode,
+    component: React.lazy(() => import('../components/ui/liquid_mitosis/LiquidMitosis')),
+    footerComponent: React.lazy(() => import('../components/ui/liquid_mitosis/LiquidMitosisFooter')),
+    loadCode: () => import('../components/ui/liquid_mitosis/LiquidMitosis.tsx?raw').then((m) => m.default),
     colorOptions: ['black', 'blue', 'purple', 'emerald'],
     sizeOptions: ['sm', 'md', 'lg'],
     defaultColor: 'black',
@@ -79,9 +55,9 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     name: 'Cascade Select',
     category: 'Components',
     description: 'GPU-accelerated WebGL fluid cascade dropdown. Features gravity-driven meniscus stretching, Inigo Quilez smooth minimum fusion, damped harmonic recoil kinematics, and frosted liquid glass optics.',
-    component: CascadeSelect,
-    footerComponent: CascadeSelectFooter,
-    code: cascadeSelectCode,
+    component: React.lazy(() => import('../components/ui/cascade_select/CascadeSelect')),
+    footerComponent: React.lazy(() => import('../components/ui/cascade_select/CascadeSelectFooter')),
+    loadCode: () => import('../components/ui/cascade_select/CascadeSelect.tsx?raw').then((m) => m.default),
     colorOptions: ['black', 'blue', 'purple', 'emerald'],
     sizeOptions: ['sm', 'md', 'lg'],
     defaultColor: 'black',
@@ -95,9 +71,9 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     name: 'Mercury Slider',
     category: 'Components',
     description: 'Hydrodynamic liquid mercury bead slider in an optical frosted glass channel. Features Poisson volume-preserving stretch, viscous surface drag, and rubberized elastic overdrag recoil.',
-    component: MercurySlider,
-    footerComponent: MercurySliderFooter,
-    code: mercurySliderCode,
+    component: React.lazy(() => import('../components/ui/mercury_slider/MercurySlider')),
+    footerComponent: React.lazy(() => import('../components/ui/mercury_slider/MercurySliderFooter')),
+    loadCode: () => import('../components/ui/mercury_slider/MercurySlider.tsx?raw').then((m) => m.default),
     colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
     sizeOptions: ['sm', 'md', 'lg'],
     defaultColor: 'black',
@@ -110,26 +86,26 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     id: 'phase-toggle',
     name: 'Phase Toggle',
     category: 'Components',
-    description: 'Kinetic mercury switch inside a dual-chamber optical frosted glass vessel. Features high-speed capillary throat squirt kinematics, directional 3D liquid metal glints, and impact fluid wave dispersion.',
-    component: PhaseToggle,
-    footerComponent: PhaseToggleFooter,
-    code: phaseToggleCode,
-    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
+    description: 'Cross-browser liquid goo toggle with tap and drag physics. Features dual-stage SVG knockout filtering, velocity-stretched bubble elongation, and linear spring recoil.',
+    component: React.lazy(() => import('../components/ui/phase_toggle/PhaseToggle')),
+    footerComponent: React.lazy(() => import('../components/ui/phase_toggle/PhaseToggleFooter')),
+    loadCode: () => import('../components/ui/phase_toggle/PhaseToggle.tsx?raw').then((m) => m.default),
+    colorOptions: ['black', 'white', 'emerald', 'blue', 'purple', 'amber'],
     sizeOptions: ['sm', 'md', 'lg'],
     defaultColor: 'black',
     defaultSize: 'md',
     dependencies: ['motion'],
     cliCommand: 'npx atronix add phase-toggle',
-    hint: 'Click to squirt the liquid mercury bead through the capillary throat!',
+    hint: 'Tap to toggle or click and drag the liquid droplet across the track!',
   },
   'hydro-button': {
     id: 'hydro-button',
     name: 'Hydro Button',
     category: 'Components',
     description: 'Incompressible hydrostatic water bag button. Features localized stone-drop indentation craters, volume-preserving outer border pressure bulges, and hydrodynamic capillary wave reflection.',
-    component: HydroButton,
-    footerComponent: HydroButtonFooter,
-    code: hydroButtonCode,
+    component: React.lazy(() => import('../components/ui/hydro_button/HydroButton')),
+    footerComponent: React.lazy(() => import('../components/ui/hydro_button/HydroButtonFooter')),
+    loadCode: () => import('../components/ui/hydro_button/HydroButton.tsx?raw').then((m) => m.default),
     colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
     sizeOptions: ['sm', 'md', 'lg'],
     defaultColor: 'black',
@@ -138,30 +114,14 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     cliCommand: 'npx atronix add hydro-button',
     hint: 'Click anywhere on the capsule to drop a stone and watch the water displace!',
   },
-  'flowing-tabs': {
-    id: 'flowing-tabs',
-    name: 'Flowing Tab',
-    category: 'Components',
-    description: 'Hydraulic multi-chamber fluid switcher. Models real water surge dynamics: viscous floor creep leading the flow, wave cresting through the sluice gate, and slosh resonance upon chamber impact.',
-    component: FlowingTabs,
-    footerComponent: FlowingTabsFooter,
-    code: flowingTabsCode,
-    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add flowing-tabs',
-    hint: 'Switch between Preview and Code to watch the water creep, roll, and slosh across the gate!',
-  },
   'aero-core': {
     id: 'aero-core',
     name: 'Aero Core',
     category: 'Components',
     description: 'Voice-reactive volumetric smoke and celestial nebula orb. Features 5-octave rotational FBM domain warping, acoustic speech billowing, radiant luminous core pulses, and interactive pointer smoke stirring.',
-    component: AeroCore,
-    footerComponent: AeroCoreFooter,
-    code: aeroCoreCode,
+    component: React.lazy(() => import('../components/ui/aero_core/AeroCore')),
+    footerComponent: React.lazy(() => import('../components/ui/aero_core/AeroCoreFooter')),
+    loadCode: () => import('../components/ui/aero_core/AeroCore.tsx?raw').then((m) => m.default),
     colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
     sizeOptions: ['sm', 'md', 'lg'],
     defaultColor: 'black',
@@ -173,4 +133,3 @@ export const componentsRegistry: Record<string, ComponentItem> = {
 };
 
 export default componentsRegistry;
-

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import componentsRegistry from '../../data/componentsRegistry';
 import { ComponentPreview } from './ComponentPreview';
@@ -26,14 +26,41 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
   const [shared, setShared] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const [codeString, setCodeString] = useState<string>('');
+
+  useEffect(() => {
+    let isCurrent = true;
+    item.loadCode().then((raw) => {
+      if (isCurrent) {
+        setCodeString(raw);
+      }
+    }).catch(() => {
+      if (isCurrent) {
+        setCodeString('// Failed to load source code');
+      }
+    });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [item.id]);
+
   const handleTabChange = (newTab: 'preview' | 'code') => {
     if (newTab === activeTab) return;
     setDirection(newTab === 'code' ? 'right' : 'left');
     setActiveTab(newTab);
   };
 
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(item.code);
+  const handleCopyCode = async () => {
+    let textToCopy = codeString;
+    if (!textToCopy) {
+      try {
+        textToCopy = await item.loadCode();
+      } catch {
+        textToCopy = '';
+      }
+    }
+    navigator.clipboard.writeText(textToCopy);
     setCopied(true);
     notify({
       title: 'Code Copied',
@@ -234,7 +261,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
             transition={viewSpring}
           >
             <ComponentCode
-              code={item.code}
+              code={codeString}
               copied={copied}
               onCopyCode={handleCopyCode}
               dependencies={item.dependencies}

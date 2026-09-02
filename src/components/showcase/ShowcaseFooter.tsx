@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './ShowcaseFooter.css';
 
 interface ShowcaseFooterProps {
@@ -9,7 +9,11 @@ export const ShowcaseFooter: React.FC<ShowcaseFooterProps> = ({ CustomFooter }) 
   return (
     <footer className="showcase-footer">
       {/* Component-Specific Custom Footer (e.g., FolderFooter for Frost Vault) */}
-      {CustomFooter && <CustomFooter />}
+      {CustomFooter && (
+        <Suspense fallback={null}>
+          <CustomFooter />
+        </Suspense>
+      )}
 
       {/* Universal Footer Bottom Branding & Quick Links Bar */}
       <div className="footer-bottom-bar">

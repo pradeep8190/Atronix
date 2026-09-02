@@ -1,19 +1,96 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
-import { ComponentShowcase } from './components/showcase/ComponentShowcase';
-import { HomePage } from './pages/home/HomePage';
 import { NotificationProvider } from './context/NotificationContext';
 import { AppleIslandNotification } from './components/ui/apple_island/AppleIslandNotification';
+import componentsRegistry from './data/componentsRegistry';
+
+const HomePage = lazy(() => import('./pages/home/HomePage'));
+const ComponentShowcase = lazy(() => import('./components/showcase/ComponentShowcase'));
+
+// Parse route from URL pathname, supporting /components/:id (with hyphens or underscores)
+const parseRouteFromUrl = (): { page: 'home' | 'components'; componentId: string } => {
+  if (typeof window === 'undefined') {
+    return { page: 'home', componentId: 'frost-vault' };
+  }
+
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+
+  if (pathname.startsWith('/components')) {
+    const parts = pathname.split('/').filter(Boolean);
+    if (parts.length > 1) {
+      // Normalize underscore to hyphen, e.g. frost_vault -> frost-vault
+      const rawId = parts[1].toLowerCase().replace(/_/g, '-');
+      const validId = componentsRegistry[rawId] ? rawId : 'frost-vault';
+      return { page: 'components', componentId: validId };
+    }
+    return { page: 'components', componentId: 'frost-vault' };
+  }
+
+  return { page: 'home', componentId: 'frost-vault' };
+};
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'components'>('home');
-  const [selectedComponentId, setSelectedComponentId] = useState<string>('frost-vault');
+  const [route, setRoute] = useState(parseRouteFromUrl);
 
-  const handleSelectComponent = (componentId: string) => {
-    setSelectedComponentId(componentId);
-    setCurrentPage('components');
-  };
+  const currentPage = route.page;
+  const selectedComponentId = route.componentId;
+
+  // Canonicalize URL on initial mount (e.g. /components/frost_vault -> /components/frost-vault)
+  useEffect(() => {
+    const currentRoute = parseRouteFromUrl();
+    const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (currentRoute.page === 'components') {
+      const canonicalPath = `/components/${currentRoute.componentId}`;
+      if (pathname !== canonicalPath) {
+        window.history.replaceState(currentRoute, '', canonicalPath);
+      }
+    }
+  }, []);
+
+  // Listen to browser Back/Forward navigation (popstate)
+  useEffect(() => {
+    const handlePopState = () => {
+      setRoute(parseRouteFromUrl());
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleSelectComponent = useCallback((componentId: string) => {
+    const normalizedId = componentId.toLowerCase().replace(/_/g, '-');
+    const validId = componentsRegistry[normalizedId] ? normalizedId : 'frost-vault';
+    const targetPath = `/components/${validId}`;
+
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({ page: 'components', componentId: validId }, '', targetPath);
+    }
+    setRoute({ page: 'components', componentId: validId });
+  }, []);
+
+  const handleNavigate = useCallback(
+    (page: 'home' | 'components') => {
+      if (page === 'home') {
+        const targetPath = window.location.pathname === '/' ? '/' : '/home';
+        if (window.location.pathname !== targetPath) {
+          window.history.pushState({ page: 'home', componentId: selectedComponentId }, '', targetPath);
+        }
+        setRoute((prev) => ({ ...prev, page: 'home' }));
+      } else {
+        const targetPath = `/components/${selectedComponentId}`;
+        if (window.location.pathname !== targetPath) {
+          window.history.pushState(
+            { page: 'components', componentId: selectedComponentId },
+            '',
+            targetPath
+          );
+        }
+        setRoute({ page: 'components', componentId: selectedComponentId });
+      }
+    },
+    [selectedComponentId]
+  );
 
   return (
     <NotificationProvider>
@@ -23,7 +100,7 @@ function App() {
         <div className="bg-grid-mesh" />
 
         {/* Top Navbar */}
-        <Navbar onNavigate={(page) => setCurrentPage(page)} />
+        <Navbar onNavigate={handleNavigate} />
 
         {/* Apple Dynamic Island Notification Pill right under Navbar */}
         <AppleIslandNotification />
@@ -34,12 +111,18 @@ function App() {
           selectedComponentId={selectedComponentId}
         />
 
-        {/* Main Content View */}
-        {currentPage === 'home' ? (
-          <HomePage />
-        ) : (
-          <ComponentShowcase componentId={selectedComponentId} />
-        )}
+        {/* Main Content View with Zero-Load Dynamic Code Splitting */}
+        <Suspense
+          fallback={
+            <main className="page-transition-fallback" style={{ minHeight: '80vh' }} />
+          }
+        >
+          {currentPage === 'home' ? (
+            <HomePage onNavigateToComponents={handleSelectComponent} />
+          ) : (
+            <ComponentShowcase componentId={selectedComponentId} />
+          )}
+        </Suspense>
       </div>
     </NotificationProvider>
   );

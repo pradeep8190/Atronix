@@ -41,13 +41,63 @@
   color: rgba(255, 255, 255, 0.88);
 }
 
-.mercury-value {
-  font-family: 'Fira Code', 'JetBrains Mono', monospace;
-  font-size: 12.5px;
+/* Dynamic Rolling Value Counter (Modern clean font with odometer vertical scroll) */
+.mercury-rolling-counter {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.95);
+  line-height: 1;
+  min-width: 44px;
+  height: 20px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.rolling-number-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+/* Individual Per-Digit Rolling Slot (Independent Mechanical Odometer Cylinder) */
+.digit-column-slot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 8.5px;
+  overflow: hidden;
+}
+
+.rolling-single-digit {
+  display: inline-block;
+  font-family: 'Ubuntu Sans', sans-serif;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+.rolling-static-char {
+  display: inline-block;
+  font-family: 'Ubuntu Sans', sans-serif;
+  line-height: 1;
+}
+
+.rolling-unit {
+  margin-left: 1.5px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* Interactive Glass Channel Track Wrapper */
@@ -84,7 +134,7 @@
 .mercury-slider-container.theme-amber .mercury-label {
   color: rgba(254, 243, 199, 0.95);
 }
-.mercury-slider-container.theme-amber .mercury-value {
+.mercury-slider-container.theme-amber :is(.mercury-value, .mercury-rolling-counter) {
   color: #fbbf24;
   text-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
 }
@@ -93,7 +143,7 @@
 .mercury-slider-container.theme-blue .mercury-label {
   color: rgba(219, 234, 254, 0.95);
 }
-.mercury-slider-container.theme-blue .mercury-value {
+.mercury-slider-container.theme-blue :is(.mercury-value, .mercury-rolling-counter) {
   color: #93c5fd;
   text-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
 }
@@ -102,7 +152,7 @@
 .mercury-slider-container.theme-purple .mercury-label {
   color: rgba(243, 232, 255, 0.95);
 }
-.mercury-slider-container.theme-purple .mercury-value {
+.mercury-slider-container.theme-purple :is(.mercury-value, .mercury-rolling-counter) {
   color: #d8b4fe;
   text-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
 }
@@ -111,7 +161,7 @@
 .mercury-slider-container.theme-emerald .mercury-label {
   color: rgba(209, 250, 229, 0.95);
 }
-.mercury-slider-container.theme-emerald .mercury-value {
+.mercury-slider-container.theme-emerald :is(.mercury-value, .mercury-rolling-counter) {
   color: #6ee7b7;
   text-shadow: 0 0 12px rgba(52, 211, 153, 0.4);
 }

@@ -4,17 +4,21 @@ import { HomeHeader } from './HomeHeader';
 import { ProjectGrid } from './ProjectGrid';
 import { HomeFooter } from './HomeFooter';
 
-export const HomePage: React.FC = () => {
+interface HomePageProps {
+  onNavigateToComponents?: (id?: string) => void;
+}
+
+export const HomePage: React.FC<HomePageProps> = ({ onNavigateToComponents }) => {
   return (
     <main className="home-page-container">
       {/* 1. Hero Header Section (Heading, Subheader, Action Buttons) */}
-      <HomeHeader />
+      <HomeHeader onExplore={() => onNavigateToComponents?.('frost-vault')} />
 
       {/* 2. Center Section (Divider & 3-Column Project Grid) */}
       <ProjectGrid />
 
       {/* 3. Ending / Footer Section (Divider, Copy, Action Chips, Brand Bar) */}
-      <HomeFooter />
+      <HomeFooter onExplore={() => onNavigateToComponents?.('frost-vault')} />
     </main>
   );
 };

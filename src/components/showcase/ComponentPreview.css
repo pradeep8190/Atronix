@@ -2,7 +2,7 @@
 .preview-sandbox {
   position: relative;
   width: 100%;
-  min-height: 520px;
+  min-height: 540px;
   border-radius: 18px;
   background: #000000;
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -34,4 +34,36 @@
   padding: 6px 14px;
   border-radius: 99px;
   border: none;
+}
+
+/* Minimalist Obsidian Glass Skeleton Loader */
+.preview-loading-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 240px;
+}
+
+.preview-skeleton-spinner {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-top-color: #ffffff;
+  animation: preview-spin 0.75s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.preview-skeleton-text {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.2px;
+  font-family: 'Ubuntu Sans', sans-serif;
+}
+
+@keyframes preview-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

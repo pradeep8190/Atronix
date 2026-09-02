@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import "./MercurySlider.css";
 
 export interface MercurySliderProps {
@@ -11,6 +12,7 @@ export interface MercurySliderProps {
   step?: number;
   onChange?: (value: number) => void;
   onChangeEnd?: (value: number) => void;
+  soundEnabled?: boolean;
   label?: string;
   formatValue?: (val: number) => string;
   theme?: "black" | "amber" | "blue" | "purple" | "emerald" | "white";
@@ -66,6 +68,116 @@ const sizeScales = {
   lg: 1.15,
 };
 
+// =============================================================================
+// Pure Mathematical Web Audio Procedural Synthesizer
+// Zero audio files, zero latency, warm Apple VisionOS mechanical haptic clicks.
+// =============================================================================
+let globalAudioCtx: AudioContext | null = null;
+
+const getAudioContext = (): AudioContext | null => {
+  if (typeof window === "undefined") return null;
+  try {
+    if (!globalAudioCtx) {
+      const AudioCtxClass =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (AudioCtxClass) {
+        globalAudioCtx = new AudioCtxClass();
+      }
+    }
+    if (globalAudioCtx && globalAudioCtx.state === "suspended") {
+      globalAudioCtx.resume();
+    }
+    return globalAudioCtx;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Synthesizes a soft, warm mechanical haptic click.
+ * High-end transient + viscous body damped via 2600Hz low-pass acoustic filter.
+ */
+const playHapticTick = (intensity: number = 1.0) => {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+
+  // Master warm acoustic filter (zero harshness, zero ear fatigue)
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(2600, now);
+  filter.Q.setValueAtTime(0.8, now);
+  filter.connect(ctx.destination);
+
+  // Component 1: High Specular Click
+  const oscTick = ctx.createOscillator();
+  const gainTick = ctx.createGain();
+
+  oscTick.type = "sine";
+  oscTick.frequency.setValueAtTime(1400, now);
+  oscTick.frequency.exponentialRampToValueAtTime(650, now + 0.012);
+
+  const tickGain = 0.04 * Math.min(1.2, Math.max(0.6, intensity));
+  gainTick.gain.setValueAtTime(tickGain, now);
+  gainTick.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
+
+  oscTick.connect(gainTick);
+  gainTick.connect(filter);
+
+  // Component 2: Warm Viscous Mercury Thud
+  const oscThud = ctx.createOscillator();
+  const gainThud = ctx.createGain();
+
+  oscThud.type = "sine";
+  oscThud.frequency.setValueAtTime(210, now);
+  oscThud.frequency.exponentialRampToValueAtTime(110, now + 0.018);
+
+  const thudGain = 0.035 * Math.min(1.2, Math.max(0.6, intensity));
+  gainThud.gain.setValueAtTime(thudGain, now);
+  gainThud.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
+
+  oscThud.connect(gainThud);
+  gainThud.connect(filter);
+
+  oscTick.start(now);
+  oscTick.stop(now + 0.016);
+  oscThud.start(now);
+  oscThud.stop(now + 0.022);
+};
+
+/**
+ * Boundary Elastic Snap Sound (Plays when hitting or releasing track extremes)
+ */
+const playBoundarySnap = () => {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(1800, now);
+  filter.connect(ctx.destination);
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(320, now);
+  osc.frequency.exponentialRampToValueAtTime(140, now + 0.03);
+
+  gain.gain.setValueAtTime(0.05, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+
+  osc.connect(gain);
+  gain.connect(filter);
+
+  osc.start(now);
+  osc.stop(now + 0.04);
+};
+
 export const MercurySlider: React.FC<MercurySliderProps> = ({
   value: controlledValue,
   defaultValue = 50,
@@ -74,6 +186,7 @@ export const MercurySlider: React.FC<MercurySliderProps> = ({
   step = 1,
   onChange,
   onChangeEnd,
+  soundEnabled = true,
   label = "Output Gain",
   formatValue = (v) => `${Math.round(v)}%`,
   theme = "black",
@@ -103,6 +216,22 @@ export const MercurySlider: React.FC<MercurySliderProps> = ({
   const stretchXRef = useRef(1);
   const stretchYRef = useRef(1);
   const animFrameRef = useRef<number | null>(null);
+
+  const lastStepRef = useRef<number>(currentValue);
+  const lastTickTimeRef = useRef<number>(0);
+
+  // Rolling Odometer Counter Direction Tracking
+  const prevValRef = useRef<number>(currentValue);
+  const [direction, setDirection] = useState<"up" | "down">("up");
+
+  useEffect(() => {
+    if (currentValue > prevValRef.current) {
+      setDirection("up");
+    } else if (currentValue < prevValRef.current) {
+      setDirection("down");
+    }
+    prevValRef.current = currentValue;
+  }, [currentValue]);
 
   // Sync controlled value
   useEffect(() => {
@@ -135,17 +264,34 @@ export const MercurySlider: React.FC<MercurySliderProps> = ({
       // Quantize value for callback
       const clamped = clamp(rawNorm, 0, 1);
       const steppedVal = Math.round((min + clamped * (max - min)) / step) * step;
+
+      // Haptic Web Audio Tick on Step Quantization Crossings
+      if (steppedVal !== lastStepRef.current) {
+        lastStepRef.current = steppedVal;
+        if (soundEnabled) {
+          const now = performance.now();
+          if (now - lastTickTimeRef.current > 18) {
+            lastTickTimeRef.current = now;
+            playHapticTick(Math.min(1.2, 0.75 + Math.abs(velocityRef.current) * 0.1));
+          }
+        }
+      }
+
       setCurrentValue(steppedVal);
       onChange?.(steppedVal);
     },
-    [min, max, step, onChange]
+    [min, max, step, onChange, soundEnabled]
   );
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (disabled) return;
+    getAudioContext();
     setIsDragging(true);
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     updateFromPointer(e.clientX);
+    if (soundEnabled) {
+      playHapticTick(0.85);
+    }
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -159,6 +305,11 @@ export const MercurySlider: React.FC<MercurySliderProps> = ({
     try {
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     } catch (_) {}
+
+    const wasOverdragged = targetNormRef.current < 0 || targetNormRef.current > 1;
+    if (wasOverdragged && soundEnabled) {
+      playBoundarySnap();
+    }
 
     // Snap back target to [0, 1] range if overdragged
     targetNormRef.current = clamp(targetNormRef.current, 0, 1);
@@ -440,13 +591,81 @@ export const MercurySlider: React.FC<MercurySliderProps> = ({
       className={`mercury-slider-container theme-${effectiveTheme} ${isDragging ? "is-dragging" : ""} ${disabled ? "is-disabled" : ""} ${className}`}
       style={{ transform: `scale(${scale})` }}
     >
-      {/* Top Label & Dynamic Formatted Value Row */}
+      {/* Top Label & Dynamic Rolling Odometer Value Counter */}
       <div className="mercury-header-row">
         <div className="mercury-label-group">
           {icon && <span className="mercury-icon-wrapper">{icon}</span>}
           <span className="mercury-label">{label}</span>
         </div>
-        <span className="mercury-value">{formatValue(currentValue)}</span>
+
+        {(() => {
+          const formatted = formatValue(currentValue);
+          const match = formatted.match(/^([0-9.-]+)(.*)$/);
+          const numStr = match ? match[1] : formatted;
+          const suffix = match ? match[2] : "";
+          const digits = numStr.split("");
+
+          return (
+            <div className="mercury-rolling-counter">
+              <div className="rolling-number-box">
+                {digits.map((char, index) => {
+                  // Key by place-value from the right (0 = ones, 1 = tens, 2 = hundreds)
+                  // so tens digit "4" keeps the same key place-1 whether ones is 3 or 4!
+                  const placeFromRight = digits.length - 1 - index;
+
+                  // If it's a minus or decimal point, render statically
+                  if (char < "0" || char > "9") {
+                    return (
+                      <span key={`static-${index}`} className="rolling-static-char">
+                        {char}
+                      </span>
+                    );
+                  }
+
+                  return (
+                    <div key={`place-${placeFromRight}`} className="digit-column-slot">
+                      <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                        <motion.span
+                          key={char}
+                          custom={direction}
+                          variants={{
+                            enter: (dir: "up" | "down") => ({
+                              y: dir === "up" ? 13 : -13,
+                              opacity: 0,
+                              scale: 0.92,
+                            }),
+                            center: {
+                              y: 0,
+                              opacity: 1,
+                              scale: 1,
+                            },
+                            exit: (dir: "up" | "down") => ({
+                              y: dir === "up" ? -13 : 13,
+                              opacity: 0,
+                              scale: 0.92,
+                            }),
+                          }}
+                          initial="enter"
+                          animate="center"
+                          exit="exit"
+                          transition={{
+                            y: { type: "spring", stiffness: 560, damping: 34, mass: 0.4 },
+                            opacity: { duration: 0.1 },
+                            scale: { duration: 0.1 },
+                          }}
+                          className="rolling-single-digit"
+                        >
+                          {char}
+                        </motion.span>
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </div>
+              {suffix && <span className="rolling-unit">{suffix}</span>}
+            </div>
+          );
+        })()}
       </div>
 
       {/* Interactive WebGL Glass Channel Track */}

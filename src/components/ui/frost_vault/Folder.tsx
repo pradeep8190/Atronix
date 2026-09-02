@@ -11,8 +11,8 @@ const themes = {
     backInsetShadow: "inset 0 0 6px 2px rgba(255,255,255,0.37)",
     flapFill: "#292929",
     flapFillOpacity: 0.25,
-    flapStroke: "#979797",
-    flapInsetColor: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0",
+    flapStroke: "rgba(255, 255, 255, 0.14)",
+    flapInsetColor: "0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.18 0",
     cardFill: "#F1F1F1",
     cardStroke: "#E0E0E0",
     cardLineFill: "#D4D4D4",
@@ -24,7 +24,7 @@ const themes = {
     backInsetShadow: "inset 0 0 6px 2px rgba(178,178,178,0.25)",
     flapFill: "#f5f5f5",
     flapFillOpacity: 0.85,
-    flapStroke: "#d4d4d4",
+    flapStroke: "rgba(0, 0, 0, 0.10)",
     flapInsetColor: "0 0 0 0 0.6 0 0 0 0 0.6 0 0 0 0 0.6 0 0 0 0.15 0",
     cardFill: "#262626",
     cardStroke: "#404040",
@@ -37,7 +37,7 @@ const themes = {
     backInsetShadow: "inset 0 0 6px 2px rgba(255,255,255,0.35)",
     flapFill: "#3a9ae8",
     flapFillOpacity: 0.45,
-    flapStroke: "#7ec8ff",
+    flapStroke: "rgba(255, 255, 255, 0.22)",
     flapInsetColor: "0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.12 0",
     cardFill: "#F1F1F1",
     cardStroke: "#E0E0E0",
@@ -47,9 +47,9 @@ const themes = {
 } as const;
 
 const sizeScales = {
-  sm: 0.65,
-  md: 1,
-  lg: 1.35,
+  sm: 0.60,
+  md: 0.80,
+  lg: 1.0,
 } as const;
 
 type FolderComponentProps = Omit<React.ComponentProps<"div">, "color"> & {
@@ -133,9 +133,9 @@ const FolderComponent = ({
             <motion.div
               style={{ position: "absolute" }}
               animate={{
-                y: isOpen ? -160 : isHovered ? -30 : -10,
-                x: isOpen ? 70 : 40,
-                rotate: isOpen ? 18 : isHovered ? 14 : 10,
+                y: isOpen ? -130 : isHovered ? -28 : -10,
+                x: isOpen ? 60 : 36,
+                rotate: isOpen ? 17 : isHovered ? 14 : 10,
               }}
               transition={{
                 type: "spring",
@@ -149,7 +149,7 @@ const FolderComponent = ({
             <motion.div
               style={{ position: "absolute" }}
               animate={{
-                y: isOpen ? -180 : isHovered ? -35 : -20,
+                y: isOpen ? -145 : isHovered ? -32 : -20,
                 x: isOpen ? 0 : 3,
                 rotate: isOpen ? -3 : isHovered ? -1 : 2,
               }}
@@ -165,8 +165,8 @@ const FolderComponent = ({
             <motion.div
               style={{ position: "absolute" }}
               animate={{
-                y: isOpen ? -170 : isHovered ? -44 : -22,
-                x: isOpen ? -65 : -40,
+                y: isOpen ? -138 : isHovered ? -38 : -22,
+                x: isOpen ? -56 : -36,
                 rotate: isOpen ? -14 : isHovered ? -9 : -5,
               }}
               transition={{
@@ -198,8 +198,8 @@ const FolderComponent = ({
               style={{
                 position: "absolute",
                 inset: 0,
-                backdropFilter: "blur(6px)",
-                WebkitBackdropFilter: "blur(6px)",
+                backdropFilter: "brightness(1.25) contrast(1.15) blur(8px)",
+                WebkitBackdropFilter: "brightness(1.25) contrast(1.15) blur(8px)",
                 clipPath: `path('${FLAP_PATH}')`,
                 WebkitClipPath: `path('${FLAP_PATH}')`,
                 transform: "translateZ(0)",
@@ -208,8 +208,24 @@ const FolderComponent = ({
                 willChange: "transform",
               }}
             />
+            {/* Top Specular Curved Shine matching Navbar Search Pill */}
+            <div
+              style={{
+                position: "absolute",
+                top: 1,
+                left: 6,
+                right: 6,
+                height: "38%",
+                background:
+                  "linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 100%)",
+                clipPath: `path('${FLAP_PATH}')`,
+                WebkitClipPath: `path('${FLAP_PATH}')`,
+                pointerEvents: "none",
+                zIndex: 3,
+              }}
+            />
             <svg
-              style={{ position: "absolute", inset: 0 }}
+              style={{ position: "absolute", inset: 0, zIndex: 1 }}
               width="321"
               height="241"
               viewBox="0 0 321 241"
@@ -221,10 +237,6 @@ const FolderComponent = ({
                   d={FLAP_PATH}
                   fill={theme.flapFill}
                   fillOpacity={theme.flapFillOpacity}
-                />
-                <path
-                  d="M25 0.5H136.084C142.905 0.5 149.417 3.3431 154.054 8.3457L177.713 33.874C182.539 39.0808 189.317 42.04 196.416 42.04H296C309.531 42.04 320.5 53.0092 320.5 66.54V216C320.5 229.531 309.531 240.5 296 240.5H25C11.469 240.5 0.5 229.531 0.5 216V25C0.5 11.469 11.469 0.5 25 0.5Z"
-                  stroke={theme.flapStroke}
                 />
               </g>
               <defs>
@@ -250,7 +262,7 @@ const FolderComponent = ({
                     values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
                     result="hardAlpha"
                   />
-                  <feOffset />
+                  <feOffset dy="1.5" />
                   <feGaussianBlur stdDeviation="2.65" />
                   <feComposite
                     in2="hardAlpha"

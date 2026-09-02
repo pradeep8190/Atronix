@@ -82,7 +82,7 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
   cliCommand = 'npx atronix add frost-vault',
 }) => {
   const { notify } = useNotification();
-  const lines = code.split('\n');
+  const lines = (code || '').split('\n');
   const [installMode, setInstallMode] = useState<'cli' | 'manual'>('manual');
   const [installDirection, setInstallDirection] = useState<'right' | 'left'>('left');
   const [packageManager, setPackageManager] = useState<'npm' | 'pnpm' | 'yarn' | 'bun'>('npm');
@@ -343,23 +343,31 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
         </div>
 
         <div className="code-container">
-          {/* Line Numbers Column */}
-          <div className="line-numbers">
-            {lines.map((_, i) => (
-              <div key={i} className="line-number">
-                {i + 1}
+          {!code ? (
+            <div style={{ padding: '36px 28px', color: 'rgba(255, 255, 255, 0.4)', fontSize: '13px', fontFamily: 'monospace' }}>
+              Loading source code chunk...
+            </div>
+          ) : (
+            <>
+              {/* Line Numbers Column */}
+              <div className="line-numbers">
+                {lines.map((_, i) => (
+                  <div key={i} className="line-number">
+                    {i + 1}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Code Content Area (Two-Color Light Red & White) */}
-          <div className="code-content">
-            {lines.map((line, i) => (
-              <div key={i} className="code-line">
-                {parseDualToneLine(line)}
+              {/* Code Content Area (Two-Color Light Red & White) */}
+              <div className="code-content">
+                {lines.map((line, i) => (
+                  <div key={i} className="code-line">
+                    {parseDualToneLine(line)}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -51,13 +51,13 @@ Abstract instructions (*"make it smooth"*) produce mediocre results. **Real-worl
   - When $(X_0, Y_0)$ dents inward as a concave impact crater, the displaced fluid **MUST physically surge outward against the opposite perimeter borders**, bulging them outwards under internal hydrostatic pressure ($\Delta P$).
   - Surface tension waves ripple radially outward from the impact point and reflect off the membrane boundaries.
 
-### B. True Dual-Pool Volumetric Siphon (The Sluice Gate Law)
-- *Analogy*: Two separate water pools connected by a central sluice gate.
+### B. Leading-Edge Liquid Stretch Kinematics (The Viscous Pseudopod Law)
+- *Analogy*: A cohesive liquid jelly drop where the leading edge reaches forward across the gap while the waist thins down into an ultra-soft liquid bridge.
 - *Math*:
-  - Fluid **NEVER** translates as a single rigid geometric box or a fake glowing white sheet.
-  - **Phase 1 (Bottom Creep)**: Viscous friction along the floor causes a leading stream to rush forward along the bottom boundary first.
-  - **Phase 2 (Volumetric Drainage & Bridge Necking)**: Pool A drains ($1.0 \to 0.0$), while a capillary liquid bridge (`sdCapsule`) pours through the gate with fluid floor gravity sag.
-  - **Phase 3 (Arrival Slosh & Pinch-Off)**: Pool B fills from the bottom ($0.0 \to 1.0$) with damped harmonic slosh ripples ($e^{-\gamma t}\cos(\omega t)$), while the central bridge pinches off and snaps.
+  - The pill never translates as a rigid geometric box or a fake sheet.
+  - **Phase 1 (Leading Edge Reaches Forward)**: When switching tabs, the leading vertical edge (right edge when going right, left edge when going left) stretches forward first toward the destination tab while the trailing edge remains anchored.
+  - **Phase 2 (Ultra-Thin Liquid Waist Pull)**: As the span elongates across the gap, Poisson volume conservation and concave parabolic curvature neck down the center waist into an ultra-thin, soft liquid bridge ($H_{\text{min}} = H_0 \cdot (1 - 0.72 \cdot \text{smoothstep}(0, 1.1, S))$).
+  - **Phase 3 (Trailing Edge Catch-Up & Cushioning)**: Once the leading edge approaches the destination, the trailing edge smoothly accelerates forward, closing the span back to resting width ($2W_0$), thickening the waist back to full height ($H_0$), and settling with a silky cushion at 120 FPS.
 
 ### C. Atmospheric Cloud/Smoke over Rigid Shelves (The Horizon Law)
 - *Analogy*: A celestial gas nebula or dry-ice smoke trapped in a crystal glass orb.
@@ -84,7 +84,6 @@ Abstract instructions (*"make it smooth"*) produce mediocre results. **Real-worl
 | `mercury-slider` | **Mercury Slider** | Hydrodynamic liquid mercury bead with Poisson volume stretch ($\sigma_y = 1/\sqrt{\sigma_x}$), drag velocity, and elastic overdrag. |
 | `phase-toggle` | **Phase Toggle** | Dual-chamber optical glass switch with capillary throat squirt kinematics and impact wave dispersion. |
 | `hydro-button` | **Hydro Button** | Incompressible hydrostatic water bag button with localized stone-drop indentation craters and outer border pressure bulges. |
-| `flowing-tabs` | **Flowing Tab** | Dual-pool volumetric fluid siphon switcher with floor creep, central bridge pouring, and destination slosh resonance. |
 | `aero-core` | **Aero Core** | OpenAI Voice Mode-grade luminous white sky with 3D circumference-wrapping billowing volumetric cloud and Web Audio mic reactivity. |
 
 ---

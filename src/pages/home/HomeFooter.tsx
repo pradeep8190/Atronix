@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import './HomeFooter.css';
 
-export const HomeFooter: React.FC = () => {
+interface HomeFooterProps {
+  onExplore?: () => void;
+}
+
+export const HomeFooter: React.FC<HomeFooterProps> = ({ onExplore }) => {
   const endingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,7 +58,16 @@ export const HomeFooter: React.FC = () => {
 
       {/* Action Badges / Quick Links Line */}
       <div className="ending-actions-row">
-        <a href="#components" className="ending-chip-btn primary">
+        <a
+          href="#components"
+          className="ending-chip-btn primary"
+          onClick={(e) => {
+            if (onExplore) {
+              e.preventDefault();
+              onExplore();
+            }
+          }}
+        >
           <span>Explore All 50+ Components</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="5" y1="12" x2="19" y2="12" />

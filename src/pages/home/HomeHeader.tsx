@@ -2,7 +2,11 @@ import React, { useRef } from 'react';
 import './HomeHeader.css';
 import { LiquidDocButton } from './LiquidDocButton';
 
-export const HomeHeader: React.FC = () => {
+interface HomeHeaderProps {
+  onExplore?: () => void;
+}
+
+export const HomeHeader: React.FC<HomeHeaderProps> = ({ onExplore }) => {
   const rafRef = useRef<number | null>(null);
 
   const handleButtonMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -42,6 +46,12 @@ export const HomeHeader: React.FC = () => {
         <a
           href="#components"
           className="home-btn-primary"
+          onClick={(e) => {
+            if (onExplore) {
+              e.preventDefault();
+              onExplore();
+            }
+          }}
           onMouseMove={handleButtonMouseMove}
           onMouseLeave={handleButtonMouseLeave}
         >

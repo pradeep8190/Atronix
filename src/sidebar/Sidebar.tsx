@@ -18,6 +18,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({
   onSelectComponent,
+  selectedComponentId,
 }) => {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     updates: true,
@@ -45,13 +46,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const componentItems = [
     { label: 'Frost Vault', id: 'frost-vault' },
+    { label: 'Aero Core', id: 'aero-core' },
     { label: 'Liquid Mitosis', id: 'liquid-mitosis' },
     { label: 'Cascade Select', id: 'cascade-select' },
-    { label: 'Mercury Slider', id: 'mercury-slider' },
     { label: 'Phase Toggle', id: 'phase-toggle' },
     { label: 'Hydro Button', id: 'hydro-button' },
-    { label: 'Flowing Tab', id: 'flowing-tabs' },
-    { label: 'Aero Core', id: 'aero-core' },
+    { label: 'Mercury Slider', id: 'mercury-slider' },
   ];
 
   return (
@@ -215,17 +215,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 style={{ overflow: 'hidden' }}
                 className="sidebar-rail-wrapper"
               >
-                <HookRail
-                  items={componentItems}
-                  color="#ffffff"
-                  dashed={false}
-                  onChange={(index) => {
-                    const selected = componentItems[index];
-                    if (selected) {
-                      onSelectComponent?.(selected.id);
-                    }
-                  }}
-                />
+                {(() => {
+                  const activeIndex = componentItems.findIndex(
+                    (item) => item.id === selectedComponentId
+                  );
+                  return (
+                    <HookRail
+                      items={componentItems}
+                      color="#ffffff"
+                      dashed={false}
+                      value={activeIndex >= 0 ? activeIndex : undefined}
+                      onChange={(index) => {
+                        const selected = componentItems[index];
+                        if (selected) {
+                          onSelectComponent?.(selected.id);
+                        }
+                      }}
+                    />
+                  );
+                })()}
               </motion.div>
             )}
           </AnimatePresence>

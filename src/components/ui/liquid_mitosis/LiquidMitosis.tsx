@@ -140,15 +140,15 @@ export const LiquidMitosis: React.FC<LiquidMitosisProps> = ({
 
         // 2. True Liquid Budding (Forms directly on the right boundary membrane at X=154px)
         float anchorX = 154.0 * u_dpr;
-        float targetCenterX = 204.0 * u_dpr;
+        float targetCenterX = 205.5 * u_dpr;
         
         float pullProgress = smoothstep(0.25, 0.85, u);
         float childCenterX = mix(anchorX, targetCenterX, pullProgress);
 
         // Droplet radius inflates organically from 0.0px to 18.0px (smoothly dissolves to 0 on return)
         float childRadius = 18.0 * u_dpr * smoothstep(0.02, 0.42, u);
-        // Pill length expands after detaching
-        float halfLength = mix(0.0, 18.0 * u_dpr, smoothstep(0.60, 1.0, u));
+        // Pill length expands after detaching (widened by 5px to 77px total width)
+        float halfLength = mix(0.0, 20.5 * u_dpr, smoothstep(0.60, 1.0, u));
 
         // Surface tension stretch while attached -> gentle wobble after detaching
         float squashX = 1.0;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './ComponentPreview.css';
 
 interface ComponentPreviewProps {
@@ -16,7 +16,16 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
 }) => {
   return (
     <div className="preview-sandbox">
-      <ComponentToRender color={color} size={size} />
+      <Suspense
+        fallback={
+          <div className="preview-loading-skeleton">
+            <div className="preview-skeleton-spinner" />
+            <span className="preview-skeleton-text">Mounting liquid physics engine...</span>
+          </div>
+        }
+      >
+        <ComponentToRender color={color} size={size} />
+      </Suspense>
       <div className="preview-hint">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="12" cy="12" r="10" />

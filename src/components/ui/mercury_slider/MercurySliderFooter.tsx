@@ -52,6 +52,12 @@ const mercurySliderPropsDoc: PropDoc[] = [
     description: "Callback fired when user releases the mercury droplet bead.",
   },
   {
+    name: "soundEnabled",
+    type: "boolean",
+    default: "true",
+    description: "Synthesizes procedural Apple VisionOS mechanical haptic clicks at 0ms latency.",
+  },
+  {
     name: "label",
     type: "string",
     default: "'Output Gain'",
@@ -117,9 +123,9 @@ export const MercurySliderFooter: React.FC = () => {
       </div>
 
       <div className="liquid-physics-note">
-        <h4>Hydrodynamic Mercury Droplet Kinematics</h4>
+        <h4>Hydrodynamic Mercury Droplet Kinematics & Web Audio Haptics</h4>
         <p>
-          Simulates a viscous liquid mercury bead inside an optical glass channel using real-time <strong>Signed Distance Fields (SDFs)</strong>. Moving the bead exerts fluid drag, dynamically stretching the droplet horizontally while compressing vertically (Poisson volume conservation: σy = 1 / √σx). If dragged beyond track boundaries, elastic wall resistance opposes the drag before snapping the mercury bead back into bounds.
+          Simulates a viscous liquid mercury bead inside an optical glass channel using real-time <strong>Signed Distance Fields (SDFs)</strong>. Moving the bead exerts fluid drag, dynamically stretching the droplet horizontally while compressing vertically (Poisson volume conservation: σy = 1 / √σx). Integrated with <strong>procedural Web Audio API synthesis</strong> (zero audio files, zero latency), generating warm, whisper-soft Apple VisionOS mechanical haptic clicks across quantization steps and boundary elasticity.
         </p>
       </div>
     </div>

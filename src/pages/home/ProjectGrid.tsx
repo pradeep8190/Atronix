@@ -77,6 +77,7 @@ export const ProjectGrid: React.FC = () => {
                 src={item.image}
                 alt={item.name}
                 loading="lazy"
+                decoding="async"
               />
               <div className="image-vignette-overlay" />
             </div>
