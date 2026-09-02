@@ -51,6 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { label: 'Cascade Select', id: 'cascade-select' },
     { label: 'Phase Toggle', id: 'phase-toggle' },
     { label: 'Hydro Button', id: 'hydro-button' },
+    { label: 'Ferro Drop', id: 'ferro-drop' },
     { label: 'Mercury Slider', id: 'mercury-slider' },
   ];
 

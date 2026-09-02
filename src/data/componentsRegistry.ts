@@ -130,6 +130,22 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     cliCommand: 'npx atronix add aero-core',
     hint: 'Move cursor to stir the smoke wisps, or speak to watch the luminous cloud billow and pulse!',
   },
+  'ferro-drop': {
+    id: 'ferro-drop',
+    name: 'Ferro Drop',
+    category: 'Components',
+    description: 'Magnetic AI prompt bar with ferrofluid boundary pull. Features real-time border magnetic attraction toward dragged files, Venom-like harmonic assimilation shockwaves, and procedural Web Audio haptic latching.',
+    component: React.lazy(() => import('../components/ui/ferro_drop/FerroDrop')),
+    footerComponent: React.lazy(() => import('../components/ui/ferro_drop/FerroDropFooter')),
+    loadCode: () => import('../components/ui/ferro_drop/FerroDrop.tsx?raw').then((m) => m.default),
+    colorOptions: ['black', 'blue', 'amber', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
+    dependencies: ['motion'],
+    cliCommand: 'npx atronix add ferro-drop',
+    hint: 'Drag any local file or the sample chip over the bar to see the magnetic border pull, then release to assimilate!',
+  },
 };
 
 export default componentsRegistry;

@@ -85,6 +85,7 @@ Abstract instructions (*"make it smooth"*) produce mediocre results. **Real-worl
 | `phase-toggle` | **Phase Toggle** | Dual-chamber optical glass switch with capillary throat squirt kinematics and impact wave dispersion. |
 | `hydro-button` | **Hydro Button** | Incompressible hydrostatic water bag button with localized stone-drop indentation craters and outer border pressure bulges. |
 | `aero-core` | **Aero Core** | OpenAI Voice Mode-grade luminous white sky with 3D circumference-wrapping billowing volumetric cloud and Web Audio mic reactivity. |
+| `ferro-drop` | **Ferro Drop** | Magnetic AI prompt bar with ferrofluid boundary pull toward dragged files, Venom-like harmonic assimilation shockwaves, and procedural Web Audio haptic latching. |
 
 ---
 

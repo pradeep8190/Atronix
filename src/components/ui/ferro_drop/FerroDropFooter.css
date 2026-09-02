@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Ferro Drop Footer & Props Reference Styles
+   ========================================================================== */
+
+.ferro-drop-props-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 48px;
+}
+
+.ferro-drop-props-section .props-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  margin-bottom: 20px;
+}
+
+.ferro-drop-props-section .props-table-wrapper {
+  width: 100%;
+  border-radius: 16px;
+  background: #000000;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.ferro-drop-props-section .props-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 13.5px;
+}
+
+.ferro-drop-props-section .props-table th {
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 500;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.ferro-drop-props-section .props-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+.ferro-drop-props-section .props-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ferro-drop-props-section .prop-name {
+  font-family: 'Fira Code', monospace;
+  font-size: 12.5px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+.ferro-drop-props-section .prop-type {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ferro-drop-props-section .prop-default {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.ferro-drop-props-section .prop-desc {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Fluid Physics & Magnetic Kinematics Documentation Callout */
+.ferro-physics-note {
+  margin-top: 28px;
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: #000000;
+  border: none;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.ferro-physics-note h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  font-family: 'Ubuntu Sans', sans-serif;
+  letter-spacing: -0.2px;
+}
+
+.ferro-physics-note p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  font-family: 'Ubuntu Sans', sans-serif;
+}
+
+.ferro-physics-note strong {
+  color: rgba(255, 255, 255, 0.9);
+}
