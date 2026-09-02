@@ -1,0 +1,268 @@
+/* ==========================================================================
+   Project Cards Grid Styles
+   Glued/Attached Glass Card: Borderless Pure Liquid Glass Design
+   ========================================================================== */
+
+/* Structured Section Divider */
+.home-section-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 16px 0 36px 0;
+  gap: 16px;
+  animation: heroLandingReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 30%,
+    rgba(255, 255, 255, 0.1) 70%,
+    transparent 100%
+  );
+}
+
+.divider-label {
+  font-size: 11.5px;
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* 3 Images Per Row Grid */
+.project-images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Glued Unit Container (Borderless) */
+.project-image-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.015);
+  border: none;
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  user-select: none;
+
+  /* Scroll Trigger Initial State */
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(6px);
+  transition: 
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--stagger-index, 0) * 80ms);
+}
+
+/* Scroll Trigger Visible State */
+.project-image-card.scroll-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.project-image-card:hover {
+  box-shadow: 
+    0 22px 50px -10px rgba(0, 0, 0, 0.85),
+    0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+/* 1. Top Image Half (Borderless flush attachment) */
+.project-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.45);
+  border: none;
+}
+
+.project-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+
+.project-image-card:hover .project-image-wrapper img {
+  transform: scale(1.035);
+  filter: brightness(1.04);
+}
+
+/* Diagonal Liquid Glass Light Sweep across image */
+.card-glass-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 15%,
+    rgba(255, 255, 255, 0.03) 38%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.03) 62%,
+    transparent 85%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.project-image-card:hover .card-glass-shine {
+  transform: translateX(120%);
+}
+
+.image-vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    transparent 35%,
+    transparent 65%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  pointer-events: none;
+}
+
+/* 2. Attached Bottom Liquid Glass Dock (Borderless) */
+.project-glass-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-radius: 0 0 18px 18px;
+  border: none;
+  
+  /* Liquid Glass Base */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: brightness(1.25) contrast(1.15);
+  -webkit-backdrop-filter: brightness(1.25) contrast(1.15);
+  
+  /* Inset shadows with soft bottom edge */
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 1.5px 0 rgba(255, 255, 255, 0.08),
+    inset 0 3px 6px -1px rgba(0, 0, 0, 0.3);
+    
+  overflow: hidden;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Bottom Specular Glass Highlight */
+.project-glass-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32%;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.project-image-card:hover .project-glass-card {
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1.5px 0 rgba(255, 255, 255, 0.14),
+    inset 0 3px 6px -1px rgba(0, 0, 0, 0.35);
+}
+
+.project-card-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+}
+
+.project-card-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  transition: color 0.25s ease;
+}
+
+.project-card-category {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  padding: 3px 9px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.project-image-card:hover .project-card-category {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Action Arrow Button (Borderless) */
+.card-action-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 2;
+  transition: 
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.project-image-card:hover .card-action-arrow {
+  transform: translate(2px, -2px);
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .project-images-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-images-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
