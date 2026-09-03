@@ -2,6 +2,9 @@
   "name": "atronix",
   "private": true,
   "version": "0.0.0",
+  "bin": {
+    "atronix": "./packages/cli/index.js"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
