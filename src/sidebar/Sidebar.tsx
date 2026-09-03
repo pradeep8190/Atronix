@@ -54,6 +54,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { label: 'Ferro Drop', id: 'ferro-drop' },
     { label: 'Mercury Slider', id: 'mercury-slider' },
     { label: 'Pendant Lamp', id: 'pendant-lamp' },
+    { label: 'Orbit Globe', id: 'orbit-globe' },
+    { label: 'Speed Rays', id: 'speed-rays' },
   ];
 
   return (

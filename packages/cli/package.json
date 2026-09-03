@@ -1,0 +1,33 @@
+{
+  "name": "atronix",
+  "version": "1.0.3",
+  "description": "Official CLI for Atronix UI — Sovereign Physical Realism & Liquid Glass UI Library",
+  "bin": {
+    "atronix": "index.js"
+  },
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "atronix",
+    "ui",
+    "components",
+    "shadcn",
+    "framer-motion",
+    "webgl",
+    "liquid-glass",
+    "physical-realism"
+  ],
+  "author": "Atronix Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radhasaini4604-cloud/Atronix.git"
+  }
+}

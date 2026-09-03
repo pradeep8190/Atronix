@@ -86,6 +86,9 @@ Abstract instructions (*"make it smooth"*) produce mediocre results. **Real-worl
 | `hydro-button` | **Hydro Button** | Incompressible hydrostatic water bag button with localized stone-drop indentation craters and outer border pressure bulges. |
 | `aero-core` | **Aero Core** | OpenAI Voice Mode-grade luminous white sky with 3D circumference-wrapping billowing volumetric cloud and Web Audio mic reactivity. |
 | `ferro-drop` | **Ferro Drop** | Magnetic AI prompt bar with ferrofluid boundary pull toward dragged files, Venom-like harmonic assimilation shockwaves, and procedural Web Audio haptic latching. |
+| `pendant-lamp` | **Pendant Lamp** | Industrial suspended pendant lamp with physical inverse-square cone beam lighting, specular dome fixture, and cast shadow floor physics. |
+| `orbit-globe` | **Orbit Globe** | 3D interactive wireframe orbital globe with Natural Earth vector coastlines, great-circle flight arcs, glowing photons, and momentum drag physics. |
+| `speed-rays` | **Speed Rays** | GPU-accelerated relativistic velocity field with tapered photon laser streaks, hardware compositor transforms, and optical vignette framing. |
 
 ---
 

@@ -79,7 +79,9 @@ function App() {
         return (
           node instanceof HTMLElement &&
           (Boolean(node.closest('[data-lenis-prevent]')) ||
-            Boolean(node.closest('.sidebar-container')))
+            Boolean(node.closest('.sidebar-container')) ||
+            Boolean(node.closest('.code-container')) ||
+            Boolean(node.closest('.code-sandbox')))
         );
       },
     });

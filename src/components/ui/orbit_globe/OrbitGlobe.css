@@ -1,0 +1,149 @@
+.orbit-globe-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.orbit-globe-canvas-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 460px;
+  height: 380px;
+  overflow: visible;
+}
+
+.orbit-globe-canvas {
+  cursor: grab;
+  touch-action: none;
+  display: block;
+}
+
+.orbit-globe-canvas:active {
+  cursor: grabbing;
+}
+
+/* Atmospheric Glow Halo behind Globe */
+.orbit-globe-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    var(--globe-halo-core, rgba(255, 255, 255, 0.08)) 0%,
+    var(--globe-halo-edge, rgba(255, 255, 255, 0.02)) 50%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Colorway Palettes
+   ========================================================================== */
+
+/* Black / Monochromatic Soft Low White (Default) */
+.orbit-globe-wrapper.theme-black {
+  --globe-halo-core: rgba(255, 255, 255, 0.04);
+  --globe-halo-edge: rgba(255, 255, 255, 0.01);
+  --globe-coastline: rgba(255, 255, 255, 0.22);
+  --globe-grid: rgba(255, 255, 255, 0.035);
+  --globe-arc: rgba(160, 165, 175, 0.65);
+  --globe-particle: rgba(255, 255, 255, 0.85);
+  --globe-particle-glow: rgba(255, 255, 255, 0.6);
+  --globe-node-bg: rgba(140, 145, 155, 0.75);
+  --globe-node-active: rgba(255, 255, 255, 0.85);
+  --globe-text-primary: rgba(255, 255, 255, 0.85);
+  --globe-text-coords: rgba(161, 161, 170, 0.65);
+}
+
+/* Red / Atronix Signature Soft Red (#ff758c) */
+.orbit-globe-wrapper.theme-red {
+  --globe-halo-core: rgba(255, 117, 140, 0.12);
+  --globe-halo-edge: rgba(255, 117, 140, 0.02);
+  --globe-coastline: rgba(255, 117, 140, 0.45);
+  --globe-grid: rgba(255, 117, 140, 0.06);
+  --globe-arc: rgba(255, 117, 140, 0.85);
+  --globe-particle: #ffe4e6;
+  --globe-particle-glow: rgba(255, 117, 140, 0.95);
+  --globe-node-bg: rgba(255, 117, 140, 0.85);
+  --globe-node-active: #ff758c;
+  --globe-text-primary: #ffe4e6;
+  --globe-text-coords: rgba(254, 205, 211, 0.75);
+}
+
+/* Amber / 24k Champagne Gold */
+.orbit-globe-wrapper.theme-amber {
+  --globe-halo-core: rgba(251, 191, 36, 0.14);
+  --globe-halo-edge: rgba(217, 119, 6, 0.03);
+  --globe-coastline: rgba(251, 191, 36, 0.55);
+  --globe-grid: rgba(251, 191, 36, 0.08);
+  --globe-arc: rgba(245, 158, 11, 0.85);
+  --globe-particle: #fef08a;
+  --globe-particle-glow: rgba(251, 191, 36, 0.95);
+  --globe-node-bg: rgba(245, 158, 11, 0.9);
+  --globe-node-active: #fbbf24;
+  --globe-text-primary: #fef08a;
+  --globe-text-coords: rgba(252, 211, 77, 0.75);
+}
+
+/* Blue / Cryo Sapphire Azure */
+.orbit-globe-wrapper.theme-blue {
+  --globe-halo-core: rgba(56, 189, 248, 0.16);
+  --globe-halo-edge: rgba(14, 165, 233, 0.04);
+  --globe-coastline: rgba(56, 189, 248, 0.55);
+  --globe-grid: rgba(56, 189, 248, 0.08);
+  --globe-arc: rgba(14, 165, 233, 0.85);
+  --globe-particle: #e0f2fe;
+  --globe-particle-glow: rgba(56, 189, 248, 0.95);
+  --globe-node-bg: rgba(14, 165, 233, 0.9);
+  --globe-node-active: #38bdf8;
+  --globe-text-primary: #e0f2fe;
+  --globe-text-coords: rgba(125, 211, 252, 0.75);
+}
+
+/* Purple / Cosmic Amethyst */
+.orbit-globe-wrapper.theme-purple {
+  --globe-halo-core: rgba(192, 132, 252, 0.16);
+  --globe-halo-edge: rgba(168, 85, 247, 0.04);
+  --globe-coastline: rgba(192, 132, 252, 0.55);
+  --globe-grid: rgba(192, 132, 252, 0.08);
+  --globe-arc: rgba(168, 85, 247, 0.85);
+  --globe-particle: #f3e8ff;
+  --globe-particle-glow: rgba(192, 132, 252, 0.95);
+  --globe-node-bg: rgba(168, 85, 247, 0.9);
+  --globe-node-active: #c084fc;
+  --globe-text-primary: #f3e8ff;
+  --globe-text-coords: rgba(216, 180, 254, 0.75);
+}
+
+/* Emerald / Bioluminescent Jade */
+.orbit-globe-wrapper.theme-emerald {
+  --globe-halo-core: rgba(52, 211, 153, 0.16);
+  --globe-halo-edge: rgba(16, 185, 129, 0.04);
+  --globe-coastline: rgba(52, 211, 153, 0.55);
+  --globe-grid: rgba(52, 211, 153, 0.08);
+  --globe-arc: rgba(16, 185, 129, 0.85);
+  --globe-particle: #d1fae5;
+  --globe-particle-glow: rgba(52, 211, 153, 0.95);
+  --globe-node-bg: rgba(16, 185, 129, 0.9);
+  --globe-node-active: #34d399;
+  --globe-text-primary: #d1fae5;
+  --globe-text-coords: rgba(110, 231, 183, 0.75);
+}

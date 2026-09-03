@@ -223,6 +223,8 @@
   max-height: 560px;
   overflow-y: auto;
   overflow-x: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .code-container::-webkit-scrollbar {

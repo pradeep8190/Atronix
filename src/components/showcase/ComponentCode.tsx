@@ -321,7 +321,7 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
       </div>
 
       {/* Main Code Sandbox */}
-      <div className="code-sandbox">
+      <div className="code-sandbox" data-lenis-prevent>
         <div className="code-header">
           <span className="code-filename">{filename}</span>
           <button
@@ -342,7 +342,7 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
           </button>
         </div>
 
-        <div className="code-container">
+        <div className="code-container" data-lenis-prevent>
           {!code ? (
             <div style={{ padding: '36px 28px', color: 'rgba(255, 255, 255, 0.4)', fontSize: '13px', fontFamily: 'monospace' }}>
               Loading source code chunk...

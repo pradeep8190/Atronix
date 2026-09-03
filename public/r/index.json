@@ -1,0 +1,80 @@
+[
+  {
+    "name": "aero-core",
+    "title": "Aero Core",
+    "description": "Acoustic-reactive volumetric smoke nebula orb with 5-octave rotational FBM domain warping.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "cascade-select",
+    "title": "Cascade Select",
+    "description": "Gravity-driven optical liquid glass dropdown selector with viscoelastic drip easing.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "ferro-drop",
+    "title": "Ferro Drop",
+    "description": "Magnetic AI prompt bar with ferrofluid boundary pull and particle assimilation.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "frost-vault",
+    "title": "Frost Vault",
+    "description": "3D optical glass expanding cards with real refractive Fresnel blur and depth stacking.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "hydro-button",
+    "title": "Hydro Button",
+    "description": "Incompressible hydrostatic water bag button with stone-drop crater depression and border bulge.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "liquid-mitosis",
+    "title": "Liquid Mitosis",
+    "description": "Hydrodynamic fluid metaball button with Rayleigh-Plateau droplet separation kinematics.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "mercury-slider",
+    "title": "Mercury Slider",
+    "description": "Hydrodynamic liquid mercury bead slider with Poisson volume stretch physics.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "orbit-globe",
+    "title": "Orbit Globe",
+    "description": "3D interactive wireframe orbital globe with Natural Earth vector coastlines and momentum drag physics.",
+    "dependencies": []
+  },
+  {
+    "name": "pendant-lamp",
+    "title": "Pendant Lamp",
+    "description": "Suspended industrial pendant lamp with volumetric inverse-square light cone and physical pendulum sway.",
+    "dependencies": [
+      "motion"
+    ]
+  },
+  {
+    "name": "phase-toggle",
+    "title": "Phase Toggle",
+    "description": "Dual-chamber optical liquid mercury switch with capillary throat squirt kinematics.",
+    "dependencies": [
+      "motion"
+    ]
+  }
+]

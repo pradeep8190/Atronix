@@ -1,0 +1,125 @@
+/* =========================================================================
+   EDGE MESH SECTION - SPEED RAYS PERFORMANCE SHOWCASE
+   ========================================================================= */
+
+.edge-mesh-section {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  background: #000000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 130px 24px 120px 24px;
+  box-sizing: border-box;
+}
+
+/* Subtle radial vignette falloff */
+.edge-mesh-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.75) 85%,
+    #000000 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Foreground Content */
+.edge-mesh-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* Headline */
+.edge-mesh-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.35rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.12);
+}
+
+/* Paragraph Description */
+.edge-mesh-description {
+  margin-top: 14px;
+  max-width: 620px;
+  font-size: 14px;
+  line-height: 1.62;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+/* High-Tech Metrics Bar */
+.edge-mesh-stats-row {
+  margin-top: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.edge-mesh-stat-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.edge-mesh-stat-val {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Menlo, monospace;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.edge-mesh-stat-lbl {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.44);
+}
+
+/* Thin vertical hairline divider between metric items */
+.edge-mesh-stat-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Responsive Scaling */
+@media (max-width: 768px) {
+  .edge-mesh-section {
+    padding: 90px 16px 80px 16px;
+    min-height: 400px;
+  }
+
+  .edge-mesh-stats-row {
+    gap: 16px;
+  }
+
+  .edge-mesh-stat-divider {
+    display: none;
+  }
+
+  .edge-mesh-description {
+    font-size: 14px;
+  }
+}
