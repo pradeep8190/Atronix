@@ -9,39 +9,31 @@ import 'lenis/dist/lenis.css';
 
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 const ComponentShowcase = lazy(() => import('./components/showcase/ComponentShowcase'));
-const AppShowcase = lazy(() => import('./components/showcase/templates/AppShowcase'));
 
-// Parse route from URL pathname, supporting /components/:id and /templates/:id
+// Parse route from URL pathname, supporting /components/:id
 interface RouteState {
-  page: 'home' | 'components' | 'templates';
+  page: 'home' | 'components';
   componentId: string;
-  templateId: string;
 }
 
 const parseRouteFromUrl = (): RouteState => {
   if (typeof window === 'undefined') {
-    return { page: 'home', componentId: 'frost-vault', templateId: 'jarvis-website' };
+    return { page: 'home', componentId: 'frost-vault' };
   }
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
-
-  if (pathname.startsWith('/templates')) {
-    const parts = pathname.split('/').filter(Boolean);
-    const templateId = parts.length > 1 ? parts[1].toLowerCase().replace(/_/g, '-') : 'jarvis-website';
-    return { page: 'templates', componentId: 'frost-vault', templateId };
-  }
 
   if (pathname.startsWith('/components')) {
     const parts = pathname.split('/').filter(Boolean);
     if (parts.length > 1) {
       const rawId = parts[1].toLowerCase().replace(/_/g, '-');
       const validId = componentsRegistry[rawId] ? rawId : 'frost-vault';
-      return { page: 'components', componentId: validId, templateId: 'jarvis-website' };
+      return { page: 'components', componentId: validId };
     }
-    return { page: 'components', componentId: 'frost-vault', templateId: 'jarvis-website' };
+    return { page: 'components', componentId: 'frost-vault' };
   }
 
-  return { page: 'home', componentId: 'frost-vault', templateId: 'jarvis-website' };
+  return { page: 'home', componentId: 'frost-vault' };
 };
 
 function App() {
@@ -49,7 +41,6 @@ function App() {
 
   const currentPage = route.page;
   const selectedComponentId = route.componentId;
-  const selectedTemplateId = route.templateId;
 
   // Canonicalize URL on initial mount
   useEffect(() => {
@@ -57,11 +48,6 @@ function App() {
     const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
     if (currentRoute.page === 'components') {
       const canonicalPath = `/components/${currentRoute.componentId}`;
-      if (pathname !== canonicalPath) {
-        window.history.replaceState(currentRoute, '', canonicalPath);
-      }
-    } else if (currentRoute.page === 'templates') {
-      const canonicalPath = `/templates/${currentRoute.templateId}`;
       if (pathname !== canonicalPath) {
         window.history.replaceState(currentRoute, '', canonicalPath);
       }
@@ -89,6 +75,13 @@ function App() {
       wheelMultiplier: 1,
       touchMultiplier: 1.8,
       infinite: false,
+      prevent: (node) => {
+        return (
+          node instanceof HTMLElement &&
+          (Boolean(node.closest('[data-lenis-prevent]')) ||
+            Boolean(node.closest('.sidebar-container')))
+        );
+      },
     });
 
     function raf(time: number) {
@@ -108,14 +101,12 @@ function App() {
   useEffect(() => {
     if (currentPage === 'home') {
       document.title = 'Atronix UI — Physical Realism for the Modern Web';
-    } else if (currentPage === 'templates') {
-      document.title = 'Horizon — Jarvis AI — Atronix Showcase';
     } else {
       const comp = componentsRegistry[selectedComponentId];
       const compName = comp ? comp.name : 'Component';
       document.title = `${compName} — Atronix UI`;
     }
-  }, [currentPage, selectedComponentId, selectedTemplateId]);
+  }, [currentPage, selectedComponentId]);
 
   const handleSelectComponent = useCallback((componentId: string) => {
     const normalizedId = componentId.toLowerCase().replace(/_/g, '-');
@@ -123,32 +114,24 @@ function App() {
     const targetPath = `/components/${validId}`;
 
     if (window.location.pathname !== targetPath) {
-      window.history.pushState({ page: 'components', componentId: validId, templateId: selectedTemplateId }, '', targetPath);
+      window.history.pushState({ page: 'components', componentId: validId }, '', targetPath);
     }
     setRoute((prev) => ({ ...prev, page: 'components', componentId: validId }));
-  }, [selectedTemplateId]);
-
-  const handleSelectTemplate = useCallback((templateId: string) => {
-    const targetPath = `/templates/${templateId}`;
-    if (window.location.pathname !== targetPath) {
-      window.history.pushState({ page: 'templates', componentId: selectedComponentId, templateId }, '', targetPath);
-    }
-    setRoute((prev) => ({ ...prev, page: 'templates', templateId }));
-  }, [selectedComponentId]);
+  }, []);
 
   const handleNavigate = useCallback(
     (page: 'home' | 'components') => {
       if (page === 'home') {
         const targetPath = window.location.pathname === '/' ? '/' : '/home';
         if (window.location.pathname !== targetPath) {
-          window.history.pushState({ page: 'home', componentId: selectedComponentId, templateId: selectedTemplateId }, '', targetPath);
+          window.history.pushState({ page: 'home', componentId: selectedComponentId }, '', targetPath);
         }
         setRoute((prev) => ({ ...prev, page: 'home' }));
       } else {
         const targetPath = `/components/${selectedComponentId}`;
         if (window.location.pathname !== targetPath) {
           window.history.pushState(
-            { page: 'components', componentId: selectedComponentId, templateId: selectedTemplateId },
+            { page: 'components', componentId: selectedComponentId },
             '',
             targetPath
           );
@@ -156,7 +139,7 @@ function App() {
         setRoute((prev) => ({ ...prev, page: 'components', componentId: selectedComponentId }));
       }
     },
-    [selectedComponentId, selectedTemplateId]
+    [selectedComponentId]
   );
 
   return (
@@ -176,8 +159,6 @@ function App() {
         <Sidebar
           onSelectComponent={handleSelectComponent}
           selectedComponentId={selectedComponentId}
-          onSelectTemplate={handleSelectTemplate}
-          selectedTemplateId={selectedTemplateId}
         />
 
         {/* Main Content View with Zero-Load Dynamic Code Splitting */}
@@ -188,8 +169,6 @@ function App() {
         >
           {currentPage === 'home' ? (
             <HomePage onNavigateToComponents={handleSelectComponent} />
-          ) : currentPage === 'templates' ? (
-            <AppShowcase onBackToComponents={() => handleSelectComponent('frost-vault')} />
           ) : (
             <ComponentShowcase componentId={selectedComponentId} />
           )}

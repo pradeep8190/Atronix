@@ -14,21 +14,16 @@ const appleSpring = {
 interface SidebarProps {
   onSelectComponent?: (componentId: string) => void;
   selectedComponentId?: string;
-  onSelectTemplate?: (templateId: string) => void;
-  selectedTemplateId?: string;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   onSelectComponent,
   selectedComponentId,
-  onSelectTemplate,
-  selectedTemplateId,
 }) => {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     updates: true,
     installation: true,
     components: true,
-    templates: true,
   });
 
   const toggleCategory = (id: string) => {
@@ -60,12 +55,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { label: 'Mercury Slider', id: 'mercury-slider' },
   ];
 
-  const templateItems = [
-    { label: 'Horizon — Jarvis AI', id: 'jarvis-website' },
-  ];
-
   return (
-    <aside className="sidebar-container">
+    <aside className="sidebar-container" data-lenis-prevent>
       <div className="sidebar-content">
         {/* Section 1: Follow for updates */}
         <div className="sidebar-group">
@@ -239,82 +230,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         const selected = componentItems[index];
                         if (selected) {
                           onSelectComponent?.(selected.id);
-                        }
-                      }}
-                    />
-                  );
-                })()}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Section 4: Templates & Real-World Apps */}
-        <div className="sidebar-group">
-          <button
-            className="sidebar-group-header"
-            onClick={() => toggleCategory('templates')}
-          >
-            <div className="group-header-left">
-              <span className="group-header-icon">
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
-                  <path d="M6 6h10" />
-                  <path d="M6 10h10" />
-                </svg>
-              </span>
-              <span className="group-header-title">Templates & Apps</span>
-            </div>
-            <motion.svg
-              animate={{ rotate: openCategories.templates ? 0 : 180 }}
-              transition={appleSpring}
-              className="chevron-icon"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="18 15 12 9 6 15" />
-            </motion.svg>
-          </button>
-
-          <AnimatePresence initial={false}>
-            {openCategories.templates && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={appleSpring}
-                style={{ overflow: 'hidden' }}
-                className="sidebar-rail-wrapper"
-              >
-                {(() => {
-                  const activeIndex = templateItems.findIndex(
-                    (item) => item.id === selectedTemplateId
-                  );
-                  return (
-                    <HookRail
-                      items={templateItems}
-                      color="#38bdf8"
-                      dashed={false}
-                      value={activeIndex >= 0 ? activeIndex : undefined}
-                      onChange={(index) => {
-                        const selected = templateItems[index];
-                        if (selected) {
-                          onSelectTemplate?.(selected.id);
                         }
                       }}
                     />
