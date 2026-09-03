@@ -466,10 +466,6 @@ export const OrbitGlobe: React.FC<OrbitGlobeProps> = ({
             if (ptA && ptB) {
               const dotSx = ptA.sx * (1 - subT) + ptB.sx * subT;
               const dotSy = ptA.sy * (1 - subT) + ptB.sy * subT;
-              const dotDepth = ptA.depth * (1 - subT) + ptB.depth * subT;
-
-              const normDepth = Math.max(0, Math.min(1, (dotDepth + radius) / (2 * radius)));
-              const alpha = 0.25 + 0.75 * normDepth;
 
               ctx.fillStyle = themeColors.photon;
               ctx.beginPath();
@@ -509,9 +505,6 @@ export const OrbitGlobe: React.FC<OrbitGlobeProps> = ({
 
           const sx = (rx * projScale) / eyeZ + width / 2;
           const sy = -(ry * projScale) / eyeZ + height / 2;
-
-          const normDepth = Math.max(0, Math.min(1, (rz + radius) / (2 * radius)));
-          const alpha = 0.2 + 0.8 * normDepth;
 
           if (rz > -radius * 0.2) {
             ctx.fillStyle = hub.isHQ ? themeColors.nodeActive : themeColors.node;

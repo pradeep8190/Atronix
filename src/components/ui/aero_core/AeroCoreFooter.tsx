@@ -1,5 +1,5 @@
-import React from "react";
-import "./AeroCoreFooter.css";
+import React from 'react';
+import './AeroCoreFooter.css';
 
 export interface PropDoc {
   name: string;
@@ -10,40 +10,64 @@ export interface PropDoc {
 
 const aeroCorePropsDoc: PropDoc[] = [
   {
-    name: "mode",
-    type: "'simulate' | 'mic'",
-    default: "'simulate'",
-    description: "Audio source: simulated voice cadence or real microphone stream via Web Audio API.",
+    name: 'color / theme',
+    type: "'purple' | 'amber' | 'blue' | 'black' | 'emerald' | 'white' | string",
+    default: "'purple'",
+    description: 'Color theme name or custom hex color tint for the fluid nebula cloud and caustic refraction.',
   },
   {
-    name: "label",
-    type: "string",
-    default: "'Aero Core'",
-    description: "Component title displayed on the control bar.",
-  },
-  {
-    name: "onVoiceActivity",
-    type: "(level: number) => void",
-    default: "undefined",
-    description: "Callback firing normalized live speech acoustic intensity [0.0 - 1.0].",
-  },
-  {
-    name: "color / theme",
-    type: "'black' | 'amber' | 'blue' | 'purple' | 'emerald' | 'white'",
-    default: "'black'",
-    description: "Refractive glass tint, fluid metal hue, and acoustic caustic radiance.",
-  },
-  {
-    name: "size",
+    name: 'size',
     type: "'sm' | 'md' | 'lg'",
     default: "'md'",
-    description: "Physical scale factor of the 260px resonance chamber.",
+    description: 'Proportional scale factor for the WebGL canvas and glass containment ring.',
   },
   {
-    name: "disabled",
-    type: "boolean",
-    default: "false",
-    description: "Whether voice reactions and pointer touch are disabled.",
+    name: 'sensitivity',
+    type: 'number',
+    default: '1.0',
+    description: 'Acoustic breathing response multiplier for simulated speech cadence.',
+  },
+  {
+    name: 'enableMouseStir',
+    type: 'boolean',
+    default: 'true',
+    description: 'Enables 3D cursor drag impulse stirring the internal smoke vortex.',
+  },
+  {
+    name: 'mouseIntensity',
+    type: 'number',
+    default: '1.0',
+    description: 'Velocity turbulence gain factor for cursor fluid displacement.',
+  },
+  {
+    name: 'enableClickShockwave',
+    type: 'boolean',
+    default: 'true',
+    description: 'Triggers procedural radial harmonic shockwave ring upon clicking the core.',
+  },
+  {
+    name: 'label',
+    type: 'string',
+    default: "'Aero Core'",
+    description: 'Status label displayed on the glass containment rim.',
+  },
+  {
+    name: 'onVoiceActivity',
+    type: '(level: number) => void',
+    default: 'undefined',
+    description: 'Callback invoked continuously with normalized 0-1 acoustic energy level for external audio synchronization.',
+  },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Suppresses acoustic breathing animation and interaction listeners.',
+  },
+  {
+    name: 'className',
+    type: 'string',
+    default: "''",
+    description: 'Additional CSS class names for custom layout overrides.',
   },
 ];
 
@@ -80,10 +104,10 @@ export const AeroCoreFooter: React.FC = () => {
         </table>
       </div>
 
-      <div className="liquid-physics-note">
-        <h4>Volumetric Acoustic Nebula & Swirling Smoke Cloud Dynamics</h4>
+      <div className="aero-physics-note">
+        <h4>Acoustic Fluid & Volumetric FBM Architecture</h4>
         <p>
-          Simulates an enclosed circular optical glass chamber containing an ethereal, luminous cloud of <strong>volumetric swirling smoke and celestial plasma gas</strong>. Governed by 5-octave rotational Fractional Brownian Motion (FBM) domain warping, the cloud billows, curls, and pulses with acoustic speech pressure. When audio frequencies enter the chamber (via live microphone or synthetic speech cadences), <strong>low frequencies drive massive radial smoke expansions</strong>, mid frequencies accelerate swirling vortex eddies, and cursor movement physically stirs the gaseous filaments at 120 FPS.
+          Simulates an organic fluid nebula inside an optical glass orb using custom <strong>WebGL Signed Distance Fields (SDFs)</strong> and <strong>5-octave rotational Fractional Brownian Motion (FBM)</strong> domain warping. Pointer dragging injects localized angular momentum (stirring vortex velocity), while acoustic breathing dynamics pulse the core with zero external 3D libraries at 120 FPS.
         </p>
       </div>
     </div>

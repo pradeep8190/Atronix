@@ -19,31 +19,72 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
 
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [direction, setDirection] = useState<'right' | 'left'>('right');
-  const [selectedColor] = useState<string>(item.defaultColor || 'black');
-  const [selectedSize] = useState<string>(item.defaultSize || 'md');
+  
+  const [customProps, setCustomProps] = useState<Record<string, any>>(() => {
+    return item.defaultProps || { theme: item.defaultColor || 'black', size: item.defaultSize || 'md' };
+  });
   
   const [isFavorite, setIsFavorite] = useState(false);
   const [shared, setShared] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const [loadedFiles, setLoadedFiles] = useState<Record<string, string>>({});
   const [codeString, setCodeString] = useState<string>('');
 
   useEffect(() => {
+    setCustomProps(item.defaultProps || { theme: item.defaultColor || 'black', size: item.defaultSize || 'md' });
+  }, [item.id]);
+
+  useEffect(() => {
     let isCurrent = true;
-    item.loadCode().then((raw) => {
-      if (isCurrent) {
-        setCodeString(raw);
-      }
-    }).catch(() => {
-      if (isCurrent) {
-        setCodeString('// Failed to load source code');
-      }
-    });
+    if (item.loadFiles) {
+      item.loadFiles().then((files) => {
+        if (isCurrent) {
+          setLoadedFiles(files);
+          const firstKey = Object.keys(files)[0];
+          setCodeString(files[firstKey] || '');
+        }
+      }).catch(() => {
+        if (isCurrent) {
+          item.loadCode().then((raw) => {
+            if (isCurrent) setCodeString(raw);
+          });
+        }
+      });
+    } else {
+      setLoadedFiles({});
+      item.loadCode().then((raw) => {
+        if (isCurrent) {
+          setCodeString(raw);
+        }
+      }).catch(() => {
+        if (isCurrent) {
+          setCodeString('// Failed to load source code');
+        }
+      });
+    }
 
     return () => {
       isCurrent = false;
     };
   }, [item.id]);
+
+  const handlePropChange = (key: string, value: any) => {
+    setCustomProps((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleResetProps = () => {
+    setCustomProps(item.defaultProps || { theme: item.defaultColor || 'black', size: item.defaultSize || 'md' });
+  };
+
+  const dynamicUsageCode = item.getUsageCode ? item.getUsageCode(customProps) : '';
+  const multiFiles: Record<string, string> = {
+    ...(dynamicUsageCode ? { 'Usage': dynamicUsageCode } : {}),
+    ...loadedFiles,
+  };
 
   const handleTabChange = (newTab: 'preview' | 'code') => {
     if (newTab === activeTab) return;
@@ -51,8 +92,8 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
     setActiveTab(newTab);
   };
 
-  const handleCopyCode = async () => {
-    let textToCopy = codeString;
+  const handleCopyCode = async (customCodeToCopy?: string) => {
+    let textToCopy = typeof customCodeToCopy === 'string' && customCodeToCopy ? customCodeToCopy : (dynamicUsageCode || codeString);
     if (!textToCopy) {
       try {
         textToCopy = await item.loadCode();
@@ -64,7 +105,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
     setCopied(true);
     notify({
       title: 'Code Copied',
-      description: `${item.name} component code copied to clipboard`,
+      description: `${item.name} code copied to clipboard`,
       type: 'copy',
     });
     setTimeout(() => setCopied(false), 1000);
@@ -218,7 +259,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
           {/* Copy Icon Button */}
           <button
             className={`action-icon-btn ${copied ? 'copied-active' : ''}`}
-            onClick={handleCopyCode}
+            onClick={() => handleCopyCode()}
             title={copied ? 'Copy component code' : 'Copy component code'}
           >
             {copied ? (
@@ -247,9 +288,10 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
           >
             <ComponentPreview
               component={item.component}
-              color={selectedColor}
-              size={selectedSize}
+              color={customProps.theme || customProps.color || item.defaultColor || 'black'}
+              size={customProps.size || item.defaultSize || 'md'}
               hint={item.hint}
+              customProps={customProps}
             />
           </motion.div>
         ) : (
@@ -262,6 +304,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
           >
             <ComponentCode
               code={codeString}
+              files={Object.keys(multiFiles).length > 0 ? multiFiles : undefined}
               copied={copied}
               onCopyCode={handleCopyCode}
               dependencies={item.dependencies}
@@ -272,7 +315,12 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
       </AnimatePresence>
 
       {/* Universal Component Showcase Footer & Component-Specific Props Guide */}
-      <ShowcaseFooter CustomFooter={item.footerComponent} />
+      <ShowcaseFooter
+        CustomFooter={activeTab === 'preview' ? item.footerComponent : undefined}
+        customProps={customProps}
+        onPropChange={handlePropChange}
+        onReset={handleResetProps}
+      />
     </main>
   );
 };

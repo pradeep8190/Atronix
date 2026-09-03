@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import "./AeroCore.css";
 
 export interface AeroCoreProps {
-  mode?: "simulate" | "mic";
   theme?: "black" | "amber" | "blue" | "purple" | "emerald" | "white";
   color?: string;
   size?: "sm" | "md" | "lg";
   label?: string;
+  sensitivity?: number;
+  enableMouseStir?: boolean;
+  mouseIntensity?: number;
+  enableClickShockwave?: boolean;
   onVoiceActivity?: (level: number) => void;
   disabled?: boolean;
   className?: string;
@@ -59,6 +62,34 @@ const themeConfigs = {
   },
 };
 
+function hexToRgb(hex: string): [number, number, number] {
+  let c = hex.replace('#', '');
+  if (c.length === 3) {
+    c = c.split('').map((x) => x + x).join('');
+  }
+  const num = parseInt(c, 16);
+  if (isNaN(num)) return [0.18, 0.20, 0.25];
+  return [((num >> 16) & 255) / 255, ((num >> 8) & 255) / 255, (num & 255) / 255];
+}
+
+function resolveThemeConfig(colorOrTheme?: string) {
+  if (!colorOrTheme) return themeConfigs.black;
+  if (themeConfigs[colorOrTheme as keyof typeof themeConfigs]) {
+    return themeConfigs[colorOrTheme as keyof typeof themeConfigs];
+  }
+  if (colorOrTheme.startsWith('#')) {
+    const [r, g, b] = hexToRgb(colorOrTheme);
+    return {
+      glassTint: [1.0, 1.0, 1.0],
+      fluidColor: [r, g, b],
+      causticColor: [Math.min(r * 1.3, 1.0), Math.min(g * 1.3, 1.0), Math.min(b * 1.3, 1.0)],
+      accentHex: colorOrTheme,
+      glowColor: `rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, 0.35)`,
+    };
+  }
+  return themeConfigs.black;
+}
+
 const sizeScales = {
   sm: 0.85,
   md: 1.0,
@@ -66,30 +97,38 @@ const sizeScales = {
 };
 
 export const AeroCore: React.FC<AeroCoreProps> = ({
-  mode: initialMode = "simulate",
-  theme = "black",
-  color,
+  theme = "purple",
+  color = "purple",
   size = "md",
-  label = "Aero Core",
+  label: _label = "Aero Core",
+  sensitivity = 1.0,
+  enableMouseStir = true,
+  mouseIntensity = 1.0,
+  enableClickShockwave = true,
   onVoiceActivity,
   disabled = false,
   className = "",
 }) => {
-  const effectiveTheme = (color as keyof typeof themeConfigs) || theme || "black";
-  const themeConfig = themeConfigs[effectiveTheme] || themeConfigs.black;
+  const effectiveColor = color || theme || "purple";
+  const themeConfig = resolveThemeConfig(effectiveColor);
   const scale = sizeScales[size] || 1.0;
-
-  const [activeMode, setActiveMode] = useState<"simulate" | "mic">(initialMode);
-  const [isMicListening, setIsMicListening] = useState(false);
-  const [micError, setMicError] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sensitivityRef = useRef(sensitivity);
+  sensitivityRef.current = sensitivity;
 
-  // Audio / Voice Frequency Analysis
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const themeConfigRef = useRef(themeConfig);
+  themeConfigRef.current = themeConfig;
+
+  const enableMouseStirRef = useRef(enableMouseStir);
+  enableMouseStirRef.current = enableMouseStir;
+
+  const mouseIntensityRef = useRef(mouseIntensity);
+  mouseIntensityRef.current = mouseIntensity;
+
+  const enableClickShockwaveRef = useRef(enableClickShockwave);
+  enableClickShockwaveRef.current = enableClickShockwave;
 
   // Acoustic Fluid Dynamic Parameters
   const bassSurgeRef = useRef(0);
@@ -124,53 +163,11 @@ export const AeroCore: React.FC<AeroCoreProps> = ({
     return { bass, mid, treble };
   }, []);
 
-  // Mic Activation / Teardown
-  const startMic = useCallback(async () => {
-    try {
-      setMicError(null);
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaStreamRef.current = stream;
-
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AudioCtx();
-      audioContextRef.current = ctx;
-
-      const source = ctx.createMediaStreamSource(stream);
-      const analyser = ctx.createAnalyser();
-      analyser.fftSize = 256;
-      analyser.smoothingTimeConstant = 0.8;
-      source.connect(analyser);
-      analyserRef.current = analyser;
-
-      setIsMicListening(true);
-      setActiveMode("mic");
-    } catch (err: any) {
-      console.warn("Microphone access failed:", err);
-      setMicError("Microphone access denied");
-      setActiveMode("simulate");
-      setIsMicListening(false);
-    }
-  }, []);
-
-  const stopMic = useCallback(() => {
-    if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
-      mediaStreamRef.current = null;
-    }
-    if (audioContextRef.current && audioContextRef.current.state !== "closed") {
-      audioContextRef.current.close();
-      audioContextRef.current = null;
-    }
-    analyserRef.current = null;
-    setIsMicListening(false);
-    setActiveMode("simulate");
-  }, []);
-
   const pointerPosRef = useRef<[number, number]>([-2, -2]);
 
   // Handle Touch / Glass Knock on the Orb
   const handlePointerDown = (e: React.PointerEvent) => {
-    if (!containerRef.current) return;
+    if (!enableClickShockwaveRef.current || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -179,7 +176,10 @@ export const AeroCore: React.FC<AeroCoreProps> = ({
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!containerRef.current) return;
+    if (!enableMouseStirRef.current || !containerRef.current) {
+      pointerPosRef.current = [-2, -2];
+      return;
+    }
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -443,45 +443,25 @@ export const AeroCore: React.FC<AeroCoreProps> = ({
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-    let freqData = new Uint8Array(128);
-
     // 120 FPS Acoustic Hydrostatic Orb Render Loop
     const render = (time: number) => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-      let targetBass = 0;
-      let targetMid = 0;
-      let targetTreble = 0;
-
-      // Extract Voice Frequencies (Live Mic vs Simulated Acoustic Generator)
-      if (activeMode === "mic" && analyserRef.current) {
-        analyserRef.current.getByteFrequencyData(freqData);
-
-        // Lows (20Hz - 250Hz)
-        let bassSum = 0;
-        for (let i = 0; i < 8; i++) bassSum += freqData[i];
-        targetBass = bassSum / (8 * 255);
-
-        // Mids (250Hz - 2kHz)
-        let midSum = 0;
-        for (let i = 8; i < 40; i++) midSum += freqData[i];
-        targetMid = midSum / (32 * 255);
-
-        // Highs (2kHz - 8kHz)
-        let trebleSum = 0;
-        for (let i = 40; i < 90; i++) trebleSum += freqData[i];
-        targetTreble = trebleSum / (50 * 255);
-      } else {
-        const sim = simulateAudioStep(time);
-        targetBass = sim.bass;
-        targetMid = sim.mid;
-        targetTreble = sim.treble;
-      }
+      // Extract Voice Frequencies (Smooth Continuous Respiratory Cadence)
+      const sim = simulateAudioStep(time);
+      const targetBass = sim.bass;
+      const targetMid = sim.mid;
+      const targetTreble = sim.treble;
 
       // Viscous, weighted physical damping (Smooth, luxurious uplift with ZERO bounce)
-      bassSurgeRef.current += (targetBass - bassSurgeRef.current) * 0.042;
-      midEnergyRef.current += (targetMid - midEnergyRef.current) * 0.055;
-      trebleRipplesRef.current += (targetTreble - trebleRipplesRef.current) * 0.08;
+      const sens = sensitivityRef.current ?? 1.0;
+      const scaledBass = Math.min(targetBass * sens, 1.2);
+      const scaledMid = Math.min(targetMid * sens, 1.2);
+      const scaledTreble = Math.min(targetTreble * sens, 1.2);
+
+      bassSurgeRef.current += (scaledBass - bassSurgeRef.current) * 0.042;
+      midEnergyRef.current += (scaledMid - midEnergyRef.current) * 0.055;
+      trebleRipplesRef.current += (scaledTreble - trebleRipplesRef.current) * 0.08;
 
       onVoiceActivity?.(bassSurgeRef.current);
 
@@ -523,27 +503,32 @@ export const AeroCore: React.FC<AeroCoreProps> = ({
       gl.uniform1f(uMidLoc, midEnergyRef.current);
       gl.uniform1f(uTrebleLoc, trebleRipplesRef.current);
       gl.uniform1f(uSloshLoc, sloshAngleRef.current);
-      gl.uniform2f(uMouseLoc, pointerPosRef.current[0], pointerPosRef.current[1]);
+      const mouseActive = enableMouseStirRef.current;
+      const mIntensity = mouseIntensityRef.current;
+      const mx = mouseActive ? pointerPosRef.current[0] * mIntensity : -2.0;
+      const my = mouseActive ? pointerPosRef.current[1] * mIntensity : -2.0;
+      gl.uniform2f(uMouseLoc, mx, my);
       gl.uniform2f(uImpulseLoc, canvasImpulseX, canvasImpulseY);
       gl.uniform1f(uImpulseTimeLoc, elapsedImpulseSec);
       gl.uniform1f(uDprLoc, dpr);
+      const curTheme = themeConfigRef.current;
       gl.uniform3f(
         uTintLoc,
-        themeConfig.glassTint[0],
-        themeConfig.glassTint[1],
-        themeConfig.glassTint[2]
+        curTheme.glassTint[0],
+        curTheme.glassTint[1],
+        curTheme.glassTint[2]
       );
       gl.uniform3f(
         uFluidColorLoc,
-        themeConfig.fluidColor[0],
-        themeConfig.fluidColor[1],
-        themeConfig.fluidColor[2]
+        curTheme.fluidColor[0],
+        curTheme.fluidColor[1],
+        curTheme.fluidColor[2]
       );
       gl.uniform3f(
         uCausticColorLoc,
-        themeConfig.causticColor[0],
-        themeConfig.causticColor[1],
-        themeConfig.causticColor[2]
+        curTheme.causticColor[0],
+        curTheme.causticColor[1],
+        curTheme.causticColor[2]
       );
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -558,24 +543,12 @@ export const AeroCore: React.FC<AeroCoreProps> = ({
         cancelAnimationFrame(animFrameRef.current);
       }
     };
-  }, [themeConfig, activeMode, simulateAudioStep, onVoiceActivity]);
-
-  // Teardown mic stream on unmount
-  useEffect(() => {
-    return () => {
-      if (mediaStreamRef.current) {
-        mediaStreamRef.current.getTracks().forEach((t) => t.stop());
-      }
-      if (audioContextRef.current && audioContextRef.current.state !== "closed") {
-        audioContextRef.current.close();
-      }
-    };
-  }, []);
+  }, [themeConfig, simulateAudioStep, onVoiceActivity]);
 
   return (
     <div
       ref={containerRef}
-      className={`aero-core-container theme-${effectiveTheme} ${disabled ? "is-disabled" : ""} ${className}`}
+      className={`aero-core-container theme-${effectiveColor.replace('#', '')} ${disabled ? "is-disabled" : ""} ${className}`}
       style={{ transform: `scale(${scale})` }}
     >
       {/* 300px Interactive Enclosed Glass Chamber */}

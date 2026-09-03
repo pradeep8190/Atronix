@@ -34,6 +34,12 @@ const orbitGlobePropsDoc: PropDoc[] = [
     description: 'Displays wireframe latitude circles and longitude meridians for futuristic Tron aesthetic.',
   },
   {
+    name: 'showHubs',
+    type: 'boolean',
+    default: 'false',
+    description: 'Renders prominent radar pulsing marker rings and text labels at designated geographic hub cities.',
+  },
+  {
     name: 'autoRotate',
     type: 'boolean',
     default: 'true',

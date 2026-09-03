@@ -57,8 +57,6 @@
     box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
-
 /* Upper Gloss Meniscus Specular Layer (Sits physically over the submerged content) */
 .apple-island-pill::before {
   content: "";

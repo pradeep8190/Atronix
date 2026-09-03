@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Aero Core Component Styles (Atronix Acoustic Hydrostatic Resonance Orb)
+   Aero Core Component Styles (Atronix Volumetric Acoustic Fluid Orb)
    ========================================================================== */
 
 .aero-core-container {
@@ -7,7 +7,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
   user-select: none;
   font-family: inherit;
   box-sizing: border-box;
@@ -34,7 +33,7 @@
   touch-action: none;
 }
 
-/* Underlying WebGL Hydrostatic Orb Canvas (with 20px buffer so waves never clip) */
+/* Underlying WebGL Hydrostatic Orb Canvas (with 20px bleed buffer so waves never clip) */
 .aero-core-canvas {
   position: absolute;
   left: -20px;
@@ -45,126 +44,4 @@
   z-index: 5;
   will-change: transform;
   transform: translate3d(0, 0, 0);
-}
-
-
-
-/* Control & Mode Selector Bar */
-.aero-core-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  width: 260px;
-}
-
-.aero-core-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 4px;
-}
-
-.aero-core-title {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.aero-status-indicator {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.7);
-  transition: all 0.25s ease;
-}
-
-.aero-status-indicator.is-live {
-  background: rgba(48, 209, 88, 0.15);
-  border-color: rgba(48, 209, 88, 0.35);
-  color: #30d158;
-  box-shadow: 0 0 12px rgba(48, 209, 88, 0.3);
-}
-
-/* Mode Buttons Pill (Simulate vs Live Mic) - Full Pill Shaped */
-.aero-core-mode-buttons {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 4px;
-  background: #080808;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.85);
-  gap: 4px;
-}
-
-.aero-mode-btn {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 34px;
-  border-radius: 9999px;
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.55);
-  font-family: 'Ubuntu Sans', sans-serif;
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.aero-mode-btn:hover {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.aero-mode-btn.active {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  font-weight: 600;
-  border-radius: 9999px;
-  box-shadow: 
-    0 4px 14px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.aero-mic-error {
-  font-size: 11.5px;
-  color: #ff6b6b;
-  letter-spacing: -0.01em;
-}
-
-/* ==========================================================================
-   Themes: Obsidian Chrome, Desert Titanium Amber, Sapphire, Amethyst, Emerald
-   ========================================================================== */
-
-/* Theme: Desert Titanium Gold */
-.aero-core-container.theme-amber .aero-core-title {
-  color: rgba(254, 243, 199, 0.95);
-}
-
-/* Theme: Sapphire Blue */
-.aero-core-container.theme-blue .aero-core-title {
-  color: rgba(219, 234, 254, 0.95);
-}
-
-/* Theme: Purple */
-.aero-core-container.theme-purple .aero-core-title {
-  color: rgba(243, 232, 255, 0.95);
-}
-
-/* Theme: Emerald */
-.aero-core-container.theme-emerald .aero-core-title {
-  color: rgba(209, 250, 229, 0.95);
 }

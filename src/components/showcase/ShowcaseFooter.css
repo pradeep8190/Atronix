@@ -1,8 +1,8 @@
 .showcase-footer {
-  margin-top: 56px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 24px;
   width: 100%;
 }
 

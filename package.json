@@ -11,6 +11,7 @@
     "build": "tsc -b && vite build",
     "registry:build": "node scripts/build-registry.js",
     "lint": "oxlint",
+    "audit": "node scripts/audit-quality.js",
     "preview": "vite preview"
   },
   "dependencies": {

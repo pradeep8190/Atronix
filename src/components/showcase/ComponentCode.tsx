@@ -4,10 +4,11 @@ import { useNotification } from '../../context/NotificationContext';
 import './ComponentCode.css';
 
 interface ComponentCodeProps {
-  code: string;
+  code?: string;
+  files?: Record<string, string>;
   filename?: string;
   copied: boolean;
-  onCopyCode: () => void;
+  onCopyCode: (codeToCopy?: string) => void;
   dependencies?: string[];
   cliCommand?: string;
 }
@@ -74,15 +75,41 @@ const parseDualToneLine = (line: string): React.ReactNode => {
 };
 
 export const ComponentCode: React.FC<ComponentCodeProps> = ({
-  code,
-  filename = 'components/ui/frost_vault/Folder.tsx',
+  code = '',
+  files,
+  filename = 'components/ui/aero_core/AeroCore.tsx',
   copied,
   onCopyCode,
   dependencies = ['motion'],
-  cliCommand = 'npx atronix add frost-vault',
+  cliCommand = 'npx atronix add aero-core',
 }) => {
   const { notify } = useNotification();
-  const lines = (code || '').split('\n');
+  const fileKeys = files ? Object.keys(files) : [];
+  const [activeFileName, setActiveFileName] = useState<string>(fileKeys[0] || filename);
+
+  useEffect(() => {
+    if (fileKeys.length > 0 && (!activeFileName || !files?.[activeFileName])) {
+      setActiveFileName(fileKeys[0]);
+    }
+  }, [files]);
+
+  const activeCode = files && files[activeFileName] !== undefined ? files[activeFileName] : code;
+  const lines = (activeCode || '').split('\n');
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const codeContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsExpanded(false);
+    if (codeContainerRef.current) {
+      codeContainerRef.current.scrollTop = 0;
+    }
+  }, [activeFileName]);
+
+  const PREVIEW_VISIBLE_LINES = 15;
+  const linesLeft = Math.max(0, lines.length - PREVIEW_VISIBLE_LINES);
+  const hasOverflow = lines.length > 20;
+
   const [installMode, setInstallMode] = useState<'cli' | 'manual'>('manual');
   const [installDirection, setInstallDirection] = useState<'right' | 'left'>('left');
   const [packageManager, setPackageManager] = useState<'npm' | 'pnpm' | 'yarn' | 'bun'>('npm');
@@ -321,13 +348,58 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
       </div>
 
       {/* Main Code Sandbox */}
-      <div className="code-sandbox" data-lenis-prevent>
+      <div className="code-sandbox">
         <div className="code-header">
-          <span className="code-filename">{filename}</span>
+          {fileKeys.length > 1 ? (
+            <div className="code-file-tabs">
+              {fileKeys.map((name) => {
+                const isActive = activeFileName === name;
+                return (
+                  <button
+                    key={name}
+                    className={`code-file-tab ${isActive ? 'active' : ''}`}
+                    onClick={() => setActiveFileName(name)}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-code-file-pill"
+                        className="active-glass-pill"
+                        transition={{ type: 'spring', stiffness: 420, damping: 28 }}
+                      />
+                    )}
+                    <span className="file-tab-icon">
+                      {name === 'Usage' ? (
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                      ) : name.endsWith('.css') ? (
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+                          <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+                          <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+                          <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+                          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C21.938 6.5 17.5 2 12 2z" />
+                        </svg>
+                      ) : (
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="16 18 22 12 16 6" />
+                          <polyline points="8 6 2 12 8 18" />
+                        </svg>
+                      )}
+                    </span>
+                    <span className="file-tab-label">{name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <span className="code-filename">{activeFileName || filename}</span>
+          )}
+
           <button
             className={`action-icon-btn ${copied ? 'copied-active' : ''}`}
-            onClick={onCopyCode}
-            title={copied ? 'Code Copied!' : 'Copy Code'}
+            onClick={() => onCopyCode(activeCode)}
+            title={`Copy ${activeFileName}`}
           >
             {copied ? (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5">
@@ -342,8 +414,12 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
           </button>
         </div>
 
-        <div className="code-container" data-lenis-prevent>
-          {!code ? (
+        <div
+          ref={codeContainerRef}
+          className={`code-container ${isExpanded ? 'is-expanded' : 'is-collapsed'}`}
+          {...(isExpanded ? { 'data-lenis-prevent': 'true' } : {})}
+        >
+          {!activeCode ? (
             <div style={{ padding: '36px 28px', color: 'rgba(255, 255, 255, 0.4)', fontSize: '13px', fontFamily: 'monospace' }}>
               Loading source code chunk...
             </div>
@@ -351,7 +427,7 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
             <>
               {/* Line Numbers Column */}
               <div className="line-numbers">
-                {lines.map((_, i) => (
+                {lines.map((_: string, i: number) => (
                   <div key={i} className="line-number">
                     {i + 1}
                   </div>
@@ -360,7 +436,7 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
 
               {/* Code Content Area (Two-Color Light Red & White) */}
               <div className="code-content">
-                {lines.map((line, i) => (
+                {lines.map((line: string, i: number) => (
                   <div key={i} className="code-line">
                     {parseDualToneLine(line)}
                   </div>
@@ -369,6 +445,42 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
             </>
           )}
         </div>
+
+        {/* Show All Overlay when collapsed */}
+        {!isExpanded && hasOverflow && (
+          <div className="code-expand-overlay">
+            <button
+              type="button"
+              className="code-expand-btn"
+              onClick={() => setIsExpanded(true)}
+            >
+              <span>Show all</span>
+              <span className="code-expand-badge">({linesLeft} lines left)</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Collapse Button bar when expanded */}
+        {isExpanded && hasOverflow && (
+          <div className="code-collapse-bar">
+            <button
+              type="button"
+              className="code-collapse-btn"
+              onClick={() => {
+                setIsExpanded(false);
+                codeContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              <span>Collapse ({lines.length} lines)</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="m18 15-6-6-6 6" />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

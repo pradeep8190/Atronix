@@ -1,199 +1,30 @@
-import React from 'react';
+import type { ComponentItem } from './registry/types';
+import { frostVault } from './registry/frostVault';
+import { liquidMitosis } from './registry/liquidMitosis';
+import { cascadeSelect } from './registry/cascadeSelect';
+import { mercurySlider } from './registry/mercurySlider';
+import { phaseToggle } from './registry/phaseToggle';
+import { hydroButton } from './registry/hydroButton';
+import { aeroCore } from './registry/aeroCore';
+import { ferroDrop } from './registry/ferroDrop';
+import { pendantLamp } from './registry/pendantLamp';
+import { orbitGlobe } from './registry/orbitGlobe';
+import { speedRays } from './registry/speedRays';
 
-export interface ComponentItem {
-  id: string;
-  name: string;
-  category: string;
-  description: string;
-  component: React.LazyExoticComponent<React.ComponentType<any>>;
-  footerComponent?: React.LazyExoticComponent<React.ComponentType<any>>;
-  loadCode: () => Promise<string>;
-  colorOptions?: string[];
-  sizeOptions?: string[];
-  defaultColor?: string;
-  defaultSize?: string;
-  dependencies?: string[];
-  cliCommand?: string;
-  hint?: string;
-}
+export * from './registry/types';
 
 export const componentsRegistry: Record<string, ComponentItem> = {
-  'frost-vault': {
-    id: 'frost-vault',
-    name: 'Frost Vault',
-    category: 'Components',
-    description: 'An interactive 3D glass folder component featuring animated card reveals, customizable color themes, spring dynamics, and responsive scale options.',
-    component: React.lazy(() => import('../components/ui/frost_vault/Folder')),
-    footerComponent: React.lazy(() => import('../components/ui/frost_vault/FolderFooter')),
-    loadCode: () => import('../components/ui/frost_vault/Folder.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'white', 'blue'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add frost-vault',
-    hint: 'Hover & click on the folder vault to open/close cards!',
-  },
-  'liquid-mitosis': {
-    id: 'liquid-mitosis',
-    name: 'Liquid Mitosis',
-    category: 'Components',
-    description: 'GPU-accelerated WebGL Signed Distance Field (SDF) fluid mitosis button. Features Inigo Quilez C1-smooth metaball fusion, Rayleigh-Plateau capillary pinch-off physics, and Atronix signature optical liquid glass caustics.',
-    component: React.lazy(() => import('../components/ui/liquid_mitosis/LiquidMitosis')),
-    footerComponent: React.lazy(() => import('../components/ui/liquid_mitosis/LiquidMitosisFooter')),
-    loadCode: () => import('../components/ui/liquid_mitosis/LiquidMitosis.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add liquid-mitosis',
-    hint: 'Hover over the capsule to trigger GPU fluid mitosis and capillary separation!',
-  },
-  'cascade-select': {
-    id: 'cascade-select',
-    name: 'Cascade Select',
-    category: 'Components',
-    description: 'GPU-accelerated WebGL fluid cascade dropdown. Features gravity-driven meniscus stretching, Inigo Quilez smooth minimum fusion, damped harmonic recoil kinematics, and frosted liquid glass optics.',
-    component: React.lazy(() => import('../components/ui/cascade_select/CascadeSelect')),
-    footerComponent: React.lazy(() => import('../components/ui/cascade_select/CascadeSelectFooter')),
-    loadCode: () => import('../components/ui/cascade_select/CascadeSelect.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add cascade-select',
-    hint: 'Click the trigger button to release the WebGL liquid cascade!',
-  },
-  'mercury-slider': {
-    id: 'mercury-slider',
-    name: 'Mercury Slider',
-    category: 'Components',
-    description: 'Hydrodynamic liquid mercury bead slider in an optical frosted glass channel. Features Poisson volume-preserving stretch, viscous surface drag, and rubberized elastic overdrag recoil.',
-    component: React.lazy(() => import('../components/ui/mercury_slider/MercurySlider')),
-    footerComponent: React.lazy(() => import('../components/ui/mercury_slider/MercurySliderFooter')),
-    loadCode: () => import('../components/ui/mercury_slider/MercurySlider.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add mercury-slider',
-    hint: 'Drag the liquid mercury bead along the frosted glass channel!',
-  },
-  'phase-toggle': {
-    id: 'phase-toggle',
-    name: 'Phase Toggle',
-    category: 'Components',
-    description: 'Cross-browser liquid goo toggle with tap and drag physics. Features dual-stage SVG knockout filtering, velocity-stretched bubble elongation, and linear spring recoil.',
-    component: React.lazy(() => import('../components/ui/phase_toggle/PhaseToggle')),
-    footerComponent: React.lazy(() => import('../components/ui/phase_toggle/PhaseToggleFooter')),
-    loadCode: () => import('../components/ui/phase_toggle/PhaseToggle.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'white', 'emerald', 'blue', 'purple', 'amber'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add phase-toggle',
-    hint: 'Tap to toggle or click and drag the liquid droplet across the track!',
-  },
-  'hydro-button': {
-    id: 'hydro-button',
-    name: 'Hydro Button',
-    category: 'Components',
-    description: 'Incompressible hydrostatic water bag button. Features localized stone-drop indentation craters, volume-preserving outer border pressure bulges, and hydrodynamic capillary wave reflection.',
-    component: React.lazy(() => import('../components/ui/hydro_button/HydroButton')),
-    footerComponent: React.lazy(() => import('../components/ui/hydro_button/HydroButtonFooter')),
-    loadCode: () => import('../components/ui/hydro_button/HydroButton.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add hydro-button',
-    hint: 'Click anywhere on the capsule to drop a stone and watch the water displace!',
-  },
-  'aero-core': {
-    id: 'aero-core',
-    name: 'Aero Core',
-    category: 'Components',
-    description: 'Voice-reactive volumetric smoke and celestial nebula orb. Features 5-octave rotational FBM domain warping, acoustic speech billowing, radiant luminous core pulses, and interactive pointer smoke stirring.',
-    component: React.lazy(() => import('../components/ui/aero_core/AeroCore')),
-    footerComponent: React.lazy(() => import('../components/ui/aero_core/AeroCoreFooter')),
-    loadCode: () => import('../components/ui/aero_core/AeroCore.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add aero-core',
-    hint: 'Move cursor to stir the smoke wisps, or speak to watch the luminous cloud billow and pulse!',
-  },
-  'ferro-drop': {
-    id: 'ferro-drop',
-    name: 'Ferro Drop',
-    category: 'Components',
-    description: 'Magnetic AI prompt bar with ferrofluid boundary pull. Features real-time border magnetic attraction toward dragged files, Venom-like harmonic assimilation shockwaves, and procedural Web Audio haptic latching.',
-    component: React.lazy(() => import('../components/ui/ferro_drop/FerroDrop')),
-    footerComponent: React.lazy(() => import('../components/ui/ferro_drop/FerroDropFooter')),
-    loadCode: () => import('../components/ui/ferro_drop/FerroDrop.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'blue', 'amber', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add ferro-drop',
-    hint: 'Drag any local file or the sample chip over the bar to see the magnetic border pull, then release to assimilate!',
-  },
-  'pendant-lamp': {
-    id: 'pendant-lamp',
-    name: 'Pendant Lamp',
-    category: 'Components',
-    description: 'Industrial suspended pendant lamp with physical inverse-square cone beam lighting, specular dome fixture, cast shadow floor physics, and illuminated typographic reveal.',
-    component: React.lazy(() => import('../components/ui/pendant_lamp/PendantLamp')),
-    footerComponent: React.lazy(() => import('../components/ui/pendant_lamp/PendantLampFooter')),
-    loadCode: () => import('../components/ui/pendant_lamp/PendantLamp.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: ['motion'],
-    cliCommand: 'npx atronix add pendant-lamp',
-    hint: 'Click the lamp fixture or pull the bead string to toggle the volumetric light beam!',
-  },
-  'orbit-globe': {
-    id: 'orbit-globe',
-    name: 'Orbit Globe',
-    category: 'Components',
-    description: '3D interactive wireframe orbital globe featuring Natural Earth vector coastlines, latitude/longitude meridians, great-circle flight arcs, pulsing travelling photons, and momentum drag physics.',
-    component: React.lazy(() => import('../components/ui/orbit_globe/OrbitGlobe')),
-    footerComponent: React.lazy(() => import('../components/ui/orbit_globe/OrbitGlobeFooter')),
-    loadCode: () => import('../components/ui/orbit_globe/OrbitGlobe.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'red', 'amber', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: [],
-    cliCommand: 'npx atronix add orbit-globe',
-    hint: 'Click and drag in any direction to spin the 3D globe with natural planetary momentum!',
-  },
-  'speed-rays': {
-    id: 'speed-rays',
-    name: 'Speed Rays',
-    category: 'Components',
-    description: 'GPU-accelerated relativistic velocity field. Features high-velocity tapered photon laser streaks, hardware compositor transforms, pre-warmed negative phase offsets, and optical vignette framing.',
-    component: React.lazy(() => import('../components/ui/speed_rays/SpeedRays')),
-    footerComponent: React.lazy(() => import('../components/ui/speed_rays/SpeedRaysFooter')),
-    loadCode: () => import('../components/ui/speed_rays/SpeedRays.tsx?raw').then((m) => m.default),
-    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
-    sizeOptions: ['sm', 'md', 'lg'],
-    defaultColor: 'black',
-    defaultSize: 'md',
-    dependencies: [],
-    cliCommand: 'npx atronix add speed-rays',
-    hint: 'Watch the 120 FPS relativistic laser streaks stream across the physical canvas in real time!',
-  },
+  'frost-vault': frostVault,
+  'liquid-mitosis': liquidMitosis,
+  'cascade-select': cascadeSelect,
+  'mercury-slider': mercurySlider,
+  'phase-toggle': phaseToggle,
+  'hydro-button': hydroButton,
+  'aero-core': aeroCore,
+  'ferro-drop': ferroDrop,
+  'pendant-lamp': pendantLamp,
+  'orbit-globe': orbitGlobe,
+  'speed-rays': speedRays,
 };
 
 export default componentsRegistry;

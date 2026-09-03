@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
 import { NotificationProvider } from './context/NotificationContext';
-import { AppleIslandNotification } from './components/ui/apple_island/AppleIslandNotification';
+import { AppleIslandNotification } from './components/notification/AppleIslandNotification';
 import componentsRegistry from './data/componentsRegistry';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
@@ -78,10 +78,8 @@ function App() {
       prevent: (node) => {
         return (
           node instanceof HTMLElement &&
-          (Boolean(node.closest('[data-lenis-prevent]')) ||
-            Boolean(node.closest('.sidebar-container')) ||
-            Boolean(node.closest('.code-container')) ||
-            Boolean(node.closest('.code-sandbox')))
+          (Boolean(node.closest('.sidebar-container')) ||
+            Boolean(node.closest('.code-container.is-expanded')))
         );
       },
     });
@@ -110,8 +108,9 @@ function App() {
     }
   }, [currentPage, selectedComponentId]);
 
-  const handleSelectComponent = useCallback((componentId: string) => {
-    const normalizedId = componentId.toLowerCase().replace(/_/g, '-');
+  const handleSelectComponent = useCallback((componentId?: string) => {
+    const rawId = componentId || 'frost-vault';
+    const normalizedId = rawId.toLowerCase().replace(/_/g, '-');
     const validId = componentsRegistry[normalizedId] ? normalizedId : 'frost-vault';
     const targetPath = `/components/${validId}`;
 

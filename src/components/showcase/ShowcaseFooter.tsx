@@ -3,15 +3,27 @@ import './ShowcaseFooter.css';
 
 interface ShowcaseFooterProps {
   CustomFooter?: React.ComponentType<any>;
+  customProps?: Record<string, any>;
+  onPropChange?: (key: string, value: any) => void;
+  onReset?: () => void;
 }
 
-export const ShowcaseFooter: React.FC<ShowcaseFooterProps> = ({ CustomFooter }) => {
+export const ShowcaseFooter: React.FC<ShowcaseFooterProps> = ({
+  CustomFooter,
+  customProps,
+  onPropChange,
+  onReset,
+}) => {
   return (
     <footer className="showcase-footer">
-      {/* Component-Specific Custom Footer (e.g., FolderFooter for Frost Vault) */}
+      {/* Component-Specific Custom Footer */}
       {CustomFooter && (
         <Suspense fallback={null}>
-          <CustomFooter />
+          <CustomFooter
+            customProps={customProps}
+            onPropChange={onPropChange}
+            onReset={onReset}
+          />
         </Suspense>
       )}
 

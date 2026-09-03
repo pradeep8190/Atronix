@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useNotification } from '../../../context/NotificationContext';
+import { useNotification } from '../../context/NotificationContext';
 import './AppleIslandNotification.css';
 
 export const AppleIslandNotification: React.FC = () => {

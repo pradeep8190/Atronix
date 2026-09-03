@@ -23,7 +23,6 @@ export interface CascadeSelectProps {
   color?: string;
   size?: "sm" | "md" | "lg";
   icon?: React.ReactNode;
-  label?: string;
   disabled?: boolean;
   className?: string;
 }

@@ -147,8 +147,6 @@ export const FerroDrop: React.FC<FerroDropProps> = ({
     active: false,
   });
   const pullStrengthRef = useRef(0);
-  const currentPullXRef = useRef(0);
-  const currentPullYRef = useRef(0);
 
   // Venom Shockwave State
   const shockwaveTimeRef = useRef(0);
@@ -244,17 +242,6 @@ export const FerroDrop: React.FC<FerroDropProps> = ({
     }
   };
 
-  const handleSampleDragStart = (e: React.DragEvent) => {
-    getAudioContext();
-    const samplePayload = {
-      name: "vision_reference.png",
-      size: "2.4 MB",
-      previewUrl:
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%231e1b4b'/><circle cx='50' cy='50' r='28' fill='%236366f1'/><path d='M30 65 Q 50 35 70 65' stroke='%2338bdf8' stroke-width='4' fill='none'/></svg>",
-    };
-    e.dataTransfer.setData("application/json", JSON.stringify(samplePayload));
-    e.dataTransfer.effectAllowed = "copy";
-  };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

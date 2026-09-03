@@ -2,10 +2,11 @@ import React, { Suspense } from 'react';
 import './ComponentPreview.css';
 
 interface ComponentPreviewProps {
-  component: React.ComponentType<{ color?: string; size?: string }>;
+  component: React.ComponentType<any>;
   color?: string;
   size?: string;
   hint?: string;
+  customProps?: Record<string, any>;
 }
 
 export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
@@ -13,6 +14,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   color,
   size,
   hint,
+  customProps = {},
 }) => {
   return (
     <div className="preview-sandbox">
@@ -24,7 +26,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
           </div>
         }
       >
-        <ComponentToRender color={color} size={size} />
+        <ComponentToRender color={color} size={size} {...customProps} />
       </Suspense>
       <div className="preview-hint">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

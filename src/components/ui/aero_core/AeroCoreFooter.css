@@ -78,7 +78,7 @@
 }
 
 /* Physics Architecture Callout Box */
-.aero-core-props-section .liquid-physics-note {
+.aero-physics-note {
   margin-top: 24px;
   padding: 22px 26px;
   background: #000000;
@@ -87,7 +87,7 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
-.aero-core-props-section .liquid-physics-note h4 {
+.aero-physics-note h4 {
   font-size: 14.5px;
   font-weight: 600;
   color: #ffffff;
@@ -96,7 +96,7 @@
   font-family: 'Ubuntu Sans', sans-serif;
 }
 
-.aero-core-props-section .liquid-physics-note p {
+.aero-physics-note p {
   font-size: 13.5px;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.6);
@@ -104,7 +104,7 @@
   font-family: 'Ubuntu Sans', sans-serif;
 }
 
-.aero-core-props-section .liquid-physics-note strong {
+.aero-physics-note strong {
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
 }

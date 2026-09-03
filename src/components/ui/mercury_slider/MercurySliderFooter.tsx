@@ -82,6 +82,12 @@ const mercurySliderPropsDoc: PropDoc[] = [
     description: "Physical scale factor of the slider container and GPU canvas.",
   },
   {
+    name: "icon",
+    type: "React.ReactNode",
+    default: "undefined",
+    description: "Custom SVG leading icon displayed beside the slider title.",
+  },
+  {
     name: "disabled",
     type: "boolean",
     default: "false",

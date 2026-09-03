@@ -73,6 +73,12 @@ const componentMeta = {
     description: 'Hydrodynamic liquid mercury bead slider with Poisson volume stretch physics.',
     dependencies: ['motion'],
   },
+  speed_rays: {
+    id: 'speed-rays',
+    name: 'Speed Rays',
+    description: 'GPU-accelerated relativistic velocity field with tapered photon laser streaks.',
+    dependencies: [],
+  },
 };
 
 const registryIndex = [];

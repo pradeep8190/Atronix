@@ -192,6 +192,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8);
+  position: relative;
 }
 
 .code-header {
@@ -220,11 +221,109 @@
   font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace;
   font-size: 13.5px;
   line-height: 1.7;
-  max-height: 560px;
-  overflow-y: auto;
   overflow-x: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.code-container.is-collapsed {
+  max-height: 380px;
+  overflow-y: hidden;
+  overscroll-behavior: auto;
+}
+
+.code-container.is-expanded {
+  max-height: 750px;
+  overflow-y: auto;
+}
+
+/* Show All Overlay Fade & Pill Button */
+.code-expand-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 135px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 35%,
+    rgba(0, 0, 0, 0.95) 80%,
+    #000000 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 18px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.code-expand-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: transparent;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Ubuntu Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.code-expand-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.code-expand-badge {
+  font-size: 13px;
+  font-family: inherit;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.code-collapse-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  background: #000000;
+  border-top: none;
+}
+
+.code-collapse-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: transparent;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.code-collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
 }
 
 .code-container::-webkit-scrollbar {
@@ -285,3 +384,53 @@
 .code-white {
   color: #ffffff;
 }
+
+/* Multi-File Tab Switcher in Code Header */
+.code-file-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-file-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12.5px;
+  font-family: 'Ubuntu Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  user-select: none;
+}
+
+.code-file-tab:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.code-file-tab.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.code-file-tab .file-tab-icon {
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+}
+
+.code-file-tab .file-tab-label {
+  position: relative;
+  z-index: 2;
+}
+
