@@ -146,6 +146,22 @@ export const componentsRegistry: Record<string, ComponentItem> = {
     cliCommand: 'npx atronix add ferro-drop',
     hint: 'Drag any local file or the sample chip over the bar to see the magnetic border pull, then release to assimilate!',
   },
+  'pendant-lamp': {
+    id: 'pendant-lamp',
+    name: 'Pendant Lamp',
+    category: 'Components',
+    description: 'Industrial suspended pendant lamp with physical inverse-square cone beam lighting, specular dome fixture, cast shadow floor physics, and illuminated typographic reveal.',
+    component: React.lazy(() => import('../components/ui/pendant_lamp/PendantLamp')),
+    footerComponent: React.lazy(() => import('../components/ui/pendant_lamp/PendantLampFooter')),
+    loadCode: () => import('../components/ui/pendant_lamp/PendantLamp.tsx?raw').then((m) => m.default),
+    colorOptions: ['black', 'amber', 'blue', 'purple', 'emerald'],
+    sizeOptions: ['sm', 'md', 'lg'],
+    defaultColor: 'black',
+    defaultSize: 'md',
+    dependencies: ['motion'],
+    cliCommand: 'npx atronix add pendant-lamp',
+    hint: 'Click the lamp fixture or pull the bead string to toggle the volumetric light beam!',
+  },
 };
 
 export default componentsRegistry;

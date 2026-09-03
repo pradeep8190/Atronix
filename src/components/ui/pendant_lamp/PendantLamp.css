@@ -1,0 +1,449 @@
+.pendant-lamp-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 440px;
+  display: flex;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  /* Cancels preview-sandbox padding-top (50px) so the cord touches the card's upper border */
+  margin-top: -50px;
+  padding: 0 0 20px 0;
+  overflow: visible;
+  user-select: none;
+  perspective: 1000px;
+  box-sizing: border-box;
+}
+
+/* Alignment Variants */
+.pendant-lamp-wrapper.align-left {
+  justify-content: flex-start;
+  padding-left: 36px;
+}
+
+.pendant-lamp-wrapper.align-center {
+  justify-content: center;
+  padding-left: 0;
+}
+
+.pendant-lamp-wrapper.align-right {
+  justify-content: flex-end;
+  padding-right: 36px;
+}
+
+/* Size Variants */
+.pendant-lamp-wrapper.size-sm .lamp-assembly {
+  transform: scale(0.8);
+  transform-origin: top center;
+}
+
+.pendant-lamp-wrapper.size-md .lamp-assembly {
+  transform: scale(1);
+  transform-origin: top center;
+}
+
+.pendant-lamp-wrapper.size-lg .lamp-assembly {
+  transform: scale(1.15);
+  transform-origin: top center;
+}
+
+/* ==========================================================================
+   Compact Unified Lamp Assembly
+   ========================================================================== */
+.lamp-assembly {
+  position: relative;
+  width: 360px;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: visible;
+}
+
+/* 
+   Rigid Physical Pendulum Arm
+   Anchored directly at ceiling point (50% 0px).
+   Cord, Dome Fixture, Bulb, and Volumetric Light Cone all rotate as ONE single body.
+*/
+.lamp-pendulum-assembly {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transform-origin: 50% 0px;
+  overflow: visible;
+}
+
+/* 1. Hanging Wire Cord (Touches the preview card's upper border directly) */
+.lamp-cord-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  cursor: grab;
+  margin-top: 0;
+}
+
+.lamp-cord-container:active {
+  cursor: grabbing;
+}
+
+.lamp-cord {
+  width: 1.5px;
+  height: 55px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.5) 40%,
+    rgba(255, 255, 255, 0.18) 100%
+  );
+  margin: 0 auto;
+  transform-origin: top center;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 2. Precision Industrial Dome Fixture */
+.lamp-fixture {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 126px;
+  margin: 0 auto;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.lamp-top-nut {
+  width: 8px;
+  height: 4px;
+  background: #27272a;
+  border-radius: 2px 2px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.lamp-dome-shade {
+  position: relative;
+  width: 120px;
+  height: 60px;
+  background: radial-gradient(
+    ellipse at 50% 15%,
+    #2c2d31 0%,
+    #141417 60%,
+    #050508 100%
+  );
+  border-radius: 120px 120px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: none;
+  box-shadow:
+    0 -6px 20px rgba(255, 255, 255, 0.03),
+    inset 0 2px 4px rgba(255, 255, 255, 0.22);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Bottom Rim Lip (126px wide -> matches light cone top exactly) */
+.lamp-rim-lip {
+  width: 126px;
+  height: 5px;
+  background: #18181b;
+  border-radius: 2.5px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.95);
+  transition: border-top-color 0.4s ease;
+}
+
+/* Subtle Power Indicator LED on Lip */
+.lamp-power-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.lamp-power-indicator.active {
+  background: #ffffff;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* 3. Mathematically Aligned Volumetric Light Cone
+   Width: 360px. Left: 0; Right: 0; Margin: 0 auto;
+   Polygon: 32.5% (117px) to 67.5% (243px) = exactly 126px wide at top,
+   matching the 126px rim lip of the fixture down to the pixel!
+*/
+.lamp-light-beam {
+  position: absolute;
+  top: 122px; /* 55px cord + 69px fixture - 2px tuck behind rim */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 360px;
+  height: 300px;
+  background: linear-gradient(
+    180deg,
+    var(--lamp-beam-top, rgba(255, 255, 255, 0.90)) 0%,
+    var(--lamp-beam-high, rgba(255, 255, 255, 0.55)) 18%,
+    var(--lamp-beam-mid, rgba(255, 255, 255, 0.18)) 50%,
+    var(--lamp-beam-low, rgba(255, 255, 255, 0.03)) 82%,
+    transparent 100%
+  );
+  clip-path: polygon(32.5% 0%, 67.5% 0%, 100% 100%, 0% 100%);
+  filter: blur(16px);
+  pointer-events: none;
+  z-index: 5;
+  transform-origin: 50% 0%;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Diffuse Ambient Light Halo Bloom */
+.lamp-beam-bloom {
+  position: absolute;
+  top: 122px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 290px;
+  height: 290px;
+  background: radial-gradient(
+    circle at 50% 25%,
+    var(--lamp-bloom-core, rgba(255, 255, 255, 0.5)) 0%,
+    var(--lamp-bloom-mid, rgba(255, 255, 255, 0.16)) 45%,
+    var(--lamp-bloom-edge, rgba(255, 255, 255, 0.02)) 75%,
+    transparent 100%
+  );
+  filter: blur(34px);
+  pointer-events: none;
+  z-index: 4;
+  transform-origin: 50% 25%;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 4. Ground Pool Reflection Physics (Stationary ground surface) */
+.lamp-floor-reflection {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 250px;
+  height: 32px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--lamp-floor-core, rgba(255, 255, 255, 0.18)) 0%,
+    var(--lamp-floor-mid, rgba(255, 255, 255, 0.06)) 45%,
+    transparent 75%
+  );
+  border-radius: 50%;
+  filter: blur(12px);
+  pointer-events: none;
+  z-index: 3;
+  transform-origin: 50% 50%;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 5. Physical Cast Shadow underneath the Number (Opposite light vector) */
+.lamp-cast-shadow {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 110px;
+  height: 14px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    transparent 80%
+  );
+  border-radius: 50%;
+  filter: blur(5px);
+  pointer-events: none;
+  z-index: 5;
+  transform-origin: 50% 50%;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 6. Illuminated Giant Typography crossing light boundary */
+.lamp-illuminated-content {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 6;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+
+.lamp-one-text {
+  font-family: 'Ubuntu Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 56px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding-left: 2px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: center;
+  user-select: none;
+  margin-bottom: 12px;
+  background: linear-gradient(
+    180deg,
+    var(--lamp-text-top, #ffffff) 0%,
+    var(--lamp-text-high, #ffffff) 30%,
+    var(--lamp-text-mid, rgba(255, 255, 255, 0.85)) 50%,
+    var(--lamp-text-low, rgba(255, 255, 255, 0.45)) 68%,
+    var(--lamp-text-fade, rgba(255, 255, 255, 0.15)) 82%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 16px var(--lamp-text-glow, rgba(255, 255, 255, 0.5)))
+    drop-shadow(0 8px 22px rgba(0, 0, 0, 0.7));
+}
+
+/* Sub-label under the illuminated text */
+.lamp-sublabel {
+  margin-top: -8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Ubuntu Sans', system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--lamp-sublabel-color, rgba(255, 255, 255, 0.45));
+}
+
+/* Pull-String Switch */
+.lamp-pull-string {
+  position: absolute;
+  top: 65px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 12;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lamp-pull-string:hover {
+  transform: translateY(2px);
+}
+
+.lamp-pull-string:active {
+  transform: translateY(5px);
+}
+
+.pull-string-wire {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.pull-string-bead {
+  width: 5px;
+  height: 8px;
+  border-radius: 2.5px;
+  background: radial-gradient(ellipse at 40% 30%, #e4e4e7 0%, #71717a 70%, #27272a 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   Atronix Luxury Colorway Palettes
+   ========================================================================== */
+
+/* Black / Monochromatic Silver (Default) */
+.pendant-lamp-wrapper.theme-black {
+  --lamp-beam-top: rgba(255, 255, 255, 0.92);
+  --lamp-beam-high: rgba(255, 255, 255, 0.58);
+  --lamp-beam-mid: rgba(255, 255, 255, 0.18);
+  --lamp-beam-low: rgba(255, 255, 255, 0.03);
+  --lamp-bloom-core: rgba(255, 255, 255, 0.5);
+  --lamp-bloom-mid: rgba(255, 255, 255, 0.16);
+  --lamp-bloom-edge: rgba(255, 255, 255, 0.02);
+  --lamp-floor-core: rgba(255, 255, 255, 0.18);
+  --lamp-floor-mid: rgba(255, 255, 255, 0.06);
+  --lamp-text-glow: rgba(255, 255, 255, 0.45);
+  --lamp-sublabel-color: rgba(255, 255, 255, 0.42);
+}
+
+/* Amber / 24k Champagne Gold */
+.pendant-lamp-wrapper.theme-amber {
+  --lamp-beam-top: rgba(251, 191, 36, 0.95);
+  --lamp-beam-high: rgba(245, 158, 11, 0.58);
+  --lamp-beam-mid: rgba(217, 119, 6, 0.22);
+  --lamp-beam-low: rgba(180, 83, 9, 0.04);
+  --lamp-bloom-core: rgba(251, 191, 36, 0.52);
+  --lamp-bloom-mid: rgba(245, 158, 11, 0.18);
+  --lamp-bloom-edge: rgba(217, 119, 6, 0.03);
+  --lamp-floor-core: rgba(251, 191, 36, 0.26);
+  --lamp-floor-mid: rgba(217, 119, 6, 0.08);
+  --lamp-text-glow: rgba(251, 191, 36, 0.55);
+  --lamp-sublabel-color: rgba(251, 191, 36, 0.55);
+}
+
+/* Blue / Cryo Sapphire Azure */
+.pendant-lamp-wrapper.theme-blue {
+  --lamp-beam-top: rgba(56, 189, 248, 0.95);
+  --lamp-beam-high: rgba(14, 165, 233, 0.58);
+  --lamp-beam-mid: rgba(2, 132, 199, 0.2);
+  --lamp-beam-low: rgba(3, 105, 161, 0.04);
+  --lamp-bloom-core: rgba(56, 189, 248, 0.52);
+  --lamp-bloom-mid: rgba(14, 165, 233, 0.18);
+  --lamp-bloom-edge: rgba(2, 132, 199, 0.03);
+  --lamp-floor-core: rgba(56, 189, 248, 0.26);
+  --lamp-floor-mid: rgba(14, 165, 233, 0.08);
+  --lamp-text-glow: rgba(56, 189, 248, 0.55);
+  --lamp-sublabel-color: rgba(56, 189, 248, 0.55);
+}
+
+/* Purple / Cosmic Amethyst */
+.pendant-lamp-wrapper.theme-purple {
+  --lamp-beam-top: rgba(192, 132, 252, 0.95);
+  --lamp-beam-high: rgba(168, 85, 247, 0.58);
+  --lamp-beam-mid: rgba(147, 51, 234, 0.2);
+  --lamp-beam-low: rgba(126, 34, 206, 0.04);
+  --lamp-bloom-core: rgba(192, 132, 252, 0.52);
+  --lamp-bloom-mid: rgba(168, 85, 247, 0.18);
+  --lamp-bloom-edge: rgba(147, 51, 234, 0.03);
+  --lamp-floor-core: rgba(192, 132, 252, 0.26);
+  --lamp-floor-mid: rgba(168, 85, 247, 0.08);
+  --lamp-text-glow: rgba(192, 132, 252, 0.55);
+  --lamp-sublabel-color: rgba(192, 132, 252, 0.55);
+}
+
+/* Emerald / Bioluminescent Oceanic Jade */
+.pendant-lamp-wrapper.theme-emerald {
+  --lamp-beam-top: rgba(52, 211, 153, 0.95);
+  --lamp-beam-high: rgba(16, 185, 129, 0.58);
+  --lamp-beam-mid: rgba(5, 150, 105, 0.2);
+  --lamp-beam-low: rgba(4, 120, 87, 0.04);
+  --lamp-bloom-core: rgba(52, 211, 153, 0.52);
+  --lamp-bloom-mid: rgba(16, 185, 129, 0.18);
+  --lamp-bloom-edge: rgba(5, 150, 105, 0.03);
+  --lamp-floor-core: rgba(52, 211, 153, 0.26);
+  --lamp-floor-mid: rgba(16, 185, 129, 0.08);
+  --lamp-text-glow: rgba(52, 211, 153, 0.55);
+  --lamp-sublabel-color: rgba(52, 211, 153, 0.55);
+}

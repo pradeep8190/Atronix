@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Pendant Lamp Footer & Props Reference Styles
+   ========================================================================== */
+
+.pendant-lamp-props-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 48px;
+}
+
+.pendant-lamp-props-section .props-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  margin-bottom: 20px;
+}
+
+.pendant-lamp-props-section .props-table-wrapper {
+  width: 100%;
+  border-radius: 16px;
+  background: #000000;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.pendant-lamp-props-section .props-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 13.5px;
+}
+
+.pendant-lamp-props-section .props-table th {
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  padding: 16px 22px;
+  border-bottom: none;
+}
+
+.pendant-lamp-props-section .props-table td {
+  padding: 16px 22px;
+  border-bottom: none;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pendant-lamp-props-section .prop-name {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+.pendant-lamp-props-section .prop-type {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pendant-lamp-props-section .prop-default {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: #3f3f46;
+}
+
+.pendant-lamp-props-section .prop-desc {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+}
+
+/* Optical Lighting Physics Note */
+.pendant-lamp-props-section .lighting-physics-note {
+  margin-top: 24px;
+  padding: 22px 26px;
+  background: #000000;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.pendant-lamp-props-section .lighting-physics-note h4 {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  font-family: 'Ubuntu Sans', sans-serif;
+}
+
+.pendant-lamp-props-section .lighting-physics-note p {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-family: 'Ubuntu Sans', sans-serif;
+}
+
+.pendant-lamp-props-section .lighting-physics-note strong {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 600;
+}
