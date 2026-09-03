@@ -1,0 +1,299 @@
+/* ==========================================================================
+   GitHub Code Explorer Styles (Minimal Obsidian Glass)
+   ========================================================================== */
+
+.code-explorer-container {
+  display: flex;
+  width: 100%;
+  height: 640px;
+  background: rgba(8, 8, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  box-shadow: 0 20px 48px -8px rgba(0, 0, 0, 0.7);
+}
+
+/* --------------------------------------------------------------------------
+   Left Sidebar: File Tree
+   -------------------------------------------------------------------------- */
+.code-explorer-sidebar {
+  width: 250px;
+  min-width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(12, 12, 14, 0.6);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.explorer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.explorer-title {
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.explorer-status {
+  font-size: 10px;
+  color: #38bdf8;
+  font-family: 'Ubuntu Sans', sans-serif;
+}
+
+.explorer-tree-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 4px;
+}
+
+.explorer-tree-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.explorer-tree-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+
+.tree-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+.tree-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tree-row.is-selected {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tree-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.tree-label {
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.tree-row:hover .tree-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tree-row.is-selected .tree-label {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.explorer-error {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.error-text {
+  font-size: 12px;
+  color: #f87171;
+  line-height: 1.4;
+}
+
+.error-retry-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  color: #f87171;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Right Pane: Code Viewer
+   -------------------------------------------------------------------------- */
+.code-explorer-main {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(6, 6, 8, 0.85);
+}
+
+.code-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(10, 10, 12, 0.5);
+}
+
+.code-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 12px;
+}
+
+.crumb-repo {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.crumb-sep {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.crumb-part {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.crumb-part.is-active {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.code-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.code-line-count {
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.code-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+}
+
+/* Code editor viewport */
+.code-editor-viewport {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+.code-editor-viewport::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.code-editor-viewport::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+.code-table {
+  display: flex;
+  min-width: 100%;
+  padding: 12px 0;
+  font-family: 'Ubuntu Mono', 'Courier New', monospace;
+  font-size: 12.5px;
+  line-height: 20px;
+}
+
+.code-gutter {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 0 18px;
+  user-select: none;
+  text-align: right;
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.gutter-num {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 11.5px;
+}
+
+.code-content {
+  margin: 0;
+  padding: 0 24px;
+  flex: 1;
+  color: rgba(255, 255, 255, 0.88);
+  tab-size: 2;
+  white-space: pre;
+}
+
+.code-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 13px;
+}
+
+.code-pulse-bar {
+  width: 40px;
+  height: 2px;
+  background: #38bdf8;
+  border-radius: 999px;
+  animation: pulseBar 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseBar {
+  0% { transform: scaleX(0.4); opacity: 0.4; }
+  50% { transform: scaleX(1.4); opacity: 1; }
+  100% { transform: scaleX(0.4); opacity: 0.4; }
+}
