@@ -1,6 +1,6 @@
 {
   "name": "atronix",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Official CLI for Atronix UI — Sovereign Physical Realism & Liquid Glass UI Library",
   "bin": {
     "atronix": "index.js"
@@ -28,6 +28,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/radhasaini4604-cloud/Atronix.git"
+    "url": "git+https://github.com/pradeep8190/Atronix.git"
   }
 }

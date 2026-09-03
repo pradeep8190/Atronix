@@ -13,7 +13,7 @@ const RESET = '\x1b[0m';
 const GREEN = '\x1b[32m';
 const YELLOW = '\x1b[33m';
 
-const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/radhasaini4604-cloud/Atronix/main/public/r';
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/pradeep8190/Atronix/main/public/r';
 
 function printBanner() {
   console.log(`\n${RED}${BOLD}  ▲ ATRONIX UI${RESET} ${DIM}— Physical Realism for the Modern Web${RESET}\n`);
