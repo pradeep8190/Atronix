@@ -11,6 +11,8 @@ interface ComponentCodeProps {
   onCopyCode: (codeToCopy?: string) => void;
   dependencies?: string[];
   cliCommand?: string;
+  cliOnly?: boolean;
+  cliOnlyReason?: string;
 }
 
 // Two-color Syntax Highlighter (Light Red & White Only)
@@ -82,6 +84,8 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
   onCopyCode,
   dependencies = ['motion'],
   cliCommand = 'npx atronix add aero-core',
+  cliOnly = false,
+  cliOnlyReason,
 }) => {
   const { notify } = useNotification();
   const fileKeys = files ? Object.keys(files) : [];
@@ -110,11 +114,17 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
   const linesLeft = Math.max(0, lines.length - PREVIEW_VISIBLE_LINES);
   const hasOverflow = lines.length > 20;
 
-  const [installMode, setInstallMode] = useState<'cli' | 'manual'>('manual');
+  const [installMode, setInstallMode] = useState<'cli' | 'manual'>(cliOnly ? 'cli' : 'manual');
   const [installDirection, setInstallDirection] = useState<'right' | 'left'>('left');
   const [packageManager, setPackageManager] = useState<'npm' | 'pnpm' | 'yarn' | 'bun'>('npm');
   const [pmDropdownOpen, setPmDropdownOpen] = useState(false);
   const [copiedInstall, setCopiedInstall] = useState(false);
+
+  useEffect(() => {
+    if (cliOnly) {
+      setInstallMode('cli');
+    }
+  }, [cliOnly]);
 
   const pmDropdownRef = useRef<HTMLDivElement>(null);
   const pmOptions: ('npm' | 'pnpm' | 'yarn' | 'bun')[] = ['npm', 'pnpm', 'yarn', 'bun'];
@@ -130,6 +140,14 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
   }, []);
 
   const handleInstallModeChange = (newMode: 'cli' | 'manual') => {
+    if (cliOnly && newMode === 'manual') {
+      notify({
+        title: 'CLI-Only Component',
+        description: cliOnlyReason || 'Manual copy is disabled because this component requires dedicated WebGL physics engine files.',
+        type: 'info',
+      });
+      return;
+    }
     if (newMode === installMode) return;
     setInstallDirection(newMode === 'manual' ? 'right' : 'left');
     setInstallMode(newMode);
@@ -168,6 +186,16 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
 
   return (
     <div className="code-tab-wrapper">
+      {/* Minimalist Pill: CLI Installation Required (No Border Line) */}
+      {cliOnly && (
+        <div
+          className="cli-required-pill"
+          title={cliOnlyReason || 'CLI installation required for WebGL engine files'}
+        >
+          CLI Installation Required
+        </div>
+      )}
+
       {/* Refined Unified Single Install Card */}
       <div className="install-card-unified">
         {/* Left Side: Code Command with AnimatePresence Morph */}
@@ -217,8 +245,10 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
             </button>
 
             <button
-              className={`install-mode-btn ${installMode === 'manual' ? 'active' : ''}`}
+              className={`install-mode-btn ${installMode === 'manual' ? 'active' : ''} ${cliOnly ? 'disabled-cli-only' : ''}`}
               onClick={() => handleInstallModeChange('manual')}
+              title={cliOnly ? (cliOnlyReason || 'Manual installation disabled: requires WebGL engine files') : 'Manual installation'}
+              aria-disabled={cliOnly}
             >
               {installMode === 'manual' && (
                 <motion.div

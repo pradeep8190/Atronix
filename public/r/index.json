@@ -24,12 +24,24 @@
     ]
   },
   {
+    "name": "flux-scale",
+    "title": "Flux Scale",
+    "description": "Luxury comparison pricing matrix with 14-stop optical radial gradients and 7-stop specular hairlines.",
+    "dependencies": []
+  },
+  {
     "name": "frost-vault",
     "title": "Frost Vault",
     "description": "3D optical glass expanding cards with real refractive Fresnel blur and depth stacking.",
     "dependencies": [
       "motion"
     ]
+  },
+  {
+    "name": "graviton-field",
+    "title": "Graviton Field",
+    "description": "3D GPGPU relativistic particle field simulation with interactive raycaster momentum, harmonic simplex noise tori, and dual ping-pong render targets.",
+    "dependencies": []
   },
   {
     "name": "hydro-button",
@@ -76,5 +88,17 @@
     "dependencies": [
       "motion"
     ]
+  },
+  {
+    "name": "quantum-morph",
+    "title": "Quantum Morph",
+    "description": "3D GPGPU particle lattice that morphs between atmospheric Brownian drift and structured developer { } code brackets on hover.",
+    "dependencies": []
+  },
+  {
+    "name": "speed-rays",
+    "title": "Speed Rays",
+    "description": "GPU-accelerated relativistic velocity field with tapered photon laser streaks.",
+    "dependencies": []
   }
 ]

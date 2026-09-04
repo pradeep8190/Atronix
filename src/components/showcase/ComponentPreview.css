@@ -17,6 +17,19 @@
   overflow: visible;
 }
 
+/* Cinematic Laptop Screen Ratio for Flagship Particle / Canvas Showcases */
+.preview-sandbox.sandbox-laptop-ratio {
+  min-height: 620px;
+  height: 620px;
+}
+
+@media (max-width: 768px) {
+  .preview-sandbox.sandbox-laptop-ratio {
+    min-height: 520px;
+    height: 520px;
+  }
+}
+
 .preview-hint {
   position: absolute;
   bottom: 22px;
@@ -36,6 +49,7 @@
   padding: 6px 14px;
   border-radius: 99px;
   border: none;
+  z-index: 10;
 }
 
 /* Minimalist Obsidian Glass Skeleton Loader */

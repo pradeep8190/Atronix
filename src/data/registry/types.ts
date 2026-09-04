@@ -18,4 +18,7 @@ export interface ComponentItem {
   dependencies?: string[];
   cliCommand?: string;
   hint?: string;
+  hideHint?: boolean;
+  cliOnly?: boolean;
+  cliOnlyReason?: string;
 }

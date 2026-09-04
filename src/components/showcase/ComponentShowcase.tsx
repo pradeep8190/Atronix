@@ -4,6 +4,7 @@ import componentsRegistry from '../../data/componentsRegistry';
 import { ComponentPreview } from './ComponentPreview';
 import { ComponentCode } from './ComponentCode';
 import { ShowcaseFooter } from './ShowcaseFooter';
+import { GravitonHeroDemo } from './GravitonHeroDemo';
 import { useNotification } from '../../context/NotificationContext';
 import './ComponentShowcase.css';
 
@@ -17,7 +18,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
   const item = componentsRegistry[componentId] || componentsRegistry['frost-vault'];
   const { notify } = useNotification();
 
-  const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
+  const [activeTab, setActiveTab] = useState<'preview' | 'code' | 'hero'>('preview');
   const [direction, setDirection] = useState<'right' | 'left'>('right');
   
   const [customProps, setCustomProps] = useState<Record<string, any>>(() => {
@@ -32,6 +33,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
   const [codeString, setCodeString] = useState<string>('');
 
   useEffect(() => {
+    setActiveTab('preview');
     setCustomProps(item.defaultProps || { theme: item.defaultColor || 'black', size: item.defaultSize || 'md' });
   }, [item.id]);
 
@@ -54,13 +56,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
     } else {
       setLoadedFiles({});
       item.loadCode().then((raw) => {
-        if (isCurrent) {
-          setCodeString(raw);
-        }
-      }).catch(() => {
-        if (isCurrent) {
-          setCodeString('// Failed to load source code');
-        }
+        if (isCurrent) setCodeString(raw);
       });
     }
 
@@ -86,7 +82,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
     ...loadedFiles,
   };
 
-  const handleTabChange = (newTab: 'preview' | 'code') => {
+  const handleTabChange = (newTab: 'preview' | 'code' | 'hero') => {
     if (newTab === activeTab) return;
     setDirection(newTab === 'code' ? 'right' : 'left');
     setActiveTab(newTab);
@@ -191,6 +187,39 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
             </span>
           </button>
 
+          {item.id === 'graviton-field' && (
+            <button
+              className={`tab-btn ${activeTab === 'hero' ? 'active' : ''}`}
+              onClick={() => handleTabChange('hero')}
+            >
+              {activeTab === 'hero' && (
+                <motion.div
+                  layoutId="active-tab-glass-pill"
+                  className="active-glass-pill"
+                  initial={false}
+                  animate={{
+                    scaleX: [1, 1.2, 0.96, 1],
+                    scaleY: [1, 0.9, 1.03, 1],
+                  }}
+                  style={{
+                    transformOrigin: direction === 'right' ? 'left center' : 'right center',
+                  }}
+                  transition={{
+                    layout: { type: 'spring', stiffness: 420, damping: 28, mass: 0.7 },
+                    scaleX: { duration: 0.35, times: [0, 0.4, 0.75, 1], ease: 'easeInOut' },
+                    scaleY: { duration: 0.35, times: [0, 0.4, 0.75, 1], ease: 'easeInOut' },
+                  }}
+                />
+              )}
+              <span className="tab-btn-content">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+                Hero Demo
+              </span>
+            </button>
+          )}
+
           <button
             className={`tab-btn ${activeTab === 'code' ? 'active' : ''}`}
             onClick={() => handleTabChange('code')}
@@ -278,7 +307,19 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
 
       {/* Main View Sandbox with Liquid Morph Transition */}
       <AnimatePresence mode="wait">
-        {activeTab === 'preview' ? (
+        {activeTab === 'hero' ? (
+          <motion.div
+            key="hero-view"
+            initial={{ opacity: 0, y: 10, scale: 0.985, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -10, scale: 0.985, filter: 'blur(6px)' }}
+            transition={viewSpring}
+          >
+            <div className="preview-sandbox sandbox-laptop-ratio">
+              <GravitonHeroDemo />
+            </div>
+          </motion.div>
+        ) : activeTab === 'preview' ? (
           <motion.div
             key="preview-view"
             initial={{ opacity: 0, y: 10, scale: 0.985, filter: 'blur(6px)' }}
@@ -291,6 +332,8 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
               color={customProps.theme || customProps.color || item.defaultColor || 'black'}
               size={customProps.size || item.defaultSize || 'md'}
               hint={item.hint}
+              hideHint={item.hideHint}
+              className={item.id === 'graviton-field' ? 'sandbox-laptop-ratio' : ''}
               customProps={customProps}
             />
           </motion.div>
@@ -309,6 +352,8 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
               onCopyCode={handleCopyCode}
               dependencies={item.dependencies}
               cliCommand={item.cliCommand}
+              cliOnly={item.cliOnly}
+              cliOnlyReason={item.cliOnlyReason}
             />
           </motion.div>
         )}

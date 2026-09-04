@@ -46,6 +46,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const componentItems = [
     { label: 'Frost Vault', id: 'frost-vault' },
+    { label: 'Graviton Field', id: 'graviton-field' },
+    { label: 'Quantum Morph', id: 'quantum-morph' },
     { label: 'Aero Core', id: 'aero-core' },
     { label: 'Liquid Mitosis', id: 'liquid-mitosis' },
     { label: 'Cascade Select', id: 'cascade-select' },
@@ -56,6 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { label: 'Pendant Lamp', id: 'pendant-lamp' },
     { label: 'Orbit Globe', id: 'orbit-globe' },
     { label: 'Speed Rays', id: 'speed-rays' },
+    { label: 'Flux Scale', id: 'flux-scale' },
   ];
 
   return (

@@ -6,6 +6,8 @@ interface ComponentPreviewProps {
   color?: string;
   size?: string;
   hint?: string;
+  hideHint?: boolean;
+  className?: string;
   customProps?: Record<string, any>;
 }
 
@@ -14,10 +16,12 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   color,
   size,
   hint,
+  hideHint = false,
+  className = '',
   customProps = {},
 }) => {
   return (
-    <div className="preview-sandbox">
+    <div className={`preview-sandbox ${className}`}>
       <Suspense
         fallback={
           <div className="preview-loading-skeleton">
@@ -28,14 +32,16 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
       >
         <ComponentToRender color={color} size={size} {...customProps} />
       </Suspense>
-      <div className="preview-hint">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="16" x2="12" y2="12" />
-          <line x1="12" y1="8" x2="12.01" y2="8" />
-        </svg>
-        {hint || 'Hover and interact to experience the fluid physics & micro-animations!'}
-      </div>
+      {!hideHint && (
+        <div className="preview-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+          {hint || 'Hover and interact to experience the fluid physics & micro-animations!'}
+        </div>
+      )}
     </div>
   );
 };

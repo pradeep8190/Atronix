@@ -5,6 +5,24 @@
   width: 100%;
 }
 
+/* Minimalist CLI-Only Required Pill (No Border Line) */
+.cli-required-pill {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  font-family: 'Ubuntu Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.01em;
+  user-select: none;
+  margin-bottom: -6px;
+}
+
 /* Unified Single Install Card (Outer Card Glass Border Restored) */
 .install-card-unified {
   position: relative;
@@ -82,6 +100,16 @@
 .install-mode-btn.active {
   color: #ffffff;
   font-weight: 600;
+}
+
+.install-mode-btn.disabled-cli-only {
+  opacity: 0.35;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+.install-mode-btn.disabled-cli-only:hover {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .install-btn-text {

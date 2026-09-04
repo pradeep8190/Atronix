@@ -1,5 +1,7 @@
 import type { ComponentItem } from './registry/types';
 import { frostVault } from './registry/frostVault';
+import { gravitonField } from './registry/gravitonField';
+import { quantumMorph } from './registry/quantumMorph';
 import { liquidMitosis } from './registry/liquidMitosis';
 import { cascadeSelect } from './registry/cascadeSelect';
 import { mercurySlider } from './registry/mercurySlider';
@@ -10,11 +12,14 @@ import { ferroDrop } from './registry/ferroDrop';
 import { pendantLamp } from './registry/pendantLamp';
 import { orbitGlobe } from './registry/orbitGlobe';
 import { speedRays } from './registry/speedRays';
+import { fluxScale } from './registry/fluxScale';
 
 export * from './registry/types';
 
 export const componentsRegistry: Record<string, ComponentItem> = {
   'frost-vault': frostVault,
+  'graviton-field': gravitonField,
+  'quantum-morph': quantumMorph,
   'liquid-mitosis': liquidMitosis,
   'cascade-select': cascadeSelect,
   'mercury-slider': mercurySlider,
@@ -25,6 +30,7 @@ export const componentsRegistry: Record<string, ComponentItem> = {
   'pendant-lamp': pendantLamp,
   'orbit-globe': orbitGlobe,
   'speed-rays': speedRays,
+  'flux-scale': fluxScale,
 };
 
 export default componentsRegistry;

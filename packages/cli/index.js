@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import https from 'node:https';
 import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 // Atronix Signature Colors (ANSI Escape Codes)
 const RED = '\x1b[38;2;255;117;140m';
@@ -75,15 +76,18 @@ async function handleAdd(componentId) {
   console.log(`${DIM}Fetching component definition for ${RESET}${BOLD}${cleanId}${RESET}...`);
 
   let registryItem;
-  try {
-    const url = `${GITHUB_RAW_BASE}/${cleanId}.json`;
-    registryItem = await fetchJson(url);
-  } catch (err) {
-    // Check if local dev registry exists as fallback
-    const localFallback = path.join(process.cwd(), 'public', 'r', `${cleanId}.json`);
-    if (fs.existsSync(localFallback)) {
-      registryItem = JSON.parse(fs.readFileSync(localFallback, 'utf-8'));
-    } else {
+  const localFallback = path.join(process.cwd(), 'public', 'r', `${cleanId}.json`);
+  const repoFallback = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public/r', `${cleanId}.json`);
+
+  if (fs.existsSync(localFallback)) {
+    registryItem = JSON.parse(fs.readFileSync(localFallback, 'utf-8'));
+  } else if (fs.existsSync(repoFallback)) {
+    registryItem = JSON.parse(fs.readFileSync(repoFallback, 'utf-8'));
+  } else {
+    try {
+      const url = `${GITHUB_RAW_BASE}/${cleanId}.json`;
+      registryItem = await fetchJson(url);
+    } catch (err) {
       console.error(`\n${RED}✖ Error:${RESET} Component "${cleanId}" not found in Atronix registry.`);
       console.log(`Run ${BOLD}npx atronix list${RESET} to see all available components.\n`);
       process.exit(1);
@@ -99,12 +103,39 @@ async function handleAdd(componentId) {
 
   // Write component files
   for (const file of registryItem.files) {
-    const fileName = path.basename(file.path);
-    const destPath = path.join(targetUiDir, fileName);
+    let relPath = file.target || file.path;
+    if (relPath.startsWith('components/ui/')) {
+      relPath = relPath.slice('components/ui/'.length);
+    } else {
+      relPath = path.basename(relPath);
+    }
+    const destPath = path.join(targetUiDir, relPath);
+    const destDir = path.dirname(destPath);
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir, { recursive: true });
+    }
 
     fs.writeFileSync(destPath, file.content, 'utf-8');
     const relativeDest = path.relative(process.cwd(), destPath);
     console.log(`  ${GREEN}+${RESET} ${DIM}Created${RESET} ${BOLD}${relativeDest}${RESET}`);
+  }
+
+  // Copy public assets if bundled (e.g. particle engine and textures)
+  if (registryItem.publicFiles && registryItem.publicFiles.length > 0) {
+    for (const pubFile of registryItem.publicFiles) {
+      const destPath = path.join(process.cwd(), pubFile.target);
+      const destDir = path.dirname(destPath);
+      if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+      }
+      if (pubFile.encoding === 'base64') {
+        fs.writeFileSync(destPath, Buffer.from(pubFile.content, 'base64'));
+      } else {
+        fs.writeFileSync(destPath, pubFile.content, 'utf-8');
+      }
+      const relativeDest = path.relative(process.cwd(), destPath);
+      console.log(`  ${GREEN}+${RESET} ${DIM}Copied Engine Asset${RESET} ${BOLD}${relativeDest}${RESET}`);
+    }
   }
 
   // Install dependencies if required
@@ -141,15 +172,13 @@ async function handleAdd(componentId) {
 async function handleList() {
   console.log(`${BOLD}Available Atronix Components:${RESET}\n`);
   try {
-    const indexUrl = `${GITHUB_RAW_BASE}/index.json`;
+    const localIndex = path.join(process.cwd(), 'public', 'r', 'index.json');
     let items;
-    try {
+    if (fs.existsSync(localIndex)) {
+      items = JSON.parse(fs.readFileSync(localIndex, 'utf-8'));
+    } else {
+      const indexUrl = `${GITHUB_RAW_BASE}/index.json`;
       items = await fetchJson(indexUrl);
-    } catch {
-      const localIndex = path.join(process.cwd(), 'public', 'r', 'index.json');
-      if (fs.existsSync(localIndex)) {
-        items = JSON.parse(fs.readFileSync(localIndex, 'utf-8'));
-      }
     }
 
     if (items && items.length > 0) {

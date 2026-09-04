@@ -43,6 +43,18 @@ const componentMeta = {
     description: '3D optical glass expanding cards with real refractive Fresnel blur and depth stacking.',
     dependencies: ['motion'],
   },
+  graviton_field: {
+    id: 'graviton-field',
+    name: 'Graviton Field',
+    description: '3D GPGPU relativistic particle field simulation with interactive raycaster momentum, harmonic simplex noise tori, and dual ping-pong render targets.',
+    dependencies: [],
+  },
+  quantum_morph: {
+    id: 'quantum-morph',
+    name: 'Quantum Morph',
+    description: '3D GPGPU particle lattice that morphs between atmospheric Brownian drift and structured developer { } code brackets on hover.',
+    dependencies: [],
+  },
   cascade_select: {
     id: 'cascade-select',
     name: 'Cascade Select',
@@ -79,6 +91,12 @@ const componentMeta = {
     description: 'GPU-accelerated relativistic velocity field with tapered photon laser streaks.',
     dependencies: [],
   },
+  flux_scale: {
+    id: 'flux-scale',
+    name: 'Flux Scale',
+    description: 'Luxury comparison pricing matrix with 14-stop optical radial gradients and 7-stop specular hairlines.',
+    dependencies: [],
+  },
 };
 
 const registryIndex = [];
@@ -103,6 +121,7 @@ for (const dir of dirs) {
     if (fileName.endsWith('.test.ts') || fileName.endsWith('.test.tsx')) continue;
 
     const filePath = path.join(folderPath, fileName);
+    if (fs.statSync(filePath).isDirectory()) continue;
     const content = fs.readFileSync(filePath, 'utf-8');
 
     registryFiles.push({
@@ -113,15 +132,45 @@ for (const dir of dirs) {
     });
   }
 
-  const registryItem = {
-    $schema: 'https://ui.shadcn.com/schema/registry-item.json',
-    name: meta.id,
-    type: 'registry:ui',
-    title: meta.name,
-    description: meta.description,
-    dependencies: meta.dependencies || [],
-    files: registryFiles,
-  };
+  // Include component-scoped engine files if present
+  const engineDirPath = path.join(folderPath, 'engine');
+  if (fs.existsSync(engineDirPath) && fs.statSync(engineDirPath).isDirectory()) {
+    const engineFiles = fs.readdirSync(engineDirPath);
+    for (const ef of engineFiles) {
+      const efPath = path.join(engineDirPath, ef);
+      if (fs.statSync(efPath).isFile()) {
+        registryFiles.push({
+          path: `components/ui/${folderName}/engine/${ef}`,
+          content: fs.readFileSync(efPath, 'utf-8'),
+          type: 'registry:ui',
+          target: `components/ui/${folderName}/engine/${ef}`,
+        });
+      }
+    }
+  }
+
+    const publicFiles = [];
+    if (meta.id === 'quantum-morph') {
+      const texturePath = path.join(process.cwd(), 'public', 'assets', 'textures', 'icons', 'individual.png');
+      if (fs.existsSync(texturePath)) {
+        publicFiles.push({
+          target: 'public/assets/textures/icons/individual.png',
+          content: fs.readFileSync(texturePath).toString('base64'),
+          encoding: 'base64',
+        });
+      }
+    }
+
+    const registryItem = {
+      $schema: 'https://ui.shadcn.com/schema/registry-item.json',
+      name: meta.id,
+      type: 'registry:ui',
+      title: meta.name,
+      description: meta.description,
+      dependencies: meta.dependencies || [],
+      files: registryFiles,
+      publicFiles: publicFiles.length > 0 ? publicFiles : undefined,
+    };
 
   // Write individual component JSON (e.g. public/r/orbit-globe.json)
   const itemPath = path.join(outputDir, `${meta.id}.json`);
