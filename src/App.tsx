@@ -214,7 +214,10 @@ function App() {
           }
         >
           {currentPage === 'home' ? (
-            <HomePage onNavigateToComponents={handleSelectComponent} />
+            <HomePage
+              onNavigateToComponents={handleSelectComponent}
+              onNavigateToTemplates={handleSelectTemplate}
+            />
           ) : currentPage === 'templates' ? (
             <TemplateShowcase templateId={selectedTemplateId} />
           ) : (
