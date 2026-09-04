@@ -12,8 +12,7 @@ import { ferroDrop } from './registry/ferroDrop';
 import { pendantLamp } from './registry/pendantLamp';
 import { orbitGlobe } from './registry/orbitGlobe';
 import { speedRays } from './registry/speedRays';
-import { fluxScale } from './registry/fluxScale';
-
+import { tyndallBeam } from './registry/tyndallBeam';
 export * from './registry/types';
 
 export const componentsRegistry: Record<string, ComponentItem> = {
@@ -30,7 +29,7 @@ export const componentsRegistry: Record<string, ComponentItem> = {
   'pendant-lamp': pendantLamp,
   'orbit-globe': orbitGlobe,
   'speed-rays': speedRays,
-  'flux-scale': fluxScale,
+  'tyndall-beam': tyndallBeam,
 };
 
 export default componentsRegistry;

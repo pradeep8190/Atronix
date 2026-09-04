@@ -66,7 +66,7 @@ const quantumMorphPropsDoc: PropDoc[] = [
   {
     name: 'headline',
     type: 'string',
-    default: "'Physical Interface Dynamics'",
+    default: "'Physical Interface'",
     description: 'Primary title displayed in serif typography.',
   },
   {

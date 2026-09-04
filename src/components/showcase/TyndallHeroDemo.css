@@ -1,0 +1,363 @@
+/* ==========================================================================
+   Tyndall Hero Demo — Real Physical Optical Glass & Directional Beam Lighting
+   Zero Subcard: Fills the preview-sandbox edge-to-edge seamlessly.
+   ========================================================================== */
+
+/* Remove preview-sandbox default inner padding to eliminate subcard appearance */
+.preview-sandbox.hero-demo-fullbleed {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+}
+
+.tyndall-hero-demo-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 620px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: inherit;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 38px 48px 36px 48px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #ffffff;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .tyndall-hero-demo-container {
+    padding: 24px 22px 28px 22px;
+    min-height: 520px;
+  }
+}
+
+/* Background Volumetric Light Beam Canvas */
+.tyndall-hero-canvas-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* 1. Top Navigation Bar (Liquid Glass Bevels) */
+.tyndall-hero-nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tyndall-hero-brand {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+  text-decoration: none;
+  text-shadow: -4px 6px 12px rgba(0, 0, 0, 0.8);
+}
+
+.tyndall-hero-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+@media (max-width: 820px) {
+  .tyndall-hero-nav-links {
+    display: none;
+  }
+}
+
+.tyndall-hero-nav-link {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.62);
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease, transform 0.15s ease;
+  text-shadow: -2px 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.tyndall-hero-nav-link:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Glass Pill CTA with Top-Right Specular Light Bevel */
+.tyndall-hero-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #fdfaf5;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 
+    -4px 8px 16px rgba(0, 0, 0, 0.6),
+    inset 1px 1px 1.5px rgba(255, 255, 255, 0.4),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tyndall-hero-nav-cta:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 
+    -6px 12px 24px rgba(0, 0, 0, 0.7),
+    0 0 16px rgba(235, 195, 120, 0.25);
+}
+
+/* 2. Hero Center Body */
+.tyndall-hero-body {
+  position: relative;
+  z-index: 10;
+  max-width: 580px;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 20px 0;
+  pointer-events: none;
+}
+
+.tyndall-hero-body * {
+  pointer-events: auto;
+}
+
+/* Eyebrow: Catches Subtle Photon Glow Toward the Right */
+.tyndall-hero-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.45) 0%, rgba(245, 215, 155, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  display: inline-block;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Physical Glass & Beam-Lit Headline */
+.tyndall-hero-title {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0 0 24px 0;
+}
+
+/* Row 1: "Atronix" — Liquid Glass with Top-Right Specular Sheen & Diagonal Cast Shadow */
+.tyndall-title-row-brand {
+  display: block;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 0%, #f6ede2 60%, #e2d1bc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 
+    -10px 14px 28px rgba(0, 0, 0, 0.95),
+    -4px 6px 12px rgba(0, 0, 0, 0.8);
+  filter: drop-shadow(-8px 12px 20px rgba(0, 0, 0, 0.9));
+}
+
+/* Row 2: "for what's" in shadow, "next." in Direct Physical Photon Beam */
+.tyndall-title-row-tagline {
+  display: block;
+  margin-top: 2px;
+}
+
+/* Left portion (in the shadow of the beam): Calmer, low-opacity, deep glass */
+.tyndall-title-shade {
+  color: rgba(240, 235, 230, 0.65);
+  font-weight: 400;
+  text-shadow: -8px 12px 24px rgba(0, 0, 0, 0.95);
+}
+
+/* Right portion: PHYSICALLY STRUCK BY VOLUMETRIC CHAMPAGNE BEAM */
+.tyndall-title-beam-ignite {
+  display: inline-block;
+  font-weight: 450;
+  /* Luminous golden liquid caustic transmission */
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #fff5e0 25%,
+    #ffda94 55%,
+    #f5b857 85%,
+    #ffd27d 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Directional specular glow & deep ambient shadow cast away from the beam */
+  filter: 
+    drop-shadow(0 0 28px rgba(245, 195, 110, 0.55))
+    drop-shadow(0 0 8px rgba(255, 230, 160, 0.45))
+    drop-shadow(-12px 18px 26px rgba(0, 0, 0, 0.95));
+  position: relative;
+}
+
+/* Soft Subtitle Paragraph with Photon Gradient */
+.tyndall-hero-subtitle {
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 460px;
+  margin: 0 0 32px 0;
+  font-weight: 380;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.52) 0%,
+    rgba(255, 255, 255, 0.65) 55%,
+    rgba(245, 220, 170, 0.88) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: -4px 6px 14px rgba(0, 0, 0, 0.8);
+}
+
+/* Action Buttons */
+.tyndall-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+/* Primary Button: Liquid Champagne Glass with Direct Photon Catch */
+.tyndall-hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #ffffff 0%, #fff6e8 100%);
+  color: #050403;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 
+    -8px 14px 28px rgba(0, 0, 0, 0.85),
+    0 0 24px rgba(245, 195, 110, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.95),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.tyndall-hero-btn-primary:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  box-shadow: 
+    -10px 18px 36px rgba(0, 0, 0, 0.9),
+    0 0 32px rgba(245, 195, 110, 0.55),
+    inset 1px 1px 3px rgba(255, 255, 255, 1);
+}
+
+.tyndall-hero-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13.5px;
+  font-weight: 450;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: -2px 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+.tyndall-hero-btn-secondary:hover {
+  color: #ffffff;
+}
+
+.tyndall-hero-btn-secondary .arrow {
+  transition: transform 0.2s ease;
+}
+
+.tyndall-hero-btn-secondary:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* 3. Hero Bottom Footer (Metrics & Quote with Glass Border) */
+.tyndall-hero-footer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 22px;
+  pointer-events: none;
+}
+
+.tyndall-hero-footer * {
+  pointer-events: auto;
+}
+
+.tyndall-hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.tyndall-hero-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tyndall-hero-stat-val {
+  font-size: 15px;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  text-shadow: -4px 6px 12px rgba(0, 0, 0, 0.85);
+}
+
+.tyndall-hero-stat-lbl {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+}
+
+/* Quote with Liquid Champagne Light Catch */
+.tyndall-hero-quote {
+  border-left: 1.5px solid rgba(245, 210, 140, 0.35);
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+  box-shadow: -4px 0 16px rgba(245, 195, 110, 0.15);
+}
+
+.tyndall-hero-quote-line {
+  font-size: 12.5px;
+  color: rgba(255, 245, 230, 0.65);
+  line-height: 1.45;
+  font-weight: 380;
+  text-shadow: -3px 4px 10px rgba(0, 0, 0, 0.8);
+}

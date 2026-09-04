@@ -1,0 +1,466 @@
+/* =========================================================================
+   SPECULAR TIER - LUXURY COMPARISON CARDS (14-STOP OPTICAL GRADIENTS)
+   Atronix Standard: 14-stop optical gradients & 7-stop specular hairlines
+   ========================================================================= */
+
+.specular-tier-container,
+.flux-scale-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  box-sizing: border-box;
+  overflow: visible;
+  user-select: none;
+}
+
+/* Atmospheric Ambient Spotlight */
+.specular-tier-ambient-spotlight,
+.flux-scale-ambient-spotlight {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse at 50% 15%,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cards Wrapper Grid */
+.specular-tier-cards-wrapper,
+.flux-scale-cards-wrapper {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 760px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Base Card Shell - Strictly Fixed Height (Zero Layout Shifts) */
+.specular-tier-card,
+.flux-scale-card {
+  position: relative;
+  height: 490px;
+  min-height: 490px;
+  max-height: 490px;
+  border-radius: 20px;
+  background: rgba(10, 10, 14, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: none !important;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: none !important;
+  box-sizing: border-box;
+}
+
+/* Hover: Deepens Obsidian Clarity & Expands Ambient Shadow */
+.specular-tier-card:hover,
+.flux-scale-card:hover {
+  transform: none !important;
+  box-shadow: 0 30px 70px -12px rgba(0, 0, 0, 0.95);
+}
+
+/* Card 1: Traditional Cloud (Legacy) Base */
+.specular-tier-card-legacy,
+.flux-scale-card-legacy {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.035) 0%,
+    rgba(10, 10, 14, 0.7) 45%,
+    rgba(6, 6, 9, 0.85) 100%
+  );
+}
+
+/* 14-Stop Luxury White -> Crimson -> Obsidian Black (40% Body Reach) */
+.specular-tier-card-glow-crimson,
+.flux-scale-card-glow-crimson {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse 140% 88% at 50% -8%,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 238, 242, 0.23) 6%,
+    rgba(255, 175, 185, 0.19) 13%,
+    rgba(248, 85, 102, 0.15) 22%,
+    rgba(225, 45, 68, 0.115) 32%,
+    rgba(195, 32, 55, 0.088) 42%,
+    rgba(165, 22, 44, 0.065) 52%,
+    rgba(135, 16, 35, 0.045) 62%,
+    rgba(105, 11, 27, 0.028) 72%,
+    rgba(78, 7, 20, 0.016) 80%,
+    rgba(52, 4, 13, 0.008) 87%,
+    rgba(30, 2, 7, 0.003) 93%,
+    rgba(12, 1, 3, 0.001) 97%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.75;
+  filter: brightness(1.0) saturate(1.0);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Precision Top Specular Hairline (7-Stop Luminous Silver to Crimson Blend) */
+.specular-tier-card-glow-crimson::before,
+.flux-scale-card-glow-crimson::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(180, 25, 45, 0.15) 15%,
+    rgba(240, 75, 95, 0.45) 32%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(240, 75, 95, 0.45) 68%,
+    rgba(180, 25, 45, 0.15) 85%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.65;
+  transform: scaleX(0.92);
+  transform-origin: center center;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Card 2: Atronix Core (Featured) Base */
+.specular-tier-card-pro,
+.flux-scale-card-pro {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(12, 10, 16, 0.7) 50%,
+    rgba(8, 6, 10, 0.85) 100%
+  );
+  border: none !important;
+}
+
+/* 14-Stop Luxury White -> Velvet Purple -> Obsidian Black (40% Body Reach) */
+.specular-tier-card-glow-purple,
+.flux-scale-card-glow-purple {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse 140% 88% at 50% -8%,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(248, 240, 255, 0.23) 6%,
+    rgba(225, 185, 255, 0.19) 13%,
+    rgba(185, 95, 250, 0.15) 22%,
+    rgba(150, 48, 230, 0.115) 32%,
+    rgba(120, 32, 195, 0.088) 42%,
+    rgba(95, 20, 160, 0.065) 52%,
+    rgba(72, 12, 125, 0.045) 62%,
+    rgba(50, 8, 92, 0.028) 72%,
+    rgba(34, 5, 65, 0.016) 80%,
+    rgba(20, 3, 40, 0.008) 87%,
+    rgba(10, 2, 22, 0.003) 93%,
+    rgba(4, 1, 10, 0.001) 97%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.75;
+  filter: brightness(1.0) saturate(1.0);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Precision Top Specular Hairline (7-Stop Luminous Silver to Violet Blend) */
+.specular-tier-card-glow-purple::before,
+.flux-scale-card-glow-purple::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(135, 35, 210, 0.15) 15%,
+    rgba(195, 95, 255, 0.45) 32%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(195, 95, 255, 0.45) 68%,
+    rgba(135, 35, 210, 0.15) 85%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.65;
+  transform: scaleX(0.92);
+  transform-origin: center center;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover: Optical Flare Expansion */
+.specular-tier-card:hover .specular-tier-card-glow-crimson,
+.specular-tier-card:hover .specular-tier-card-glow-purple,
+.flux-scale-card:hover .flux-scale-card-glow-crimson,
+.flux-scale-card:hover .flux-scale-card-glow-purple {
+  opacity: 1.0;
+  filter: brightness(1.28) saturate(1.15);
+}
+
+.specular-tier-card:hover .specular-tier-card-glow-crimson::before,
+.specular-tier-card:hover .specular-tier-card-glow-purple::before,
+.flux-scale-card:hover .flux-scale-card-glow-crimson::before,
+.flux-scale-card:hover .flux-scale-card-glow-purple::before {
+  opacity: 1.0;
+  transform: scaleX(1.0);
+}
+
+/* Inner Card Container */
+.specular-tier-card-inner,
+.flux-scale-card-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 2.2rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Header: Title + Tag */
+.specular-tier-card-top-row,
+.flux-scale-card-top-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.specular-tier-card-title,
+.flux-scale-card-title {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.specular-tier-card-title.brand,
+.flux-scale-card-title.brand {
+  font-family: 'Comfortaa', 'Ubuntu Sans', cursive, system-ui;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.specular-tier-card-tag,
+.flux-scale-card-tag {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 9999px;
+}
+
+.specular-tier-tag-legacy,
+.flux-scale-tag-legacy {
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  border: none !important;
+}
+
+.specular-tier-tag-purple,
+.flux-scale-tag-purple {
+  color: rgba(230, 195, 255, 0.9);
+  background: rgba(160, 60, 240, 0.12);
+  border: none !important;
+}
+
+/* Price Box */
+.specular-tier-card-price-box,
+.flux-scale-card-price-box {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 0.25rem;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.specular-tier-card-price-num,
+.flux-scale-card-price-num {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: clamp(34px, 3.2vw, 48px);
+  font-weight: 370;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv01" 1;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
+  user-select: none;
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.specular-tier-currency-sup,
+.flux-scale-currency-sup {
+  font-size: 0.52em;
+  font-weight: 330;
+  color: rgba(255, 255, 255, 0.58);
+  vertical-align: top;
+  position: relative;
+  top: -0.55em;
+  margin-right: 1px;
+  letter-spacing: normal;
+}
+
+.specular-tier-card-cadence,
+.flux-scale-card-cadence {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  color: #71717a;
+  margin-left: 0.6rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Card Description */
+.specular-tier-card-desc,
+.flux-scale-card-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #a1a1aa;
+  margin: 0.85rem 0 1.25rem 0;
+  letter-spacing: -0.01em;
+  min-height: 42px;
+}
+
+/* Divider Hairline */
+.specular-tier-card-divider,
+.flux-scale-card-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  margin-bottom: 1.25rem;
+}
+
+/* Feature List */
+.specular-tier-card-features,
+.flux-scale-card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.specular-tier-feature-item,
+.flux-scale-feature-item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #d4d4d8;
+  letter-spacing: -0.01em;
+}
+
+.specular-tier-feature-bullet,
+.flux-scale-feature-bullet {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.specular-tier-feature-item.negative .specular-tier-feature-bullet,
+.flux-scale-feature-item.negative .flux-scale-feature-bullet {
+  color: rgba(248, 113, 113, 0.75);
+}
+
+.specular-tier-feature-item.positive .specular-tier-feature-bullet,
+.flux-scale-feature-item.positive .flux-scale-feature-bullet {
+  color: rgba(192, 132, 252, 0.95);
+}
+
+/* Card Footer Note */
+.specular-tier-card-footer,
+.flux-scale-card-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  width: 100%;
+}
+
+.specular-tier-footer-note,
+.flux-scale-footer-note {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none !important;
+}
+
+.specular-tier-footer-note.negative,
+.flux-scale-footer-note.negative {
+  color: rgba(255, 175, 175, 0.85);
+  background: rgba(220, 38, 38, 0.08);
+  border: none !important;
+}
+
+.specular-tier-footer-note.positive,
+.flux-scale-footer-note.positive {
+  color: rgba(235, 210, 255, 0.95);
+  background: rgba(147, 51, 234, 0.12);
+  border: none !important;
+}
+
+/* Responsive Stacking */
+@media (max-width: 768px) {
+  .specular-tier-cards-wrapper,
+  .flux-scale-cards-wrapper {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+}

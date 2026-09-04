@@ -32,7 +32,7 @@ export const QuantumMorph: React.FC<QuantumMorphProps> = ({
   color2 = "#475569",
   color3 = "#334155",
   badgeText = "Atronix Sovereign Engine",
-  headline = "Physical Interface Dynamics",
+  headline = "Physical Interface",
   subheadline = "Interactive 3D particle lattice with fluid code morphing",
   buttonText = "Explore Components",
   buttonIcon = "code",
@@ -64,6 +64,7 @@ export const QuantumMorph: React.FC<QuantumMorphProps> = ({
     };
 
     // Dynamically load engine directly from component-scoped engine folder
+    // @ts-ignore
     import("./engine/quantum-morph-engine.js")
       .then(() => {
         triggerInit();

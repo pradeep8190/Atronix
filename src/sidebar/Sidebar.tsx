@@ -14,16 +14,23 @@ const appleSpring = {
 interface SidebarProps {
   onSelectComponent?: (componentId: string) => void;
   selectedComponentId?: string;
+  onSelectTemplate?: (templateId: string) => void;
+  selectedTemplateId?: string;
+  activeSection?: 'components' | 'templates';
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   onSelectComponent,
   selectedComponentId,
+  onSelectTemplate,
+  selectedTemplateId,
+  activeSection = 'components',
 }) => {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     updates: true,
     installation: true,
     components: true,
+    templates: true,
   });
 
   const toggleCategory = (id: string) => {
@@ -58,7 +65,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { label: 'Pendant Lamp', id: 'pendant-lamp' },
     { label: 'Orbit Globe', id: 'orbit-globe' },
     { label: 'Speed Rays', id: 'speed-rays' },
-    { label: 'Flux Scale', id: 'flux-scale' },
+    { label: 'Tyndall Beam', id: 'tyndall-beam' },
+  ];
+
+  const templateItems = [
+    { label: 'Decentralized Testimonials', id: 'testimonials' },
+    { label: 'Specular Tier', id: 'specular-tier' },
   ];
 
   return (
@@ -236,6 +248,84 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         const selected = componentItems[index];
                         if (selected) {
                           onSelectComponent?.(selected.id);
+                        }
+                      }}
+                    />
+                  );
+                })()}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Section 4: Templates (Full-Width Cinematic Sections) */}
+        <div className="sidebar-group">
+          <button
+            className="sidebar-group-header"
+            onClick={() => toggleCategory('templates')}
+          >
+            <div className="group-header-left">
+              <span className="group-header-icon">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M3 9h18" />
+                  <path d="M9 21V9" />
+                </svg>
+              </span>
+              <span className="group-header-title">Templates</span>
+              <span className="sidebar-new-badge">NEW</span>
+            </div>
+            <motion.svg
+              animate={{ rotate: openCategories.templates ? 0 : 180 }}
+              transition={appleSpring}
+              className="chevron-icon"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="18 15 12 9 6 15" />
+            </motion.svg>
+          </button>
+
+          <AnimatePresence initial={false}>
+            {openCategories.templates && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={appleSpring}
+                style={{ overflow: 'hidden' }}
+                className="sidebar-rail-wrapper"
+              >
+                {(() => {
+                  const activeIndex =
+                    activeSection === 'templates'
+                      ? templateItems.findIndex((item) => item.id === selectedTemplateId)
+                      : -1;
+                  return (
+                    <HookRail
+                      items={templateItems}
+                      color="#ff5263"
+                      dashed={false}
+                      value={activeIndex >= 0 ? activeIndex : undefined}
+                      onChange={(index) => {
+                        const selected = templateItems[index];
+                        if (selected) {
+                          onSelectTemplate?.(selected.id);
                         }
                       }}
                     />

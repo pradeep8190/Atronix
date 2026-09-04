@@ -100,5 +100,11 @@
     "title": "Speed Rays",
     "description": "GPU-accelerated relativistic velocity field with tapered photon laser streaks.",
     "dependencies": []
+  },
+  {
+    "name": "testimonials",
+    "title": "Decentralized Testimonials",
+    "description": "3D curved perspective horizontal infinite scroll testimonials deck with obsidian glass cards, corner brackets, and volumetric lighting.",
+    "dependencies": []
   }
 ]

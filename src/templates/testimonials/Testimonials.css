@@ -1,0 +1,257 @@
+/* =========================================================================
+   FEEDBACK DECK (TESTIMONIALS) - 3D CURVED PERSPECTIVE INFINITE SCROLL
+   Atronix Standard: Obsidian glass, corner rim brackets, noise dot overlay
+   ========================================================================= */
+
+.testimonial-section {
+  width: 100%;
+  min-height: 640px;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  padding: 100px 0;
+  box-sizing: border-box;
+}
+
+.testimonial-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 6%;
+  gap: 60px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Left Intro Column */
+.testimonial-intro-col {
+  flex-shrink: 0;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+}
+
+.testimonial-tagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #8e8e93;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.testimonial-title {
+  font-family: 'Ubuntu Sans', 'Inter', -apple-system, sans-serif;
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.testimonial-subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.92rem;
+  color: #636366;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Auto-play Viewport Container with side mask fades & drag interaction */
+.testimonial-scroll-viewport {
+  flex-grow: 1;
+  overflow: hidden;
+  position: relative;
+  padding-top: 40px;
+  padding-bottom: 80px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+
+.testimonial-scroll-viewport:active {
+  cursor: grabbing;
+}
+
+/* Horizontal Track */
+.testimonial-scroll-track {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  will-change: transform;
+}
+
+/* FAQ Glass Cards */
+.testimonial-card {
+  flex-shrink: 0;
+  width: 360px;
+  height: 380px;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+.testimonial-card-inner {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.012);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.02), 0 15px 35px rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+  transition: background 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-card-inner:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.testimonial-index {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #3a3a3c;
+  letter-spacing: 1px;
+}
+
+.testimonial-quote {
+  font-family: 'Ubuntu Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.45;
+  font-style: italic;
+}
+
+.testimonial-author-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.testimonial-author {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.testimonial-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #636366;
+}
+
+/* FAQ Card White Corner Bracket Overlay */
+.testimonial-card-inner::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 105px;
+  height: 105px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.30);
+  border-right: 1.5px solid rgba(255, 255, 255, 0.30);
+  border-top-right-radius: 24px;
+  pointer-events: none;
+  z-index: 5;
+  transition: border-color 0.4s ease;
+}
+
+.testimonial-card-inner:hover::before {
+  border-top-color: rgba(255, 255, 255, 0.55);
+  border-right-color: rgba(255, 255, 255, 0.55);
+}
+
+/* Corner Glow & Micro-Noise - Single Unified Smooth Falloff across Card (No Sharp Border/Curves) */
+.testimonial-card-inner .card-corner-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3;
+  transition: opacity 0.5s ease;
+}
+
+.testimonial-card-inner .card-corner-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 120% 85% at 100% 0%,
+    rgba(255, 255, 255, 0.52) 0%,
+    rgba(255, 255, 255, 0.30) 14%,
+    rgba(255, 255, 255, 0.14) 30%,
+    rgba(255, 255, 255, 0.04) 52%,
+    transparent 78%
+  );
+  filter: blur(24px);
+  z-index: 1;
+}
+
+.testimonial-card-inner .card-corner-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.45'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.32;
+  -webkit-mask-image: radial-gradient(
+    ellipse 120% 85% at 100% 0%,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.40) 14%,
+    rgba(0, 0, 0, 0.16) 30%,
+    rgba(0, 0, 0, 0.04) 52%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    ellipse 120% 85% at 100% 0%,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.40) 14%,
+    rgba(0, 0, 0, 0.16) 30%,
+    rgba(0, 0, 0, 0.04) 52%,
+    transparent 78%
+  );
+  z-index: 2;
+}
+
+/* Eliminate secondary localized noise dot to remove circular arc/boundary collision */
+.testimonial-card-inner .card-noise-dot {
+  display: none !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .testimonial-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 60px 30px;
+    gap: 40px;
+  }
+
+  .testimonial-intro-col {
+    width: 100%;
+  }
+
+  .testimonial-scroll-viewport {
+    width: 100%;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Navbar.css';
 
 interface NavbarProps {
-  onNavigate?: (page: 'home' | 'components') => void;
+  onNavigate?: (page: 'home' | 'components' | 'templates') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
@@ -43,6 +43,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                 if (item === 'Components') {
                   e.preventDefault();
                   onNavigate?.('components');
+                } else if (item === 'Templates') {
+                  e.preventDefault();
+                  onNavigate?.('templates');
                 }
               }}
             >

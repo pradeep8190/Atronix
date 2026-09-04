@@ -118,23 +118,28 @@
   border-color: #cbd5e1;
 }
 
-/* Headline Typography */
+/* Headline Typography - perfectly fitted within particle { } brackets */
 .download-headline {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   margin-bottom: 1.8rem;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
 }
 
 .download-headline-main {
   font-family: 'Source Serif 4', Georgia, serif;
-  font-size: clamp(1.8rem, 2.5vw, 2.3rem);
+  font-size: clamp(1.75rem, 2.3vw, 2.15rem);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.15;
   color: #0f172a;
   margin: 0;
+  text-wrap: balance;
+  white-space: nowrap;
 }
 
 .download-hero-card[data-theme="dark"] .download-headline-main {
@@ -143,12 +148,14 @@
 
 .download-headline-sub {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: clamp(0.9rem, 1.1vw, 1.02rem);
+  font-size: clamp(0.82rem, 1.0vw, 0.92rem);
   font-weight: 400;
   letter-spacing: -0.01em;
-  line-height: 1.3;
+  line-height: 1.4;
   color: #64748b;
   margin: 0;
+  max-width: 290px;
+  text-wrap: balance;
 }
 
 .download-hero-card[data-theme="dark"] .download-headline-sub {

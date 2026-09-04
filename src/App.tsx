@@ -4,36 +4,49 @@ import { Sidebar } from './sidebar/Sidebar';
 import { NotificationProvider } from './context/NotificationContext';
 import { AppleIslandNotification } from './components/notification/AppleIslandNotification';
 import componentsRegistry from './data/componentsRegistry';
+import templatesRegistry from './data/templatesRegistry';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 const ComponentShowcase = lazy(() => import('./components/showcase/ComponentShowcase'));
+const TemplateShowcase = lazy(() => import('./components/showcase/TemplateShowcase'));
 
-// Parse route from URL pathname, supporting /components/:id
+// Parse route from URL pathname, supporting /components/:id and /templates/:id
 interface RouteState {
-  page: 'home' | 'components';
+  page: 'home' | 'components' | 'templates';
   componentId: string;
+  templateId?: string;
 }
 
 const parseRouteFromUrl = (): RouteState => {
   if (typeof window === 'undefined') {
-    return { page: 'home', componentId: 'frost-vault' };
+    return { page: 'home', componentId: 'frost-vault', templateId: 'testimonials' };
   }
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+
+  if (pathname.startsWith('/templates')) {
+    const parts = pathname.split('/').filter(Boolean);
+    if (parts.length > 1) {
+      const rawId = parts[1].toLowerCase().replace(/_/g, '-');
+      const validId = templatesRegistry[rawId] ? rawId : 'testimonials';
+      return { page: 'templates', componentId: 'frost-vault', templateId: validId };
+    }
+    return { page: 'templates', componentId: 'frost-vault', templateId: 'testimonials' };
+  }
 
   if (pathname.startsWith('/components')) {
     const parts = pathname.split('/').filter(Boolean);
     if (parts.length > 1) {
       const rawId = parts[1].toLowerCase().replace(/_/g, '-');
       const validId = componentsRegistry[rawId] ? rawId : 'frost-vault';
-      return { page: 'components', componentId: validId };
+      return { page: 'components', componentId: validId, templateId: 'testimonials' };
     }
-    return { page: 'components', componentId: 'frost-vault' };
+    return { page: 'components', componentId: 'frost-vault', templateId: 'testimonials' };
   }
 
-  return { page: 'home', componentId: 'frost-vault' };
+  return { page: 'home', componentId: 'frost-vault', templateId: 'testimonials' };
 };
 
 function App() {
@@ -41,6 +54,7 @@ function App() {
 
   const currentPage = route.page;
   const selectedComponentId = route.componentId;
+  const selectedTemplateId = route.templateId || 'testimonials';
 
   // Canonicalize URL on initial mount
   useEffect(() => {
@@ -48,6 +62,11 @@ function App() {
     const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
     if (currentRoute.page === 'components') {
       const canonicalPath = `/components/${currentRoute.componentId}`;
+      if (pathname !== canonicalPath) {
+        window.history.replaceState(currentRoute, '', canonicalPath);
+      }
+    } else if (currentRoute.page === 'templates') {
+      const canonicalPath = `/templates/${currentRoute.templateId || 'testimonials'}`;
       if (pathname !== canonicalPath) {
         window.history.replaceState(currentRoute, '', canonicalPath);
       }
@@ -101,12 +120,16 @@ function App() {
   useEffect(() => {
     if (currentPage === 'home') {
       document.title = 'Atronix UI — Physical Realism for the Modern Web';
+    } else if (currentPage === 'templates') {
+      const tmpl = templatesRegistry[selectedTemplateId];
+      const tmplName = tmpl ? tmpl.name : 'Template';
+      document.title = `${tmplName} — Atronix Templates`;
     } else {
       const comp = componentsRegistry[selectedComponentId];
       const compName = comp ? comp.name : 'Component';
       document.title = `${compName} — Atronix UI`;
     }
-  }, [currentPage, selectedComponentId]);
+  }, [currentPage, selectedComponentId, selectedTemplateId]);
 
   const handleSelectComponent = useCallback((componentId?: string) => {
     const rawId = componentId || 'frost-vault';
@@ -120,14 +143,33 @@ function App() {
     setRoute((prev) => ({ ...prev, page: 'components', componentId: validId }));
   }, []);
 
+  const handleSelectTemplate = useCallback((templateId?: string) => {
+    const rawId = templateId || 'testimonials';
+    const normalizedId = rawId.toLowerCase().replace(/_/g, '-');
+    const validId = templatesRegistry[normalizedId] ? normalizedId : 'testimonials';
+    const targetPath = `/templates/${validId}`;
+
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({ page: 'templates', templateId: validId }, '', targetPath);
+    }
+    setRoute((prev) => ({ ...prev, page: 'templates', templateId: validId }));
+  }, []);
+
   const handleNavigate = useCallback(
-    (page: 'home' | 'components') => {
+    (page: 'home' | 'components' | 'templates') => {
       if (page === 'home') {
         const targetPath = window.location.pathname === '/' ? '/' : '/home';
         if (window.location.pathname !== targetPath) {
-          window.history.pushState({ page: 'home', componentId: selectedComponentId }, '', targetPath);
+          window.history.pushState({ page: 'home' }, '', targetPath);
         }
         setRoute((prev) => ({ ...prev, page: 'home' }));
+      } else if (page === 'templates') {
+        const tId = route.templateId || 'testimonials';
+        const targetPath = `/templates/${tId}`;
+        if (window.location.pathname !== targetPath) {
+          window.history.pushState({ page: 'templates', templateId: tId }, '', targetPath);
+        }
+        setRoute((prev) => ({ ...prev, page: 'templates', templateId: tId }));
       } else {
         const targetPath = `/components/${selectedComponentId}`;
         if (window.location.pathname !== targetPath) {
@@ -140,7 +182,7 @@ function App() {
         setRoute((prev) => ({ ...prev, page: 'components', componentId: selectedComponentId }));
       }
     },
-    [selectedComponentId]
+    [selectedComponentId, route.templateId]
   );
 
   return (
@@ -160,6 +202,9 @@ function App() {
         <Sidebar
           onSelectComponent={handleSelectComponent}
           selectedComponentId={selectedComponentId}
+          onSelectTemplate={handleSelectTemplate}
+          selectedTemplateId={selectedTemplateId}
+          activeSection={currentPage === 'templates' ? 'templates' : 'components'}
         />
 
         {/* Main Content View with Zero-Load Dynamic Code Splitting */}
@@ -170,6 +215,8 @@ function App() {
         >
           {currentPage === 'home' ? (
             <HomePage onNavigateToComponents={handleSelectComponent} />
+          ) : currentPage === 'templates' ? (
+            <TemplateShowcase templateId={selectedTemplateId} />
           ) : (
             <ComponentShowcase componentId={selectedComponentId} />
           )}

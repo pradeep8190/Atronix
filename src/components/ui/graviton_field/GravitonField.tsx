@@ -44,6 +44,7 @@ export const GravitonField: React.FC<GravitonFieldProps> = ({
     };
 
     // Dynamically load engine directly from component-scoped engine folder
+    // @ts-ignore
     import("./engine/graviton-engine.js")
       .then(() => {
         setTimeout(initField, 50);

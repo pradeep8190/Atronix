@@ -35,7 +35,7 @@ export default function Example() {
         color2="#475569"
         color3="#334155"
         badgeText="Atronix Sovereign Engine"
-        headline="Physical Interface Dynamics"
+        headline="Physical Interface"
         subheadline="Interactive 3D particle lattice with fluid code morphing"
         buttonText="Explore Components"
         buttonIcon="code"
@@ -57,7 +57,7 @@ export default function Example() {
     color2: '#475569',
     color3: '#334155',
     badgeText: 'Atronix Sovereign Engine',
-    headline: 'Physical Interface Dynamics',
+    headline: 'Physical Interface',
     subheadline: 'Interactive 3D particle lattice with fluid code morphing',
     buttonText: 'Explore Components',
     buttonIcon: 'code',

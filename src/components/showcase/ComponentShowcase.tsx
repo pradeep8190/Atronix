@@ -5,6 +5,7 @@ import { ComponentPreview } from './ComponentPreview';
 import { ComponentCode } from './ComponentCode';
 import { ShowcaseFooter } from './ShowcaseFooter';
 import { GravitonHeroDemo } from './GravitonHeroDemo';
+import { TyndallHeroDemo } from './TyndallHeroDemo';
 import { useNotification } from '../../context/NotificationContext';
 import './ComponentShowcase.css';
 
@@ -187,7 +188,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
             </span>
           </button>
 
-          {item.id === 'graviton-field' && (
+          {(item.id === 'graviton-field' || item.id === 'tyndall-beam') && (
             <button
               className={`tab-btn ${activeTab === 'hero' ? 'active' : ''}`}
               onClick={() => handleTabChange('hero')}
@@ -315,8 +316,8 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
             exit={{ opacity: 0, y: -10, scale: 0.985, filter: 'blur(6px)' }}
             transition={viewSpring}
           >
-            <div className="preview-sandbox sandbox-laptop-ratio">
-              <GravitonHeroDemo />
+            <div className={`preview-sandbox sandbox-laptop-ratio ${item.id === 'tyndall-beam' ? 'hero-demo-fullbleed' : ''}`}>
+              {item.id === 'tyndall-beam' ? <TyndallHeroDemo /> : <GravitonHeroDemo />}
             </div>
           </motion.div>
         ) : activeTab === 'preview' ? (
