@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
 import { NotificationProvider } from './context/NotificationContext';
@@ -224,6 +225,7 @@ function App() {
             <ComponentShowcase componentId={selectedComponentId} />
           )}
         </Suspense>
+        <Analytics />
       </div>
     </NotificationProvider>
   );
