@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { cameraRollVsSource, cameraRollFsSource } from './lensStripShaders';
 import lensBgImg from '@/assets/lens_bg.png';
 import './LensStrip.css';
@@ -40,7 +40,7 @@ export const LensStrip: React.FC<LensStripProps> = ({
   initialIndex = 2,
   modes = DEFAULT_MODES,
   onChange,
-  showBadge = true,
+  showBadge: _showBadge = true,
   className = '',
   style,
 }) => {
@@ -48,7 +48,7 @@ export const LensStrip: React.FC<LensStripProps> = ({
   const bgCanvasRef = useRef<HTMLCanvasElement>(null);
   const glCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [activeMode, setActiveMode] = useState<CameraModeItem>(modes[initialIndex] || modes[0]);
+  const [_activeMode, setActiveMode] = useState<CameraModeItem>(modes[initialIndex] || modes[0]);
   const [isDragging, setIsDragging] = useState(false);
 
   const onChangeRef = useRef(onChange);

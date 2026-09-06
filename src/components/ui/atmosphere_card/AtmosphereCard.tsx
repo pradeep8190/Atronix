@@ -468,9 +468,9 @@ export const AtmosphereCard: React.FC<AtmosphereCardProps> = ({
       }
 
       // Render molten silk texture
-      renderMoltenSilk(bgCanvas.width, bgCanvas.height, elapsed);
+      renderMoltenSilk(bgCanvas!.width, bgCanvas!.height, elapsed);
       gl!.bindTexture(gl!.TEXTURE_2D, bgTexture);
-      gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, bgCanvas);
+      gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, bgCanvas!);
 
       // Render WebGL Quad
       gl!.useProgram(program);
@@ -478,8 +478,8 @@ export const AtmosphereCard: React.FC<AtmosphereCardProps> = ({
       gl!.bindTexture(gl!.TEXTURE_2D, bgTexture);
       gl!.uniform1i(uBackground, 0);
 
-      gl!.uniform2f(uResolution, glCanvas.width, glCanvas.height);
-      gl!.uniform2f(uCardCenter, glCanvas.width * 0.5, glCanvas.height * 0.5);
+      gl!.uniform2f(uResolution, glCanvas!.width, glCanvas!.height);
+      gl!.uniform2f(uCardCenter, glCanvas!.width * 0.5, glCanvas!.height * 0.5);
       gl!.uniform2f(
         uCardHalfSize,
         CARD_WIDTH_CSS * 0.5 * dpr,

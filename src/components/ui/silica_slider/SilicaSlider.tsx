@@ -14,9 +14,7 @@ export type LiquidGlassSliderProps = SilicaSliderProps;
 // Geometric Constants (in CSS pixels from slider-app.js)
 const THUMB_HALF_WIDTH = 54.0;
 const THUMB_HALF_HEIGHT = 30.0;
-const THUMB_RADIUS = 30.0;
 const TRACK_HEIGHT = 10.0;
-const TRACK_PADDING = 54.0;
 
 // Optical Constants (from slider-app.js)
 const OPTICAL_IOR = 1.52;

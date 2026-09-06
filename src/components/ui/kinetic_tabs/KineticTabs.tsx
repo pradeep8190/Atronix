@@ -46,7 +46,7 @@ export const KineticTabs: React.FC<KineticTabsProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [activeTab, setActiveTab] = useState<number>(initialIndex);
+  const [_activeTab, setActiveTab] = useState<number>(initialIndex);
 
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
@@ -270,7 +270,7 @@ export const KineticTabs: React.FC<KineticTabsProps> = ({
       ctx.restore();
     };
 
-    const renderSubstrate = (stageW: number, stageH: number, dpr: number) => {
+    const renderSubstrate = (stageW: number, _stageH: number, dpr: number) => {
       if (!bgCtx) return;
       const w = bgCanvas.width;
       const h = bgCanvas.height;
@@ -355,7 +355,6 @@ export const KineticTabs: React.FC<KineticTabsProps> = ({
 
         // Compute distance to lens center for active color transition
         const distFromLens = Math.abs(tabPosCSS - st.lensCurrentX);
-        const isUnderLens = distFromLens < 34.0;
         const activeT = Math.max(0.0, Math.min(1.0, 1.0 - distFromLens / 36.0));
 
         // Active Apple red #fa2d48 vs muted dark grey
@@ -416,7 +415,6 @@ export const KineticTabs: React.FC<KineticTabsProps> = ({
       const x = clientX - rect.left;
       const st = stateRef.current;
 
-      const tabPositions = getTabPositions(stageW);
       const distToLens = Math.abs(x - st.lensCurrentX);
 
       if (distToLens <= LENS_BASE_HALF_WIDTH * 1.2) {
@@ -490,8 +488,6 @@ export const KineticTabs: React.FC<KineticTabsProps> = ({
       const st = stateRef.current;
       const dt = Math.min((currentTime - st.lastTime) / 1000, 0.04);
       st.lastTime = currentTime;
-
-      const tabPositions = getTabPositions(stageW);
 
       // Spring follow on lens X position
       const springK = 260.0;

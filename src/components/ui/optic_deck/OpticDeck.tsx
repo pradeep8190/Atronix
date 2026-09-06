@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { buttonVsSource, buttonFsSource } from './opticDeckShaders';
 import './OpticDeck.css';
 
@@ -118,7 +118,6 @@ export const OpticDeck: React.FC<OpticDeckProps> = ({
     const canvas = canvasRef.current;
     const touchOverlay = touchOverlayRef.current;
     const menu = menuRef.current;
-    const glider = gliderRef.current;
     if (!stage || !canvas || !touchOverlay) return;
 
     const gl = canvas.getContext('webgl', {
