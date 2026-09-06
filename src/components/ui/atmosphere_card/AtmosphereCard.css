@@ -1,0 +1,385 @@
+/* ==========================================================================
+   Atmosphere Card — Dark Obsidian Monochrome Stylesheet
+   Scoped to .atronix-atmosphere-card container
+   ========================================================================== */
+
+.atronix-atmosphere-card,
+.atronix-climate-weather {
+  --stage-bg: #07080b;
+  --card-width: 390px;
+  --card-height: 185px;
+  --card-radius: 30px;
+  --phosphor-green: #30f074;
+  --phosphor-glow: rgba(48, 240, 116, 0.65);
+
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-radius: inherit;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+/* Studio Stage: Zero Subcard, Seamless Full-Bleed Canvas */
+.atronix-climate-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  max-width: 100%;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* GPU Shader Canvas */
+.atronix-climate-glcanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.atronix-climate-bgcanvas {
+  display: none;
+}
+
+/* ==========================================================================
+   Weather Controller Card UI (Overlaid Exactly on Glass Geometry)
+   ========================================================================== */
+.atronix-climate-card-ui {
+  position: absolute;
+  width: var(--card-width);
+  height: var(--card-height);
+  padding: 20px 24px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 5;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+/* Header */
+.atronix-climate-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.atronix-climate-device-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.atronix-climate-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.015em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  margin: 0;
+}
+
+.atronix-climate-subtitle {
+  font-size: 12px;
+  font-weight: 450;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.01em;
+}
+
+/* Quick Return to 'Now' Button */
+.atronix-climate-now-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px) scale(0.92);
+  transition: 
+    opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.2s ease,
+    border-color 0.2s ease;
+  user-select: none;
+}
+
+.atronix-climate-now-pill.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.atronix-climate-now-pill:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(0) scale(1.04);
+}
+
+.atronix-climate-now-pill:active {
+  transform: translateY(0) scale(0.96);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.atronix-climate-now-icon {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   Center Hero: Split-Digit Rolling Odometer Display
+   ========================================================================== */
+.atronix-climate-temp-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 2px 0 0 0;
+  height: 46px;
+  user-select: none;
+  position: relative;
+}
+
+.atronix-climate-odometer {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  overflow: hidden;
+  line-height: 44px;
+}
+
+.atronix-climate-slot {
+  position: relative;
+  width: 22px;
+  height: 44px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.atronix-climate-slot.minus {
+  width: 14px;
+}
+
+.atronix-climate-reel {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.atronix-climate-digit {
+  display: block;
+  height: 44px;
+  line-height: 44px;
+  font-size: 38px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.65);
+}
+
+/* Unit Button Toggle (°C / °F) */
+.atronix-climate-unit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 2px;
+  margin-left: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  outline: none;
+}
+
+.atronix-climate-degree {
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  transition: color 0.2s ease;
+}
+
+.atronix-climate-unit-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  margin-top: 3px;
+  transition: color 0.2s ease;
+}
+
+.atronix-climate-unit-btn:hover .atronix-climate-degree,
+.atronix-climate-unit-btn:hover .atronix-climate-unit-label {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Interactive 24-Hour Timeline Scrubber Wheel (Past <-> Future)
+   ========================================================================== */
+.atronix-climate-timeline-container {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  mask-image: linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%);
+}
+
+.atronix-climate-timeline-container:active,
+.atronix-climate-timeline-container.is-dragging {
+  cursor: grabbing;
+}
+
+.atronix-climate-timeline-wheel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+}
+
+.atronix-climate-tick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 64px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  user-select: none;
+}
+
+.atronix-climate-tick-time {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease, font-weight 0.2s ease, transform 0.2s ease;
+}
+
+/* Graduated Camera / Tuner Ruler Tick Marks */
+.atronix-climate-tick-line {
+  width: 1.5px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.20);
+  border-radius: 1px;
+  transition: height 0.22s cubic-bezier(0.16, 1, 0.3, 1), width 0.22s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.atronix-climate-tick.near-active .atronix-climate-tick-time {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.atronix-climate-tick.near-active .atronix-climate-tick-line {
+  height: 9px;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.atronix-climate-tick.active .atronix-climate-tick-time {
+  color: #ffffff;
+  font-weight: 600;
+  transform: scale(1.10);
+}
+
+.atronix-climate-tick.active .atronix-climate-tick-line {
+  width: 2px;
+  height: 14px;
+  background: #ffffff;
+  border-radius: 1px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+.atronix-climate-tick.far-active .atronix-climate-tick-time {
+  color: rgba(255, 255, 255, 0.20);
+}
+
+.atronix-climate-tick.far-active .atronix-climate-tick-line {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Precision Center Pointer Arrow */
+.atronix-climate-center-marker {
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.atronix-climate-marker-triangle {
+  width: 0;
+  height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-bottom: 5px solid #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+}
+
+/* Subtle One-Line Grey Guide */
+.atronix-climate-guide {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Ubuntu Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 450;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}

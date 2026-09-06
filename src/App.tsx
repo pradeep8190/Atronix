@@ -4,6 +4,7 @@ import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
 import { NotificationProvider } from './context/NotificationContext';
 import { AppleIslandNotification } from './components/notification/AppleIslandNotification';
+import { CommandPalette } from './components/search';
 import componentsRegistry from './data/componentsRegistry';
 import templatesRegistry from './data/templatesRegistry';
 import Lenis from 'lenis';
@@ -52,6 +53,7 @@ const parseRouteFromUrl = (): RouteState => {
 
 function App() {
   const [route, setRoute] = useState<RouteState>(parseRouteFromUrl);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const currentPage = route.page;
   const selectedComponentId = route.componentId;
@@ -194,7 +196,18 @@ function App() {
         <div className="bg-grid-mesh" />
 
         {/* Top Navbar */}
-        <Navbar onNavigate={handleNavigate} />
+        <Navbar
+          onNavigate={handleNavigate}
+          onOpenSearch={() => setIsSearchOpen(true)}
+        />
+
+        {/* World-Class Command Palette / Search Engine Modal */}
+        <CommandPalette
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          onSelectComponent={handleSelectComponent}
+          onSelectTemplate={handleSelectTemplate}
+        />
 
         {/* Apple Dynamic Island Notification Pill right under Navbar */}
         <AppleIslandNotification />

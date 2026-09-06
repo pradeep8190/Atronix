@@ -334,7 +334,25 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
               size={customProps.size || item.defaultSize || 'md'}
               hint={item.hint}
               hideHint={item.hideHint}
-              className={item.id === 'graviton-field' ? 'sandbox-laptop-ratio' : ''}
+              className={
+                item.id === 'graviton-field'
+                  ? 'sandbox-laptop-ratio'
+                  : item.id === 'silica-slider'
+                  ? 'silica-preview-sandbox'
+                  : item.id === 'plasma-button'
+                  ? 'plasma-preview-sandbox'
+                  : item.id === 'eclipse-switch'
+                  ? 'eclipse-preview-sandbox'
+                  : item.id === 'optic-deck'
+                  ? 'optic-preview-sandbox'
+                  : item.id === 'kinetic-tabs'
+                  ? 'kinetic-preview-sandbox'
+                  : item.id === 'lens-strip'
+                  ? 'lens-preview-sandbox'
+                  : item.id === 'atmosphere-card' || item.id === 'climate-weather'
+                  ? 'atmosphere-preview-sandbox'
+                  : ''
+              }
               customProps={customProps}
             />
           </motion.div>

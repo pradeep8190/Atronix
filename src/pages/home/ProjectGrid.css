@@ -101,9 +101,9 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: top center;
-  transform: scale(1.0);
-  filter: brightness(0.92) contrast(0.96) saturate(0.94);
+  object-position: center 42%;
+  transform: scale(1.08);
+  filter: brightness(0.98) contrast(1.04) saturate(1.02);
   transition: 
     transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
     filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
@@ -111,8 +111,8 @@
 
 /* On Hover: Pull Sharp Focus & Crisp Slow Zoom */
 .project-image-card:hover .project-image-wrapper img {
-  transform: scale(1.045) translateY(-2px);
-  filter: brightness(1.08) contrast(1.06) saturate(1.08);
+  transform: scale(1.14) translateY(-2px);
+  filter: brightness(1.08) contrast(1.08) saturate(1.08);
 }
 
 /* Soft Lens Aperture Vignette (pulls away on hover like an opening shutter) */

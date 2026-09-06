@@ -1,16 +1,16 @@
 import React, { lazy, Suspense } from 'react';
 import './ProjectGrid.css';
+import aeroCoreImg from '../../assets/previews/aero_core.png';
+import gravitonFieldImg from '../../assets/previews/graviton_field.png';
+import orbitGlobeImg from '../../assets/previews/orbit_globe.png';
 
-// Direct imports of actual registered components & templates
-const AeroCore = lazy(() => import('../../components/ui/aero_core/AeroCore'));
-const GravitonField = lazy(() => import('../../components/ui/graviton_field/GravitonField'));
+// Direct imports of lightweight registered components & templates
 const PendantLamp = lazy(() => import('../../components/ui/pendant_lamp/PendantLamp'));
 const SpeedRays = lazy(() => import('../../components/ui/speed_rays/SpeedRays'));
 const MercurySlider = lazy(() => import('../../components/ui/mercury_slider/MercurySlider'));
 const Folder = lazy(() => import('../../components/ui/frost_vault/Folder'));
 const Testimonials = lazy(() => import('../../templates/testimonials/Testimonials'));
 const LiquidMitosis = lazy(() => import('../../components/ui/liquid_mitosis/LiquidMitosis'));
-const OrbitGlobe = lazy(() => import('../../components/ui/orbit_globe/OrbitGlobe'));
 
 interface ProjectGridProps {
   onSelectComponent?: (id: string) => void;
@@ -22,33 +22,25 @@ interface ComponentCardItem {
   name: string;
   category: string;
   isTemplate?: boolean;
-  component: React.ComponentType<any>;
+  component?: React.ComponentType<any>;
+  imageUrl?: string;
 }
 
 // --------------------------------------------------------------------------
-// Row 1 Lineup: Aero Core, Graviton Field, Pendant Lamp
+// Row 1 Lineup: Aero Core (Preview), Graviton Field (Preview), Pendant Lamp (Live)
 // --------------------------------------------------------------------------
 const ROW_1_ITEMS: ComponentCardItem[] = [
   {
     id: 'aero-core',
     name: 'Aero Core',
     category: 'Tactile Acoustic Orb',
-    component: () => <AeroCore size="sm" />,
+    imageUrl: aeroCoreImg,
   },
   {
     id: 'graviton-field',
     name: 'Graviton Field',
     category: '3D GPGPU Relativistic Field',
-    component: () => (
-      <GravitonField
-        theme="dark"
-        density={220}
-        particlesScale={0.65}
-        color1="#818cf8"
-        color2="#c084fc"
-        color3="#475569"
-      />
-    ),
+    imageUrl: gravitonFieldImg,
   },
   {
     id: 'pendant-lamp',
@@ -127,11 +119,7 @@ const ROW_3_ITEMS: ComponentCardItem[] = [
     id: 'orbit-globe',
     name: 'Orbit Globe',
     category: '3D Coordinate Projection',
-    component: () => (
-      <div className="card-globe-container">
-        <OrbitGlobe size="sm" color="black" autoRotate={true} />
-      </div>
-    ),
+    imageUrl: orbitGlobeImg,
   },
 ];
 
@@ -167,12 +155,19 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({ onSelectComponent, onS
               }
             }}
           >
-            {/* Direct Physical Stage */}
-            <div className="project-direct-wrapper">
-              <Suspense fallback={null}>
-                <item.component />
-              </Suspense>
-            </div>
+            {/* Direct Physical Stage or High-Res Photographic Stage */}
+            {item.imageUrl ? (
+              <div className="project-image-wrapper">
+                <img src={item.imageUrl} alt={item.name} loading="lazy" />
+                <div className="image-vignette-overlay" />
+              </div>
+            ) : (
+              <div className="project-direct-wrapper">
+                <Suspense fallback={null}>
+                  {item.component && <item.component />}
+                </Suspense>
+              </div>
+            )}
 
             {/* Attached Liquid Glass Info Card/Pill under component */}
             <div className="project-glass-card">

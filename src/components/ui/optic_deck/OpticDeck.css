@@ -1,0 +1,207 @@
+.optic-deck-root,
+.liquid-glass-button-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  background: #ccd2dc;
+  padding: 0;
+  margin: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/* Studio Card Wrapper — Full bleed, zero nested subcard */
+.studio-card-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  max-width: 100%;
+  border-radius: inherit;
+  background: #ccd2dc;
+  box-shadow: none;
+  border: none;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.stage-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  cursor: default;
+}
+
+.button-glcanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.touch-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  cursor: default;
+}
+
+.touch-overlay.hovering-button {
+  cursor: pointer;
+}
+
+/* Glass Card Action Menu */
+.card-actions-menu {
+  position: absolute;
+  left: calc(50% - 97.5px);
+  top: calc(50% - 137.5px - 70px);
+  width: 195px;
+  height: 275px;
+  padding: 16px 12px 74px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  pointer-events: none;
+  z-index: 7;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+}
+
+.card-actions-menu.open .card-action-btn,
+.card-actions-menu.open .card-close-anchor {
+  pointer-events: auto;
+}
+
+.card-close-anchor {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  pointer-events: none;
+  cursor: pointer;
+  z-index: 8;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fluid Optical Hover Glider */
+.hover-glider {
+  position: absolute;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.48);
+  border: 0.75px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 4px 14px -2px rgba(28, 32, 45, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: 
+    top 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    left 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.18s ease,
+    transform 0.20s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.hover-glider.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Staggered Liquid Bloom & Blur-to-Focus Dissolve */
+.card-action-btn {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: rgba(30, 35, 45, 0.72);
+  font-size: 13px;
+  font-weight: 590;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  opacity: 0;
+  transform: translateY(14px) scale(0.92);
+  filter: blur(5px);
+  transition: 
+    opacity 0.18s ease-in,
+    transform 0.20s ease-in,
+    filter 0.18s ease-in,
+    color 0.18s ease;
+}
+
+.card-actions-menu.open .card-action-btn {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
+  transition: 
+    opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.44s cubic-bezier(0.175, 0.885, 0.32, 1.15),
+    filter 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.18s ease;
+  transition-delay: calc(var(--item-idx, 0) * 36ms + 70ms);
+}
+
+.card-action-btn:hover {
+  color: rgba(22, 18, 18, 0.96);
+}
+
+.card-action-btn:active,
+.card-action-btn.clicked {
+  transform: scale(0.94) !important;
+  color: #000000;
+  transition: transform 0.08s ease, color 0.08s ease !important;
+}
+
+.action-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: rgba(30, 35, 45, 0.72);
+  transition: 
+    stroke 0.20s ease,
+    transform 0.26s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+}
+
+.card-action-btn:hover .action-icon {
+  stroke: rgba(20, 16, 16, 0.98);
+  transform: scale(1.14) rotate(-3deg);
+}
+
+.card-action-btn:active .action-icon,
+.card-action-btn.clicked .action-icon {
+  stroke: #000000;
+  transform: scale(0.92);
+}
+
+.action-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

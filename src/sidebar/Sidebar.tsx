@@ -51,22 +51,115 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { label: 'Add utilities', href: '#add-utilities' },
   ];
 
-  const componentItems = [
-    { label: 'Frost Vault', id: 'frost-vault' },
-    { label: 'Graviton Field', id: 'graviton-field' },
-    { label: 'Quantum Morph', id: 'quantum-morph' },
-    { label: 'Aero Core', id: 'aero-core' },
-    { label: 'Liquid Mitosis', id: 'liquid-mitosis' },
-    { label: 'Cascade Select', id: 'cascade-select' },
-    { label: 'Phase Toggle', id: 'phase-toggle' },
-    { label: 'Hydro Button', id: 'hydro-button' },
-    { label: 'Ferro Drop', id: 'ferro-drop' },
-    { label: 'Mercury Slider', id: 'mercury-slider' },
-    { label: 'Pendant Lamp', id: 'pendant-lamp' },
-    { label: 'Orbit Globe', id: 'orbit-globe' },
-    { label: 'Speed Rays', id: 'speed-rays' },
-    { label: 'Tyndall Beam', id: 'tyndall-beam' },
+  interface SubSection {
+    id: string;
+    title: string;
+    icon: React.ReactNode;
+    items: { label: string; id: string }[];
+  }
+
+  const componentSubSections: SubSection[] = [
+    {
+      id: 'inputs',
+      title: 'Inputs & Controls',
+      icon: (
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" />
+          <line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" />
+          <line x1="1" y1="14" x2="7" y2="14" /><line x1="9" y1="8" x2="15" y2="8" />
+          <line x1="17" y1="16" x2="23" y2="16" />
+        </svg>
+      ),
+      items: [
+        { label: 'Hydro Button', id: 'hydro-button' },
+        { label: 'Optic Deck', id: 'optic-deck' },
+        { label: 'Phase Toggle', id: 'phase-toggle' },
+        { label: 'Plasma Button', id: 'plasma-button' },
+        { label: 'Mercury Slider', id: 'mercury-slider' },
+        { label: 'Silica Slider', id: 'silica-slider' },
+        { label: 'Eclipse Switch', id: 'eclipse-switch' },
+      ],
+    },
+    {
+      id: 'navigation',
+      title: 'Navigation & Select',
+      icon: (
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="3 11 22 2 13 21 11 13 3 11" />
+        </svg>
+      ),
+      items: [
+        { label: 'Kinetic Tabs', id: 'kinetic-tabs' },
+        { label: 'Cascade Select', id: 'cascade-select' },
+        { label: 'Lens Strip', id: 'lens-strip' },
+      ],
+    },
+    {
+      id: 'surfaces',
+      title: 'Surfaces & Cards',
+      icon: (
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" />
+          <line x1="8" y1="21" x2="16" y2="21" />
+          <line x1="12" y1="17" x2="12" y2="21" />
+        </svg>
+      ),
+      items: [
+        { label: 'Frost Vault', id: 'frost-vault' },
+        { label: 'Atmosphere Card', id: 'atmosphere-card' },
+      ],
+    },
+    {
+      id: 'physics',
+      title: 'WebGL & Physics',
+      icon: (
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          <path d="M2 12a15.3 15.3 0 0 1 10-4 15.3 15.3 0 0 1 10 4 15.3 15.3 0 0 1-10 4 15.3 15.3 0 0 1-10-4z" />
+        </svg>
+      ),
+      items: [
+        { label: 'Aero Core', id: 'aero-core' },
+        { label: 'Liquid Mitosis', id: 'liquid-mitosis' },
+        { label: 'Ferro Drop', id: 'ferro-drop' },
+        { label: 'Graviton Field', id: 'graviton-field' },
+        { label: 'Quantum Morph', id: 'quantum-morph' },
+        { label: 'Tyndall Beam', id: 'tyndall-beam' },
+        { label: 'Orbit Globe', id: 'orbit-globe' },
+        { label: 'Speed Rays', id: 'speed-rays' },
+        { label: 'Pendant Lamp', id: 'pendant-lamp' },
+      ],
+    },
   ];
+
+  const [openSubCategories, setOpenSubCategories] = useState<Record<string, boolean>>({
+    inputs: true,
+    navigation: true,
+    surfaces: true,
+    physics: true,
+  });
+
+  const toggleSubCategory = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpenSubCategories((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  // Auto-expand subcategory when selected component changes
+  React.useEffect(() => {
+    if (!selectedComponentId) return;
+    const sub = componentSubSections.find((s) =>
+      s.items.some((item) => item.id === selectedComponentId)
+    );
+    if (sub) {
+      setOpenSubCategories((prev) => ({ ...prev, [sub.id]: true }));
+      setOpenCategories((prev) => ({ ...prev, components: true }));
+    }
+  }, [selectedComponentId]);
 
   const templateItems = [
     { label: 'Decentralized Testimonials', id: 'testimonials' },
@@ -234,25 +327,73 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 style={{ overflow: 'hidden' }}
                 className="sidebar-rail-wrapper"
               >
-                {(() => {
-                  const activeIndex = componentItems.findIndex(
-                    (item) => item.id === selectedComponentId
-                  );
-                  return (
-                    <HookRail
-                      items={componentItems}
-                      color="#ffffff"
-                      dashed={false}
-                      value={activeIndex >= 0 ? activeIndex : undefined}
-                      onChange={(index) => {
-                        const selected = componentItems[index];
-                        if (selected) {
-                          onSelectComponent?.(selected.id);
-                        }
-                      }}
-                    />
-                  );
-                })()}
+                <div className="sidebar-subgroups-container">
+                  {componentSubSections.map((sub) => {
+                    const isSubOpen = openSubCategories[sub.id] ?? true;
+                    const activeIndex =
+                      activeSection === 'components'
+                        ? sub.items.findIndex((item) => item.id === selectedComponentId)
+                        : -1;
+                    const hasActiveChild = activeIndex >= 0;
+
+                    return (
+                      <div key={sub.id} className="sidebar-subgroup">
+                        <button
+                          type="button"
+                          className={`sidebar-subgroup-header ${hasActiveChild ? 'has-active' : ''}`}
+                          onClick={(e) => toggleSubCategory(sub.id, e)}
+                        >
+                          <div className="subgroup-header-left">
+                            <span className="subgroup-header-icon">{sub.icon}</span>
+                            <span className="subgroup-header-title">{sub.title}</span>
+                            <span className="sidebar-sub-count">{sub.items.length}</span>
+                          </div>
+                          <motion.svg
+                            animate={{ rotate: isSubOpen ? 0 : -90 }}
+                            transition={appleSpring}
+                            className="sub-chevron-icon"
+                            width="10"
+                            height="10"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="6 9 12 15 18 9" />
+                          </motion.svg>
+                        </button>
+
+                        <AnimatePresence initial={false}>
+                          {isSubOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={appleSpring}
+                              style={{ overflow: 'hidden' }}
+                              className="sidebar-subrail-wrapper"
+                            >
+                              <HookRail
+                                items={sub.items}
+                                color="#ffffff"
+                                dashed={false}
+                                value={activeIndex >= 0 ? activeIndex : -1}
+                                onChange={(index) => {
+                                  const selected = sub.items[index];
+                                  if (selected) {
+                                    onSelectComponent?.(selected.id);
+                                  }
+                                }}
+                              />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

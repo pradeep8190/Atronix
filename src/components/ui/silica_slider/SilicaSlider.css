@@ -1,0 +1,85 @@
+/* ==========================================================================
+   Liquid Glass Slider — Pure WebGL Physical Optics Stylesheet
+   Single Card Minimalist Luxury (Zero Sub-Card, One Unified Card)
+   ========================================================================== */
+
+.silica-slider-root,
+.liquid-glass-slider-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: #f8fafc;
+  background-image: 
+    radial-gradient(at 15% 15%, rgba(225, 29, 72, 0.04) 0px, transparent 40%),
+    radial-gradient(at 85% 85%, rgba(244, 63, 94, 0.03) 0px, transparent 45%),
+    radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Slider Stage: Full container (No inner sub-card box) */
+.slider-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+#glcanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  border-radius: 18px;
+}
+
+.slider-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  z-index: 10;
+  touch-action: none;
+  border-radius: 18px;
+}
+
+.slider-overlay:active {
+  cursor: grabbing;
+}
+
+/* Percentage Counter at end of slider line */
+.slider-value-counter {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.2px;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 15;
+}

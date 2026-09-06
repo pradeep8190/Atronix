@@ -1,0 +1,496 @@
+/* ==========================================================================
+   Atronix Command Palette — Pure Optical Liquid Glass (Zero Harsh Borders)
+   ========================================================================== */
+
+.cmd-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(60px, 11vh, 110px);
+  padding-left: 16px;
+  padding-right: 16px;
+  animation: cmdFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cmdFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Genuine Liquid Glass Container — Deep Obsidian Blackish Base */
+.cmd-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 23, 28, 0.82) 0%,
+    rgba(10, 10, 13, 0.92) 35%,
+    rgba(1, 1, 2, 0.98) 100%
+  );
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  border: none !important;
+  border-radius: 28px;
+  box-shadow:
+    0 36px 90px rgba(0, 0, 0, 0.95),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.24),
+    inset 0 2px 5px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -18px 36px -6px rgba(0, 0, 0, 0.98);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: #f1f5f9;
+  animation: cmdScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  max-height: 80vh;
+}
+
+/* Specular Top Optical Glass Reflection — Seamless Rim, Pure Dark Bottom */
+.cmd-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.02) 18%,
+    rgba(0, 0, 0, 0) 36%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes cmdScaleUp {
+  from {
+    transform: scale(0.96) translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header & Search Input — Pure borderless glass */
+.cmd-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px 12px 24px;
+  border: none !important;
+  z-index: 2;
+}
+
+.cmd-input {
+  flex: 1;
+  background: transparent;
+  border: none !important;
+  outline: none;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: -0.015em;
+  font-family: inherit;
+}
+
+.cmd-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 350;
+}
+
+.cmd-clear-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: none !important;
+  border-radius: 9999px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  cursor: pointer;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transition: all 0.15s ease;
+}
+
+.cmd-clear-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.cmd-esc-badge {
+  font-size: 0.7rem;
+  text-transform: lowercase;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.04);
+  border: none !important;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 4px 9px;
+  border-radius: 9999px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+
+/* Category Filter Pills — Smooth Liquid Glass */
+.cmd-filters-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 24px 14px 24px;
+  border: none !important;
+  z-index: 2;
+}
+
+.cmd-filter-pill {
+  padding: 5px 14px;
+  font-size: 0.76rem;
+  font-weight: 450;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: none !important;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.12), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cmd-filter-pill:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cmd-filter-pill.active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.32),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* "Did you mean?" banner — Soft specular glass */
+.cmd-suggestion-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 20px 10px 20px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: none !important;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.14);
+}
+
+.cmd-suggestion-btn {
+  background: none;
+  border: none !important;
+  color: #ffffff;
+  font-weight: 550;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Scrollable Results Area — Zero borders */
+.cmd-body {
+  position: relative;
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 16px 16px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  z-index: 2;
+}
+
+.cmd-body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.cmd-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+/* Section titles */
+.cmd-section-title {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 550;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 12px 10px 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cmd-clear-recents {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.35);
+  background: none;
+  border: none !important;
+  cursor: pointer;
+  text-transform: lowercase;
+}
+
+.cmd-clear-recents:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cmd-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 6px 16px 6px;
+}
+
+.cmd-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: none !important;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.12), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+}
+
+.cmd-chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.25);
+}
+
+.cmd-chip-remove {
+  color: rgba(255, 255, 255, 0.4);
+  background: none;
+  border: none !important;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.cmd-chip-remove:hover {
+  color: #ffffff;
+}
+
+/* Result Item — Borderless Liquid Glass Card */
+.cmd-result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.14s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 4px;
+  background: transparent;
+  border: none !important;
+  user-select: none;
+}
+
+.cmd-result-item:hover,
+.cmd-result-item.selected {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.18),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.cmd-item-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.cmd-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.cmd-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cmd-item-title {
+  font-size: 0.96rem;
+  font-weight: 550;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.cmd-item-badge {
+  font-size: 0.66rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  border: none !important;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  font-weight: 450;
+}
+
+.cmd-item-badge.template {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cmd-matched-badge {
+  font-size: 0.66rem;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  border: none !important;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.cmd-item-desc {
+  font-size: 0.77rem;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95%;
+}
+
+/* Luminous Optical White Highlight (No cheap neon cyan) */
+.cmd-highlight {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
+}
+
+/* Action Controls */
+.cmd-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+}
+
+.cmd-result-item:hover .cmd-item-actions,
+.cmd-result-item.selected .cmd-item-actions {
+  opacity: 1;
+}
+
+.cmd-copy-cli-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none !important;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.14), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+}
+
+.cmd-copy-cli-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.cmd-enter-hint {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Empty State */
+.cmd-empty {
+  padding: 44px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.cmd-empty-title {
+  font-size: 0.94rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cmd-empty-desc {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.cmd-empty-desc strong {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Footer — Pure borderless glass with blackish bottom tone */
+.cmd-footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px 18px 24px;
+  background: rgba(0, 0, 0, 0.45);
+  border: none !important;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  z-index: 2;
+}
+
+.cmd-footer-hints {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cmd-footer-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cmd-footer-kbd {
+  font-family: inherit;
+  font-size: 0.66rem;
+  padding: 3px 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none !important;
+  color: rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}

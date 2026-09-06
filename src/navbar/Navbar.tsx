@@ -1,27 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './Navbar.css';
 
 interface NavbarProps {
   onNavigate?: (page: 'home' | 'components' | 'templates') => void;
+  onOpenSearch?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onNavigate, onOpenSearch }) => {
   const navItems = ['Components', 'Templates', 'Pricing', 'Docs'];
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Cmd+K / Ctrl+K shortcut to focus search input
+  // Cmd+K / Ctrl+K shortcut to open command palette
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        searchInputRef.current?.focus();
+        onOpenSearch?.();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [onOpenSearch]);
 
   return (
     <nav className="navbar-container">
@@ -56,10 +54,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
       </div>
 
       <div className="navbar-right">
-        {/* Interactive Expanding Liquid Glass Search Input */}
+        {/* Interactive Expanding Liquid Glass Search Trigger */}
         <div
-          className={`nav-search-wrapper ${isFocused || searchQuery ? 'focused' : ''}`}
-          onClick={() => searchInputRef.current?.focus()}
+          className="nav-search-wrapper"
+          onClick={() => onOpenSearch?.()}
+          role="button"
+          tabIndex={0}
+          style={{ cursor: 'pointer' }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onOpenSearch?.();
+            }
+          }}
         >
           <svg
             className="search-icon"
@@ -76,18 +83,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
 
-          <input
-            ref={searchInputRef}
-            type="text"
-            className="search-input"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-          />
+          <span
+            style={{
+              fontSize: '12.5px',
+              color: 'rgba(255, 255, 255, 0.48)',
+              userSelect: 'none',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              flex: 1,
+            }}
+          >
+            Search...
+          </span>
 
-          {!isFocused && !searchQuery && <kbd className="search-badge">⌘K</kbd>}
+          <kbd className="search-badge">⌘K</kbd>
         </div>
 
         {/* Cart Icon Button */}
