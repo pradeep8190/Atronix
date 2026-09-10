@@ -34,7 +34,6 @@ const PILL_RADIUS = 26.0;
 
 const LENS_HALF_WIDTH = 63.0;
 const LENS_HALF_HEIGHT = 30.0;
-const LENS_RADIUS = 30.0;
 
 export const LensStrip: React.FC<LensStripProps> = ({
   initialIndex = 2,
