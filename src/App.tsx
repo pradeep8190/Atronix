@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
+import { MobileDrawerLayout } from './components/mobile/MobileDrawerLayout';
 import { NotificationProvider } from './context/NotificationContext';
 import { AppleIslandNotification } from './components/notification/AppleIslandNotification';
 import { CommandPalette } from './components/search';
@@ -10,9 +11,9 @@ import templatesRegistry from './data/templatesRegistry';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
-const HomePage = lazy(() => import('./pages/home/HomePage'));
-const ComponentShowcase = lazy(() => import('./components/showcase/ComponentShowcase'));
-const TemplateShowcase = lazy(() => import('./components/showcase/TemplateShowcase'));
+import HomePage from './pages/home/HomePage';
+import ComponentShowcase from './components/showcase/ComponentShowcase';
+import TemplateShowcase from './components/showcase/TemplateShowcase';
 
 // Parse route from URL pathname, supporting /components/:id and /templates/:id
 interface RouteState {
@@ -54,6 +55,7 @@ const parseRouteFromUrl = (): RouteState => {
 function App() {
   const [route, setRoute] = useState<RouteState>(parseRouteFromUrl);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   const currentPage = route.page;
   const selectedComponentId = route.componentId;
@@ -86,8 +88,16 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Initialize Global Lenis Smooth Scroll
+  // Initialize Global Lenis Smooth Scroll (Desktop Only)
   useEffect(() => {
+    // Disable Lenis on touch/mobile to preserve native 120Hz iOS ProMotion scrolling & gestures
+    if (
+      typeof window !== 'undefined' &&
+      (window.innerWidth < 1024 || window.matchMedia('(pointer: coarse)').matches)
+    ) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -101,6 +111,7 @@ function App() {
         return (
           node instanceof HTMLElement &&
           (Boolean(node.closest('.sidebar-container')) ||
+            Boolean(node.closest('.mobile-drawer-plane')) ||
             Boolean(node.closest('.code-container.is-expanded')))
         );
       },
@@ -144,6 +155,7 @@ function App() {
       window.history.pushState({ page: 'components', componentId: validId }, '', targetPath);
     }
     setRoute((prev) => ({ ...prev, page: 'components', componentId: validId }));
+    setIsMobileDrawerOpen(false);
   }, []);
 
   const handleSelectTemplate = useCallback((templateId?: string) => {
@@ -156,10 +168,12 @@ function App() {
       window.history.pushState({ page: 'templates', templateId: validId }, '', targetPath);
     }
     setRoute((prev) => ({ ...prev, page: 'templates', templateId: validId }));
+    setIsMobileDrawerOpen(false);
   }, []);
 
   const handleNavigate = useCallback(
     (page: 'home' | 'components' | 'templates') => {
+      setIsMobileDrawerOpen(false);
       if (page === 'home') {
         const targetPath = window.location.pathname === '/' ? '/' : '/home';
         if (window.location.pathname !== targetPath) {
@@ -195,12 +209,6 @@ function App() {
         <div className="bg-spotlight" />
         <div className="bg-grid-mesh" />
 
-        {/* Top Navbar */}
-        <Navbar
-          onNavigate={handleNavigate}
-          onOpenSearch={() => setIsSearchOpen(true)}
-        />
-
         {/* World-Class Command Palette / Search Engine Modal */}
         <CommandPalette
           isOpen={isSearchOpen}
@@ -209,10 +217,7 @@ function App() {
           onSelectTemplate={handleSelectTemplate}
         />
 
-        {/* Apple Dynamic Island Notification Pill right under Navbar */}
-        <AppleIslandNotification />
-
-        {/* Left Sidebar navigation */}
+        {/* Desktop Fixed Left Sidebar (hidden on mobile via CSS) */}
         <Sidebar
           onSelectComponent={handleSelectComponent}
           selectedComponentId={selectedComponentId}
@@ -221,23 +226,65 @@ function App() {
           activeSection={currentPage === 'templates' ? 'templates' : 'components'}
         />
 
-        {/* Main Content View with Zero-Load Dynamic Code Splitting */}
-        <Suspense
-          fallback={
-            <main className="page-transition-fallback" style={{ minHeight: '80vh' }} />
+        {/* Sovereign 3D Scale & Slide Mobile Drawer Architecture */}
+        <MobileDrawerLayout
+          isOpen={isMobileDrawerOpen}
+          onOpen={() => setIsMobileDrawerOpen(true)}
+          onClose={() => setIsMobileDrawerOpen(false)}
+          onNavigate={handleNavigate}
+          onOpenSearch={() => setIsSearchOpen(true)}
+          currentPage={currentPage}
+          headerContent={
+            <>
+              {/* Top Navbar */}
+              <Navbar
+                onNavigate={handleNavigate}
+                onOpenSearch={() => setIsSearchOpen(true)}
+                onToggleMobileDrawer={() => setIsMobileDrawerOpen((prev) => !prev)}
+                isDrawerOpen={isMobileDrawerOpen}
+              />
+
+              {/* Apple Dynamic Island Notification Pill right under Navbar */}
+              <AppleIslandNotification />
+            </>
+          }
+          sidebarContent={
+            <Sidebar
+              className="is-mobile-drawer"
+              onSelectComponent={(id) => {
+                handleSelectComponent(id);
+                setIsMobileDrawerOpen(false);
+              }}
+              selectedComponentId={selectedComponentId}
+              onSelectTemplate={(id) => {
+                handleSelectTemplate(id);
+                setIsMobileDrawerOpen(false);
+              }}
+              selectedTemplateId={selectedTemplateId}
+              activeSection={currentPage === 'templates' ? 'templates' : 'components'}
+              onItemClick={() => setIsMobileDrawerOpen(false)}
+            />
           }
         >
-          {currentPage === 'home' ? (
-            <HomePage
-              onNavigateToComponents={handleSelectComponent}
-              onNavigateToTemplates={handleSelectTemplate}
-            />
-          ) : currentPage === 'templates' ? (
-            <TemplateShowcase templateId={selectedTemplateId} />
-          ) : (
-            <ComponentShowcase componentId={selectedComponentId} />
-          )}
-        </Suspense>
+          {/* Main Content View with Zero-Load Dynamic Code Splitting */}
+          <Suspense
+            fallback={
+              <main className="page-transition-fallback" style={{ minHeight: '80vh' }} />
+            }
+          >
+            {currentPage === 'home' ? (
+              <HomePage
+                onNavigateToComponents={handleSelectComponent}
+                onNavigateToTemplates={handleSelectTemplate}
+              />
+            ) : currentPage === 'templates' ? (
+              <TemplateShowcase templateId={selectedTemplateId} />
+            ) : (
+              <ComponentShowcase componentId={selectedComponentId} />
+            )}
+          </Suspense>
+        </MobileDrawerLayout>
+
         <Analytics />
       </div>
     </NotificationProvider>
@@ -245,3 +292,4 @@ function App() {
 }
 
 export default App;
+

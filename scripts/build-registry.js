@@ -61,22 +61,10 @@ const componentMeta = {
     description: 'Gravity-driven optical liquid glass dropdown selector with viscoelastic drip easing.',
     dependencies: ['motion'],
   },
-  phase_toggle: {
-    id: 'phase-toggle',
-    name: 'Phase Toggle',
-    description: 'Dual-chamber optical liquid mercury switch with capillary throat squirt kinematics.',
-    dependencies: ['motion'],
-  },
   hydro_button: {
     id: 'hydro-button',
     name: 'Hydro Button',
     description: 'Incompressible hydrostatic water bag button with stone-drop crater depression and border bulge.',
-    dependencies: ['motion'],
-  },
-  ferro_drop: {
-    id: 'ferro-drop',
-    name: 'Ferro Drop',
-    description: 'Magnetic AI prompt bar with ferrofluid boundary pull and particle assimilation.',
     dependencies: ['motion'],
   },
   mercury_slider: {

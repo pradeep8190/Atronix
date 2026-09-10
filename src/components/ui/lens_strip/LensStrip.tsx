@@ -70,6 +70,10 @@ export const LensStrip: React.FC<LensStripProps> = ({
     pressAmount: 0.0,
     activeIndex: initialIndex,
     lastTime: performance.now(),
+    currentHalfWidth: LENS_HALF_WIDTH,
+    widthVelocity: 0.0,
+    currentScaleX: 1.0,
+    scaleVelocityX: 0.0,
   });
 
   useEffect(() => {
@@ -89,6 +93,14 @@ export const LensStrip: React.FC<LensStripProps> = ({
 
     const bgCtx = bgCanvas.getContext('2d', { alpha: false });
     if (!bgCtx) return;
+
+    // Pre-calculate adaptive half-widths for all modes based on text metrics
+    bgCtx.font = '500 15px -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif';
+    const modeHalfWidths = modes.map((m) => {
+      const textMetrics = bgCtx.measureText(m.label);
+      return Math.max(48.0, (textMetrics.width + 44.0) * 0.5);
+    });
+    physicsRef.current.currentHalfWidth = modeHalfWidths[initialIndex] || LENS_HALF_WIDTH;
 
     // Compile WebGL
     const compile = (type: number, src: string) => {
@@ -296,7 +308,8 @@ export const LensStrip: React.FC<LensStripProps> = ({
         if (alpha <= 0.001) continue;
 
         // Golden yellow transition inside center lens
-        const yellowFactor = Math.max(0.0, Math.min(1.0, 1.0 - distFromCenter / 48.0));
+        const dynamicThreshold = Math.max(38.0, physicsRef.current.currentHalfWidth * 0.82);
+        const yellowFactor = Math.max(0.0, Math.min(1.0, 1.0 - distFromCenter / dynamicThreshold));
         const r = Math.round(240 + (255 - 240) * yellowFactor);
         const g = Math.round(242 + (214 - 242) * yellowFactor);
         const b = Math.round(246 + (10 - 246) * yellowFactor);
@@ -370,6 +383,15 @@ export const LensStrip: React.FC<LensStripProps> = ({
       phy.pointerHistory.push({ x: clientX, time: now });
       while (phy.pointerHistory.length > 6 || now - phy.pointerHistory[0].time > 120) {
         phy.pointerHistory.shift();
+      }
+
+      if (phy.pointerHistory.length >= 2) {
+        const oldest = phy.pointerHistory[0];
+        const newest = phy.pointerHistory[phy.pointerHistory.length - 1];
+        const dt = (newest.time - oldest.time) / 1000;
+        if (dt > 0.008) {
+          phy.velocity = -Math.max(-2800, Math.min(2800, (newest.x - oldest.x) / dt));
+        }
       }
 
       const rawIdx = Math.round(phy.currentOffset / ITEM_SPACING);
@@ -480,6 +502,46 @@ export const LensStrip: React.FC<LensStripProps> = ({
         if (onChangeRef.current) onChangeRef.current(modes[clampedIdx], clampedIdx);
       }
 
+      // Continuous interpolated target width based on incoming text
+      let totalWeight = 0;
+      let blendedWidth = 0;
+      for (let i = 0; i < modes.length; i++) {
+        const itemX = i * ITEM_SPACING - phy.currentOffset;
+        const weight = Math.exp(-Math.pow(itemX / (ITEM_SPACING * 0.65), 2.0));
+        blendedWidth += modeHalfWidths[i] * weight;
+        totalWeight += weight;
+      }
+      const targetHalfW = totalWeight > 0.001 ? blendedWidth / totalWeight : (modeHalfWidths[phy.activeIndex] || LENS_HALF_WIDTH);
+
+      // 1. Apple Spring for Adaptive Width Transition
+      const widthSpringK = 320.0;
+      const widthDamping = 24.0;
+      const widthDisp = phy.currentHalfWidth - targetHalfW;
+      const widthForce = -widthSpringK * widthDisp - widthDamping * phy.widthVelocity;
+      phy.widthVelocity += widthForce * dt;
+      phy.currentHalfWidth += phy.widthVelocity * dt;
+
+      // 2. Inertial Jelly Stretch & Bounce from Carousel Motion
+      const velocityStrain = Math.min(0.24, Math.abs(phy.velocity) / 2600.0);
+      const pressStrain = phy.isDragging ? 0.04 : 0.0;
+      const targetScaleX = 1.0 + velocityStrain + pressStrain;
+
+      // Spring-mass-damper for horizontal jelly deformation
+      const jellySpringK = 360.0;
+      const jellyDamping = 20.0;
+      const scaleDisp = phy.currentScaleX - targetScaleX;
+      const scaleForce = -jellySpringK * scaleDisp - jellyDamping * phy.scaleVelocityX;
+      phy.scaleVelocityX += scaleForce * dt;
+      phy.currentScaleX += phy.scaleVelocityX * dt;
+
+      // Incompressible Poisson Volume Conservation: sigma_y = 1 / sqrt(sigma_x)
+      const clampedScaleX = Math.max(0.82, Math.min(1.35, phy.currentScaleX));
+      const clampedScaleY = 1.0 / Math.sqrt(clampedScaleX);
+
+      const dynamicHalfW = phy.currentHalfWidth * clampedScaleX;
+      const dynamicHalfH = LENS_HALF_HEIGHT * clampedScaleY;
+      const dynamicRadius = Math.min(dynamicHalfH, dynamicHalfW);
+
       // Render Substrate
       renderSubstrate(phy.currentOffset);
 
@@ -492,8 +554,8 @@ export const LensStrip: React.FC<LensStripProps> = ({
       const centerDevY = (stageH * 0.5) * dpr;
       gl.uniform2f(uniforms.u_lensPos, centerDevX, centerDevY);
 
-      gl.uniform2f(uniforms.u_lensHalfSize, LENS_HALF_WIDTH * dpr, LENS_HALF_HEIGHT * dpr);
-      gl.uniform1f(uniforms.u_lensRadius, LENS_RADIUS * dpr);
+      gl.uniform2f(uniforms.u_lensHalfSize, dynamicHalfW * dpr, dynamicHalfH * dpr);
+      gl.uniform1f(uniforms.u_lensRadius, dynamicRadius * dpr);
 
       gl.uniform1f(uniforms.u_time, (currentTime - startTime) * 0.001);
       gl.uniform1f(uniforms.u_velocity, phy.velocity);

@@ -56,9 +56,7 @@ Atronix rejects cheap CSS dropshadows and neon purple gradients. Every pixel obe
 | **Liquid Mitosis** | Hydrodynamic fluid metaball button with Rayleigh-Plateau separation | `npx atronix add liquid-mitosis` |
 | **Frost Vault** | 3D optical glass expanding cards with real refractive Fresnel blur | `npx atronix add frost-vault` |
 | **Cascade Select** | Gravity-driven optical liquid glass dropdown selector | `npx atronix add cascade-select` |
-| **Phase Toggle** | Dual-chamber optical liquid mercury switch with capillary kinematics | `npx atronix add phase-toggle` |
 | **Hydro Button** | Incompressible hydrostatic water bag button with stone-drop depression | `npx atronix add hydro-button` |
-| **Ferro Drop** | Magnetic AI prompt bar with ferrofluid boundary pull | `npx atronix add ferro-drop` |
 | **Mercury Slider** | Hydrodynamic liquid mercury bead slider with Poisson stretch | `npx atronix add mercury-slider` |
 
 ---

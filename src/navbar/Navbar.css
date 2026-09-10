@@ -359,3 +359,119 @@
 .nav-cta-button:active {
   transform: translateY(0);
 }
+
+/* ==========================================================
+   Mobile 3D Scale & Slide Hamburger Button
+   ========================================================== */
+.navbar-hamburger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 6px;
+  margin-right: 4px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.navbar-hamburger-btn:active {
+  transform: scale(0.88);
+}
+
+.hamburger-bar {
+  display: block;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease;
+}
+
+.navbar-hamburger-btn .bar-1 { width: 18px; }
+.navbar-hamburger-btn .bar-2 { width: 13px; }
+.navbar-hamburger-btn .bar-3 { width: 16px; }
+
+.navbar-hamburger-btn:hover .bar-2 {
+  width: 18px;
+}
+
+/* Morph to cross when menu is open */
+.navbar-hamburger-btn.is-open .bar-1 {
+  transform: translateY(6px) rotate(45deg);
+  width: 18px;
+}
+
+.navbar-hamburger-btn.is-open .bar-2 {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.navbar-hamburger-btn.is-open .bar-3 {
+  transform: translateY(-6px) rotate(-45deg);
+  width: 18px;
+}
+
+/* ==========================================================
+   Responsive Breakpoints for Mobile (< 1024px)
+   ========================================================== */
+@media (max-width: 1023px) {
+  .navbar-container {
+    position: relative !important;
+    top: 0 !important;
+    padding: 12px 16px;
+    height: 60px;
+    box-shadow: none !important;
+  }
+
+  .navbar-hamburger-btn {
+    display: flex;
+  }
+
+  .navbar-left {
+    gap: 12px;
+  }
+
+  .navbar-logo {
+    font-size: 21px;
+  }
+
+  /* Hide desktop links and verbose items */
+  .navbar-links,
+  .nav-divider,
+  .nav-login-link {
+    display: none !important;
+  }
+
+  .nav-search-wrapper {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .nav-search-wrapper span,
+  .nav-search-wrapper .search-badge {
+    display: none !important;
+  }
+
+  .nav-search-wrapper.focused {
+    width: 36px;
+  }
+
+  .nav-cta-button {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-icon-btn {
+    display: none !important;
+  }
+}
+

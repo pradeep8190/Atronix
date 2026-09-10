@@ -17,6 +17,8 @@ interface SidebarProps {
   onSelectTemplate?: (templateId: string) => void;
   selectedTemplateId?: string;
   activeSection?: 'components' | 'templates';
+  className?: string;
+  onItemClick?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -25,6 +27,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSelectTemplate,
   selectedTemplateId,
   activeSection = 'components',
+  className,
+  onItemClick,
 }) => {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     updates: true,
@@ -74,7 +78,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       items: [
         { label: 'Hydro Button', id: 'hydro-button' },
         { label: 'Optic Deck', id: 'optic-deck' },
-        { label: 'Phase Toggle', id: 'phase-toggle' },
         { label: 'Plasma Button', id: 'plasma-button' },
         { label: 'Mercury Slider', id: 'mercury-slider' },
         { label: 'Silica Slider', id: 'silica-slider' },
@@ -123,7 +126,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       items: [
         { label: 'Aero Core', id: 'aero-core' },
         { label: 'Liquid Mitosis', id: 'liquid-mitosis' },
-        { label: 'Ferro Drop', id: 'ferro-drop' },
         { label: 'Graviton Field', id: 'graviton-field' },
         { label: 'Quantum Morph', id: 'quantum-morph' },
         { label: 'Tyndall Beam', id: 'tyndall-beam' },
@@ -167,7 +169,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   return (
-    <aside className="sidebar-container" data-lenis-prevent>
+    <aside className={`sidebar-container ${className || ''}`} data-lenis-prevent>
       <div className="sidebar-content">
         {/* Section 1: Follow for updates */}
         <div className="sidebar-group">
@@ -384,6 +386,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                   const selected = sub.items[index];
                                   if (selected) {
                                     onSelectComponent?.(selected.id);
+                                    onItemClick?.();
                                   }
                                 }}
                               />
@@ -467,6 +470,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         const selected = templateItems[index];
                         if (selected) {
                           onSelectTemplate?.(selected.id);
+                          onItemClick?.();
                         }
                       }}
                     />

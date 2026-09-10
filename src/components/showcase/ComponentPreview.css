@@ -112,9 +112,15 @@
 }
 
 @media (max-width: 768px) {
+  .preview-sandbox {
+    min-height: 380px;
+    padding: 32px 14px 40px 14px;
+    border-radius: 14px;
+  }
+
   .preview-sandbox.sandbox-laptop-ratio {
-    min-height: 520px;
-    height: 520px;
+    min-height: 440px;
+    height: 440px;
   }
 }
 

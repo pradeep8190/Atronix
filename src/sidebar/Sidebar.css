@@ -216,3 +216,30 @@
   margin-left: 6px;
   border-left: 1px solid rgba(255, 255, 255, 0.04);
 }
+
+/* ==========================================================
+   Responsive Breakpoints for Mobile (< 1024px)
+   ========================================================== */
+@media (max-width: 1023px) {
+  /* Hide the fixed desktop sidebar */
+  .sidebar-container:not(.is-mobile-drawer) {
+    display: none !important;
+  }
+
+  /* When rendered inside the 3D mobile drawer */
+  .sidebar-container.is-mobile-drawer {
+    position: static;
+    width: 100%;
+    padding: 0;
+    border-right: none;
+    mask-image: none;
+    -webkit-mask-image: none;
+    overflow: visible;
+  }
+
+  .sidebar-container.is-mobile-drawer .sidebar-group-header,
+  .sidebar-container.is-mobile-drawer .sidebar-subgroup-header {
+    max-width: 100%;
+  }
+}
+

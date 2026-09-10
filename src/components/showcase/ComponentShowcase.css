@@ -194,3 +194,66 @@
 .action-icon-btn.copied-active:hover {
   background: rgba(255, 255, 255, 0.08);
 }
+
+/* ==========================================================
+   Responsive Breakpoints for Mobile (< 1024px)
+   ========================================================== */
+@media (max-width: 1023px) {
+  .showcase-container {
+    margin-left: 0;
+    margin-top: 0;
+    padding: 20px 16px 80px 16px;
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    box-sizing: border-box;
+  }
+
+  .showcase-header {
+    margin-bottom: 20px;
+  }
+
+  .showcase-title {
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .showcase-desc {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .showcase-tabs-bar {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .tabs-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 7px 12px;
+    font-size: 12.5px;
+  }
+
+  .controls-right {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase-container {
+    padding: 16px 14px 76px 14px;
+  }
+
+  .showcase-title {
+    font-size: 23px;
+  }
+}
+

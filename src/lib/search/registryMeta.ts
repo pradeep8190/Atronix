@@ -117,20 +117,6 @@ export const COMPONENT_METADATA_MAP: Record<string, ComponentSearchMetadata> = {
     ],
     tags: ['select', 'dropdown', 'inputs', 'menu', 'accordion', 'interactive'],
   },
-  'phase-toggle': {
-    curatedCategory: 'Inputs & Controls',
-    aliases: [
-      'phase',
-      'toggle',
-      'switch',
-      'dark mode toggle',
-      'checkbox switch',
-      'state toggle',
-      'flip switch',
-      'boolean switch',
-    ],
-    tags: ['switch', 'toggle', 'inputs', 'controls', 'state', 'interactive'],
-  },
   'aero-core': {
     curatedCategory: 'WebGL & Physics',
     aliases: [
@@ -144,20 +130,6 @@ export const COMPONENT_METADATA_MAP: Record<string, ComponentSearchMetadata> = {
       'reactor ring',
     ],
     tags: ['cyberpunk', 'core', 'glow', 'holographic', 'ambient', 'reactor'],
-  },
-  'ferro-drop': {
-    curatedCategory: 'WebGL & Physics',
-    aliases: [
-      'ferro',
-      'ferrofluid',
-      'magnetic fluid',
-      'black liquid',
-      'spiky fluid',
-      'magnetic drop',
-      'liquid magnet',
-      'iron droplet',
-    ],
-    tags: ['webgl', 'fluid', 'magnetic', 'ferrofluid', 'shader', 'physics'],
   },
   'pendant-lamp': {
     curatedCategory: 'WebGL & Physics',

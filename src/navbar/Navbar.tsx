@@ -4,9 +4,16 @@ import './Navbar.css';
 interface NavbarProps {
   onNavigate?: (page: 'home' | 'components' | 'templates') => void;
   onOpenSearch?: () => void;
+  onToggleMobileDrawer?: () => void;
+  isDrawerOpen?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavigate, onOpenSearch }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onNavigate,
+  onOpenSearch,
+  onToggleMobileDrawer,
+  isDrawerOpen = false,
+}) => {
   const navItems = ['Components', 'Templates', 'Pricing', 'Docs'];
 
   // Cmd+K / Ctrl+K shortcut to open command palette
@@ -24,6 +31,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, onOpenSearch }) => {
   return (
     <nav className="navbar-container">
       <div className="navbar-left">
+        {/* Mobile 3D Scale & Slide Hamburger Button */}
+        <button
+          className={`navbar-hamburger-btn ${isDrawerOpen ? 'is-open' : ''}`}
+          onClick={onToggleMobileDrawer}
+          aria-label={isDrawerOpen ? 'Close Menu' : 'Open Menu'}
+        >
+          <span className="hamburger-bar bar-1" />
+          <span className="hamburger-bar bar-2" />
+          <span className="hamburger-bar bar-3" />
+        </button>
+
         <span
           className="navbar-logo"
           style={{ cursor: 'pointer' }}

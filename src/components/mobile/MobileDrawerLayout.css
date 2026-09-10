@@ -1,0 +1,334 @@
+/* ==========================================================
+   Atronix Sovereign 3D Scale & Slide Mobile Drawer Architecture
+   Engineered for 120Hz Apple ProMotion Performance:
+   - Fixed viewport perspective stage (1200px)
+   - Self-contained sliding card (100% height, flex column, overflow: hidden)
+   - Inner native momentum scroll area (flex: 1, -webkit-overflow-scrolling: touch)
+   - Pure GPU transform compositing (zero box-shadow recalculations during drag)
+   ========================================================== */
+
+:root {
+  --slide-timing: cubic-bezier(0.32, 0.72, 0, 1);
+  --anim-duration: 0.52s;
+}
+
+/* ==========================================================
+   Desktop (>= 1024px) Pass-Through
+   ========================================================== */
+@media (min-width: 1024px) {
+  .atronix-mobile-viewport {
+    display: contents;
+  }
+
+  .mobile-drawer-backdrop,
+  .mobile-drawer-plane,
+  .mobile-card-dock-bar {
+    display: none !important;
+  }
+
+  .main-content-screen {
+    display: contents !important;
+  }
+
+  .mobile-card-header,
+  .mobile-card-scroll-body {
+    display: contents !important;
+  }
+}
+
+/* ==========================================================
+   Mobile & Tablet (< 1024px) 3D World Stage
+   ========================================================== */
+@media (max-width: 1023px) {
+  .atronix-mobile-viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background-color: #000000;
+    overflow: hidden;
+    perspective: 1200px;
+    -webkit-perspective: 1200px;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    z-index: 1000;
+  }
+
+  /* Desktop fixed sidebar is hidden on mobile */
+  .sidebar-container:not(.is-mobile-drawer) {
+    display: none !important;
+  }
+
+  /* ==========================================================
+     Background Drawer Plane (Revealed on slide)
+     ========================================================== */
+  .mobile-drawer-plane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    z-index: 10;
+    background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, #060608 55%, #000000 100%);
+    padding: 56px 18px 80px 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    box-sizing: border-box;
+  }
+
+  /* Drawer Top Brand */
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    width: 58%;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+  }
+
+  .drawer-brand-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Reospec', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+  }
+
+  .drawer-brand-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+
+  /* Navigation content inside the mobile drawer */
+  .mobile-drawer-content {
+    flex: 1;
+    width: 58%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 40px;
+    scrollbar-width: none;
+  }
+
+  .mobile-drawer-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* When rendered inside the drawer, reset fixed sidebar styles */
+  .mobile-drawer-content .sidebar-container.is-mobile-drawer {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    border-right: none !important;
+    background: transparent !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  /* Staggered entrance animation for drawer sections */
+  .mobile-drawer-content .sidebar-group {
+    transform: translateX(-15px);
+    opacity: 0;
+    transition: transform var(--anim-duration) var(--slide-timing),
+                opacity var(--anim-duration) ease;
+  }
+
+  .atronix-mobile-viewport.menu-open .mobile-drawer-content .sidebar-group:nth-child(1) {
+    transition-delay: 0.04s;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .atronix-mobile-viewport.menu-open .mobile-drawer-content .sidebar-group:nth-child(2) {
+    transition-delay: 0.08s;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .atronix-mobile-viewport.menu-open .mobile-drawer-content .sidebar-group:nth-child(3) {
+    transition-delay: 0.12s;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .atronix-mobile-viewport.menu-open .mobile-drawer-content .sidebar-group:nth-child(4) {
+    transition-delay: 0.16s;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* ==========================================================
+     Main Content Screen (The Sliding & Scaling Unit)
+     Exact prototype flex layout: header + scroll-body + dock
+     ========================================================== */
+  .main-content-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    background-color: #000000;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0px;
+    border: 1px solid transparent;
+    transform-origin: center left;
+    -webkit-transform-origin: center left;
+    transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
+    -webkit-transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
+    box-shadow: none;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: transform var(--anim-duration) var(--slide-timing),
+                border-radius var(--anim-duration) var(--slide-timing),
+                border-color var(--anim-duration) ease,
+                box-shadow var(--anim-duration) var(--slide-timing);
+    will-change: transform;
+    touch-action: pan-y;
+  }
+
+  /* Top Header Bar inside the Mobile Card */
+  .mobile-card-header {
+    flex-shrink: 0;
+    width: 100%;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(16px) brightness(1.2);
+    -webkit-backdrop-filter: blur(16px) brightness(1.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Scrollable Page Body (Native iOS 120Hz momentum scrolling) */
+  .mobile-card-scroll-body {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding-bottom: calc(68px + env(safe-area-inset-bottom, 12px));
+    box-sizing: border-box;
+  }
+
+  .mobile-card-scroll-body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* THE CORE ANIMATION: Scales down, slides to right, subtle 3D tilt */
+  .atronix-mobile-viewport.menu-open .main-content-screen {
+    transform: translate3d(66%, 0, 0) scale(0.875) rotateY(-3deg);
+    -webkit-transform: translate3d(66%, 0, 0) scale(0.875) rotateY(-3deg);
+    border-radius: 36px;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: -18px 14px 40px rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+  }
+
+  /* When dragged interactively, disable transitions for 0ms lag */
+  .main-content-screen.is-dragging {
+    transition: none !important;
+    -webkit-transition: none !important;
+  }
+
+  /* Invisible backdrop that catches taps to close when open */
+  .mobile-drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 99;
+    background: transparent;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .atronix-mobile-viewport.menu-open .mobile-drawer-backdrop {
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  /* ==========================================================
+     Pure Black Transparent Mobile Bottom Sticky Navigation Bar
+     Flush attached to bottom border, zero border lines, pure black with transparency
+     ========================================================== */
+  .mobile-card-dock-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 60;
+    pointer-events: auto;
+  }
+
+  .mobile-bottom-dock {
+    width: 100%;
+    max-width: 100%;
+    height: 54px;
+    height: calc(52px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(24px) saturate(1.8);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
+    border-radius: 0;
+    border: none;
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    transition: opacity 0.25s ease;
+  }
+
+  .dock-item {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 8px 18px;
+    border-radius: 12px;
+    transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .dock-item:active {
+    transform: scale(0.92);
+  }
+
+  .dock-item.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .dock-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+  }
+}

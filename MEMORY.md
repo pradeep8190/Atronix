@@ -82,7 +82,6 @@ Abstract instructions (*"make it smooth"*) produce mediocre results. **Real-worl
 | `liquid-mitosis` | **Liquid Mitosis** | WebGL Inigo Quilez C1 smooth metaball fusion with Rayleigh-Plateau capillary separation and glass caustics. |
 | `cascade-select` | **Cascade Select** | Gravity-driven liquid glass dropdown melt with damped harmonic waist pinch, meniscus sag, and elastic rebound. |
 | `mercury-slider` | **Mercury Slider** | Hydrodynamic liquid mercury bead with Poisson volume stretch ($\sigma_y = 1/\sqrt{\sigma_x}$), drag velocity, and elastic overdrag. |
-| `phase-toggle` | **Phase Toggle** | Dual-chamber optical glass switch with capillary throat squirt kinematics and impact wave dispersion. |
 | `hydro-button` | **Hydro Button** | Incompressible hydrostatic water bag button with localized stone-drop indentation craters and outer border pressure bulges. |
 | `flowing-tabs` | **Flowing Tab** | Dual-pool volumetric fluid siphon switcher with floor creep, central bridge pouring, and destination slosh resonance. |
 | `aero-core` | **Aero Core** | OpenAI Voice Mode-grade luminous white sky with 3D circumference-wrapping billowing volumetric cloud and Web Audio mic reactivity. |

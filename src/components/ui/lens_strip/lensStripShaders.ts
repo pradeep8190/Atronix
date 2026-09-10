@@ -138,30 +138,55 @@ export const cameraRollFsSource = `
     float bodyTint = mix(0.06, -0.04, clamp((p.y / u_lensHalfSize.y) * 0.5 + 0.5, 0.0, 1.0));
     totalRefracted *= (1.0 + bodyTint);
 
-    // 3. Tapered Specular Reflection Arc
-    float topArcAlign = dot(grad, normalize(vec2(-0.25, 0.96)));
-    float topTaper = smoothstep(0.20, 0.88, topArcAlign);
+    // 3. Diagonal Axis Specular Arcs (Top-Left Key Light & Bottom-Right Counter Glint)
+    // Non-uniform diagonal highlights with progressive thinning & opacity reduction towards centers.
+    // Dynamically tracks adaptive lens width & jelly stretch deformation.
+    float halfWCSS = u_lensHalfSize.x / dpr;
+    float halfHCSS = u_lensHalfSize.y / dpr;
+    float flatSegmentX = max(0.0, halfWCSS - halfHCSS);
 
-    float topSigma = 0.38 * (0.65 + 0.35 * topTaper);
-    float topDist = (distInsideCSS - 0.65) / topSigma;
-    float topHairline = exp(-topDist * topDist) * topTaper;
+    // --- Top-Left Diagonal Key Arc ---
+    float tlTopProg = smoothstep(flatSegmentX * 0.15, -(flatSegmentX + 4.0), pCSS.x);
+    float tlLeftProg = smoothstep(-2.0, halfHCSS * 0.8, pCSS.y);
+    float tlEnvelope = tlTopProg * tlLeftProg;
 
-    // Subtle bottom counter-glint
-    float btmArcAlign = dot(grad, normalize(vec2(0.20, -0.98)));
-    float btmTaper = smoothstep(0.35, 0.92, btmArcAlign);
-    float btmSigma = 0.38 * (0.65 + 0.35 * btmTaper);
-    float btmDist = (distInsideCSS - 0.65) / btmSigma;
-    float btmHairline = exp(-btmDist * btmDist) * btmTaper * 0.42;
+    vec2 tlKeyDir = normalize(vec2(-0.85, 0.85));
+    float tlNormalDot = dot(grad, tlKeyDir);
+    float tlNormalFactor = smoothstep(0.10, 0.85, tlNormalDot);
+    float tlFactor = tlEnvelope * tlNormalFactor;
 
-    float reflectionLine = topHairline * 0.85 + btmHairline;
+    float tlSigma = mix(0.14, 0.36, tlFactor);
+    float tlDist = (distInsideCSS - 0.55) / tlSigma;
+    float tlHairline = exp(-tlDist * tlDist);
+    float tlOpacity = mix(0.10, 0.76, tlFactor) * tlEnvelope;
+    float tlReflection = tlHairline * tlOpacity;
 
-    // Gentle physical Fresnel grazing sheen
-    vec3 viewDir = vec3(0.0, 0.0, 1.0);
+    // --- Bottom-Right Diagonal Counter Arc ---
+    float brBottomProg = smoothstep(-flatSegmentX * 0.15, flatSegmentX + 4.0, pCSS.x);
+    float brRightProg = smoothstep(2.0, -halfHCSS * 0.8, pCSS.y);
+    float brEnvelope = brBottomProg * brRightProg;
+
+    vec2 brKeyDir = normalize(vec2(0.85, -0.85));
+    float brNormalDot = dot(grad, brKeyDir);
+    float brNormalFactor = smoothstep(0.10, 0.85, brNormalDot);
+    float brFactor = brEnvelope * brNormalFactor;
+
+    float brSigma = mix(0.14, 0.34, brFactor);
+    float brDist = (distInsideCSS - 0.55) / brSigma;
+    float brHairline = exp(-brDist * brDist);
+    float brOpacity = mix(0.08, 0.58, brFactor) * brEnvelope;
+    float brReflection = brHairline * brOpacity;
+
+    float reflectionLine = tlReflection + brReflection;
+
+    // Subtle directional grazing sheen: localized to illuminated diagonal quadrants
     float cosTheta = clamp(normal.z, 0.0, 1.0);
     float grazing = 1.0 - cosTheta;
-    float fresnel = (0.043 + 0.957 * pow(grazing, 3.0)) * (1.0 - smoothT) * 0.25;
+    float fresnelEnvelope = tlEnvelope + brEnvelope * 0.75;
+    float fresnel = pow(grazing, 3.5) * (1.0 - smoothT) * 0.12 * fresnelEnvelope;
 
-    vec3 highlightColor = vec3(0.96, 0.98, 1.0);
+    // Refined greyish liquid titanium glass tone (sovereign smoky silver, zero harsh white)
+    vec3 highlightColor = vec3(0.66, 0.69, 0.73);
     vec3 reflectedLight = highlightColor * (reflectionLine + fresnel);
     vec3 glassColor = totalRefracted + reflectedLight;
 

@@ -462,3 +462,30 @@
   z-index: 2;
 }
 
+/* Responsive adjustments for Mobile (< 640px) */
+@media (max-width: 640px) {
+  .install-card-unified {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .install-controls-right {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .code-viewer-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+
+  .code-actions-right {
+    justify-content: flex-end;
+  }
+}
+
+
