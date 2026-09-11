@@ -1,4 +1,6 @@
 .pendant-lamp-wrapper {
+  --lamp-noise-svg: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+
   position: relative;
   width: 100%;
   min-height: 440px;
@@ -33,23 +35,21 @@
 
 /* Size Variants */
 .pendant-lamp-wrapper.size-sm .lamp-assembly {
-  transform: scale(0.8);
+  transform: scale(calc(var(--lamp-scale, 1) * 0.8));
   transform-origin: top center;
 }
 
 .pendant-lamp-wrapper.size-md .lamp-assembly {
-  transform: scale(1);
+  transform: scale(var(--lamp-scale, 1));
   transform-origin: top center;
 }
 
 .pendant-lamp-wrapper.size-lg .lamp-assembly {
-  transform: scale(1.15);
+  transform: scale(calc(var(--lamp-scale, 1) * 1.15));
   transform-origin: top center;
 }
 
-/* ==========================================================================
-   Compact Unified Lamp Assembly
-   ========================================================================== */
+/* Assembly Container */
 .lamp-assembly {
   position: relative;
   width: 360px;
@@ -58,14 +58,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  transform: scale(var(--lamp-scale, 1));
+  transform-origin: top center;
+  transition: transform 0.3s ease;
   overflow: visible;
 }
 
-/* 
-   Rigid Physical Pendulum Arm
-   Anchored directly at ceiling point (50% 0px).
-   Cord, Dome Fixture, Bulb, and Volumetric Light Cone all rotate as ONE single body.
-*/
+/* Pendulum Pivot Body */
 .lamp-pendulum-assembly {
   position: relative;
   width: 100%;
@@ -73,23 +72,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  transform-origin: 50% 0px;
+  transform-origin: 50% 0;
   overflow: visible;
 }
 
-/* 1. Hanging Wire Cord (Touches the preview card's upper border directly) */
+/* Suspension Cord */
 .lamp-cord-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   width: 100%;
-  cursor: grab;
-  margin-top: 0;
-}
-
-.lamp-cord-container:active {
-  cursor: grabbing;
 }
 
 .lamp-cord {
@@ -103,10 +95,9 @@
   );
   margin: 0 auto;
   transform-origin: top center;
-  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 2. Precision Industrial Dome Fixture */
+/* Lamp Fixture Shade */
 .lamp-fixture {
   position: relative;
   display: flex;
@@ -116,14 +107,22 @@
   margin: 0 auto;
   z-index: 10;
   cursor: pointer;
+  outline: none;
+}
+
+.lamp-fixture:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 4px;
+  border-radius: 60px 60px 4px 4px;
 }
 
 .lamp-top-nut {
   width: 8px;
   height: 4px;
-  background: #27272a;
+  background: linear-gradient(180deg, #3f3f46 0%, #18181b 100%);
   border-radius: 2px 2px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
@@ -132,59 +131,82 @@
   width: 120px;
   height: 60px;
   background: radial-gradient(
-    ellipse at 50% 15%,
-    #2c2d31 0%,
-    #141417 60%,
-    #050508 100%
+    ellipse 130% 90% at 50% 6%,
+    #3f4046 0%,
+    #2c2d33 22%,
+    #1c1d22 48%,
+    #101014 74%,
+    #070709 100%
   );
   border-radius: 120px 120px 0 0;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: none;
   box-shadow:
-    0 -6px 20px rgba(255, 255, 255, 0.03),
-    inset 0 2px 4px rgba(255, 255, 255, 0.22);
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 4px 14px 0 rgba(255, 255, 255, 0.05),
+    0 -4px 18px rgba(255, 255, 255, 0.02);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  overflow: hidden;
 }
 
-/* Bottom Rim Lip (126px wide -> matches light cone top exactly) */
+.lamp-dome-shade::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 14px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  border-radius: 60px 60px 0 0;
+  filter: blur(2px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.lamp-dome-shade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--lamp-noise-svg);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  border-radius: 120px 120px 0 0;
+  z-index: 1;
+}
+
 .lamp-rim-lip {
+  position: relative;
   width: 126px;
   height: 5px;
-  background: #18181b;
+  background: linear-gradient(180deg, #222227 0%, #121215 100%);
   border-radius: 2.5px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.95);
   transition: border-top-color 0.4s ease;
+  z-index: 12;
+  overflow: hidden;
 }
 
-/* Subtle Power Indicator LED on Lip */
-.lamp-power-indicator {
+.lamp-rim-lip::after {
+  content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 2.5px;
-  height: 2.5px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  inset: 0;
+  background-image: var(--lamp-noise-svg);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  border-radius: 2.5px;
 }
 
-.lamp-power-indicator.active {
-  background: #ffffff;
-  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8);
-}
-
-/* 3. Mathematically Aligned Volumetric Light Cone
-   Width: 360px. Left: 0; Right: 0; Margin: 0 auto;
-   Polygon: 32.5% (117px) to 67.5% (243px) = exactly 126px wide at top,
-   matching the 126px rim lip of the fixture down to the pixel!
-*/
+/* Light Beam Cone */
 .lamp-light-beam {
   position: absolute;
-  top: 122px; /* 55px cord + 69px fixture - 2px tuck behind rim */
+  top: 123px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -193,28 +215,40 @@
   background: linear-gradient(
     180deg,
     var(--lamp-beam-top, rgba(255, 255, 255, 0.90)) 0%,
-    var(--lamp-beam-high, rgba(255, 255, 255, 0.55)) 18%,
+    var(--lamp-beam-high, rgba(255, 255, 255, 0.62)) 12%,
+    var(--lamp-beam-high, rgba(255, 255, 255, 0.36)) 28%,
     var(--lamp-beam-mid, rgba(255, 255, 255, 0.18)) 50%,
-    var(--lamp-beam-low, rgba(255, 255, 255, 0.03)) 82%,
+    var(--lamp-beam-low, rgba(255, 255, 255, 0.06)) 72%,
+    var(--lamp-beam-low, rgba(255, 255, 255, 0.015)) 88%,
     transparent 100%
   );
-  clip-path: polygon(32.5% 0%, 67.5% 0%, 100% 100%, 0% 100%);
-  filter: blur(16px);
+  clip-path: polygon(33.33% 0%, 66.67% 0%, 100% 100%, 0% 100%);
+  filter: blur(14px);
   pointer-events: none;
   z-index: 5;
-  transform-origin: 50% 0%;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: 50% 0;
 }
 
-/* Diffuse Ambient Light Halo Bloom */
+.lamp-light-beam::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--lamp-noise-svg);
+  background-size: 140px 140px;
+  opacity: var(--lamp-noise-opacity, 1);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Ambient Halo Bloom */
 .lamp-beam-bloom {
   position: absolute;
-  top: 122px;
+  top: 123px;
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 290px;
-  height: 290px;
+  width: 270px;
+  height: 270px;
   background: radial-gradient(
     circle at 50% 25%,
     var(--lamp-bloom-core, rgba(255, 255, 255, 0.5)) 0%,
@@ -222,14 +256,25 @@
     var(--lamp-bloom-edge, rgba(255, 255, 255, 0.02)) 75%,
     transparent 100%
   );
-  filter: blur(34px);
+  filter: blur(30px);
   pointer-events: none;
   z-index: 4;
   transform-origin: 50% 25%;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 4. Ground Pool Reflection Physics (Stationary ground surface) */
+.lamp-beam-bloom::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--lamp-noise-svg);
+  background-size: 180px 180px;
+  opacity: var(--lamp-noise-opacity, 1);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* Floor Reflection */
 .lamp-floor-reflection {
   position: absolute;
   bottom: 8px;
@@ -249,10 +294,9 @@
   pointer-events: none;
   z-index: 3;
   transform-origin: 50% 50%;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 5. Physical Cast Shadow underneath the Number (Opposite light vector) */
+/* Ground Shadow */
 .lamp-cast-shadow {
   position: absolute;
   bottom: 18px;
@@ -272,10 +316,9 @@
   pointer-events: none;
   z-index: 5;
   transform-origin: 50% 50%;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 6. Illuminated Giant Typography crossing light boundary */
+/* Typography & Content Container */
 .lamp-illuminated-content {
   position: absolute;
   bottom: 24px;
@@ -289,9 +332,9 @@
   z-index: 6;
   pointer-events: none;
   user-select: none;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
 }
 
+.lamp-title-text,
 .lamp-one-text {
   font-family: 'Ubuntu Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 56px;
@@ -306,11 +349,10 @@
   background: linear-gradient(
     180deg,
     var(--lamp-text-top, #ffffff) 0%,
-    var(--lamp-text-high, #ffffff) 30%,
+    var(--lamp-text-top, #ffffff) 30%,
     var(--lamp-text-mid, rgba(255, 255, 255, 0.85)) 50%,
-    var(--lamp-text-low, rgba(255, 255, 255, 0.45)) 68%,
-    var(--lamp-text-fade, rgba(255, 255, 255, 0.15)) 82%,
-    rgba(255, 255, 255, 0.02) 100%
+    var(--lamp-text-low, rgba(255, 255, 255, 0.45)) 75%,
+    transparent 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -319,13 +361,12 @@
     drop-shadow(0 8px 22px rgba(0, 0, 0, 0.7));
 }
 
-/* Sub-label under the illuminated text */
 .lamp-sublabel {
   margin-top: -8px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Ubuntu Sans', system-ui, sans-serif;
+  font-family: 'Ubuntu Sans', system-ui, -apple-system, sans-serif;
   font-size: 10.5px;
   font-weight: 500;
   letter-spacing: 1.6px;
@@ -333,44 +374,75 @@
   color: var(--lamp-sublabel-color, rgba(255, 255, 255, 0.45));
 }
 
-/* Pull-String Switch */
-.lamp-pull-string {
+/* Pull Cord Anchor and Draggable Bead */
+.lamp-pull-string-anchor {
   position: absolute;
-  top: 65px;
-  right: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  z-index: 12;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.lamp-pull-string:hover {
-  transform: translateY(2px);
-}
-
-.lamp-pull-string:active {
-  transform: translateY(5px);
+  top: 66px;
+  right: 24px;
+  width: 20px;
+  height: 120px;
+  z-index: 9;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
 }
 
 .pull-string-wire {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 1px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.35);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  transform-origin: top center;
+  pointer-events: none;
 }
 
 .pull-string-bead {
-  width: 5px;
-  height: 8px;
-  border-radius: 2.5px;
-  background: radial-gradient(ellipse at 40% 30%, #e4e4e7 0%, #71717a 70%, #27272a 100%);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -3px;
+  width: 6px;
+  height: 9px;
+  border-radius: 3px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(255, 255, 255, 0.42) 25%,
+    rgba(255, 255, 255, 0.20) 55%,
+    rgba(255, 255, 255, 0.08) 82%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  box-shadow: inset 0 0.8px 0.8px rgba(255, 255, 255, 0.4);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+
+.pull-string-bead:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 3px;
+}
+
+.pull-string-bead::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -12px;
+  right: -12px;
+  bottom: -10px;
+  cursor: grab;
 }
 
 /* ==========================================================================
-   Atronix Luxury Colorway Palettes
+   Atronix Luxury Colorway Fallback Palettes
    ========================================================================== */
 
 /* Black / Monochromatic Silver (Default) */

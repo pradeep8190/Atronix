@@ -23,15 +23,15 @@ const pendantLampPropsDoc: PropDoc[] = [
   },
   {
     name: 'color',
-    type: "'black' | 'amber' | 'blue' | 'purple' | 'emerald'",
+    type: "string",
     default: "'black'",
-    description: 'Color temperature and volumetric light bloom palette theme.',
+    description: 'Color theme name (black, amber, blue, purple, emerald) or hex/RGB color string.',
   },
   {
     name: 'size',
     type: "'sm' | 'md' | 'lg'",
     default: "'md'",
-    description: 'Physical scale factor of the lamp fixture, beam cone, and typography.',
+    description: 'Physical scale preset factor of the lamp fixture, beam cone, and typography.',
   },
   {
     name: 'align',
@@ -40,22 +40,52 @@ const pendantLampPropsDoc: PropDoc[] = [
     description: 'Horizontal positioning alignment of the lamp assembly within its container.',
   },
   {
+    name: 'scale',
+    type: 'number',
+    default: '1',
+    description: 'Custom scale multiplier overriding or compounding the preset size factor.',
+  },
+  {
+    name: 'spread',
+    type: 'number',
+    default: '1',
+    description: 'Spread and width multiplier of the conical volumetric light beam.',
+  },
+  {
+    name: 'noiseLevel',
+    type: 'number',
+    default: '1',
+    description: 'Opacity multiplier for the physical surface fractal noise texture overlay.',
+  },
+  {
+    name: 'isOn',
+    type: 'boolean',
+    default: 'undefined',
+    description: 'Controlled power state of the lamp illumination.',
+  },
+  {
     name: 'defaultOn',
     type: 'boolean',
     default: 'true',
-    description: 'Initial illumination power state of the pendant lamp.',
+    description: 'Initial illumination power state for uncontrolled usage.',
   },
   {
     name: 'interactive',
     type: 'boolean',
     default: 'true',
-    description: 'Enables click-to-toggle on fixture and pull-string bead interaction.',
+    description: 'Enables click-to-toggle fixture, keyboard shortcuts, and draggable pull-string bead physics.',
   },
   {
     name: 'onToggle',
     type: '(isOn: boolean) => void',
     default: 'undefined',
     description: 'Event callback fired whenever the lamp illumination power is switched.',
+  },
+  {
+    name: 'style',
+    type: 'React.CSSProperties',
+    default: 'undefined',
+    description: 'Inline style properties applied to the root container.',
   },
 ];
 
