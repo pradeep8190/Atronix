@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useNotification } from '../../context/NotificationContext';
 import './ComponentCode.css';
 
 interface ComponentCodeProps {
@@ -87,7 +86,6 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
   cliOnly = false,
   cliOnlyReason,
 }) => {
-  const { notify } = useNotification();
   const fileKeys = files ? Object.keys(files) : [];
   const [activeFileName, setActiveFileName] = useState<string>(fileKeys[0] || filename);
 
@@ -141,11 +139,6 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
 
   const handleInstallModeChange = (newMode: 'cli' | 'manual') => {
     if (cliOnly && newMode === 'manual') {
-      notify({
-        title: 'CLI-Only Component',
-        description: cliOnlyReason || 'Manual copy is disabled because this component requires dedicated WebGL physics engine files.',
-        type: 'info',
-      });
       return;
     }
     if (newMode === installMode) return;
@@ -176,11 +169,6 @@ export const ComponentCode: React.FC<ComponentCodeProps> = ({
   const handleCopyInstall = () => {
     navigator.clipboard.writeText(currentInstallCommand);
     setCopiedInstall(true);
-    notify({
-      title: 'Command Copied',
-      description: `${currentInstallCommand} ready to paste`,
-      type: 'copy',
-    });
     setTimeout(() => setCopiedInstall(false), 1000);
   };
 

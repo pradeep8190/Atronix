@@ -251,30 +251,6 @@ export const COMPONENT_METADATA_MAP: Record<string, ComponentSearchMetadata> = {
     ],
     tags: ['silica', 'liquid-glass', 'slider'],
   },
-  'lens-strip': {
-    curatedCategory: 'Navigation & Select',
-    aliases: [
-      'lens strip',
-      'lens picker',
-      'focus strip',
-      'camera roll',
-      'video quality selector',
-      'resolution selector',
-      'mode selector',
-      'optical lens dropdown',
-      'wheel picker',
-      'carousel picker',
-    ],
-    tags: ['lens', 'strip', 'liquid-glass', 'picker', 'selector', 'resolution', 'webgl', 'refraction', 'snell', 'momentum'],
-  },
-  'camera-roll': {
-    curatedCategory: 'Navigation & Select',
-    aliases: [
-      'lens strip',
-      'camera roll',
-    ],
-    tags: ['lens', 'strip', 'camera-roll'],
-  },
   'optic-deck': {
     curatedCategory: 'Inputs & Controls',
     aliases: [
@@ -347,40 +323,6 @@ export const COMPONENT_METADATA_MAP: Record<string, ComponentSearchMetadata> = {
       'plasma toggle',
     ],
     tags: ['liquid-glass', 'plasma', 'button'],
-  },
-  'atmosphere-card': {
-    curatedCategory: 'Surfaces & Cards',
-    aliases: [
-      'atmosphere card',
-      'climate weather',
-      'weather controller',
-      'climate card',
-      'liquid glass weather',
-      'weather widget',
-      'temperature card',
-      'rolling odometer',
-      'weather timeline',
-      'open meteo',
-      'celsius fahrenheit',
-    ],
-    tags: ['liquid-glass', 'weather', 'climate', 'temperature', 'odometer', 'timeline', 'webgl', 'refraction', 'snell', 'card'],
-  },
-  'climate-weather': {
-    curatedCategory: 'Surfaces & Cards',
-    aliases: [
-      'atmosphere card',
-      'climate weather',
-      'weather controller',
-      'climate card',
-      'liquid glass weather',
-      'weather widget',
-      'temperature card',
-      'rolling odometer',
-      'weather timeline',
-      'open meteo',
-      'celsius fahrenheit',
-    ],
-    tags: ['liquid-glass', 'weather', 'climate', 'temperature', 'odometer', 'timeline', 'webgl', 'refraction', 'snell', 'card'],
   },
 };
 

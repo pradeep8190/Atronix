@@ -1,19 +1,14 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import { Navbar } from './navbar/Navbar';
-import { Sidebar } from './sidebar/Sidebar';
-import { MobileDrawerLayout } from './components/mobile/MobileDrawerLayout';
-import { NotificationProvider } from './context/NotificationContext';
-import { AppleIslandNotification } from './components/notification/AppleIslandNotification';
-import { CommandPalette } from './components/search';
-import componentsRegistry from './data/componentsRegistry';
-import templatesRegistry from './data/templatesRegistry';
+import { Navbar, Sidebar, MobileDrawerLayout, CommandPalette } from './components/layout';
+import { HomePage, ComponentShowcase, TemplateShowcase } from './pages';
+import { componentsRegistry, templatesRegistry } from './data';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import HomePage from './pages/home/HomePage';
-import ComponentShowcase from './components/showcase/ComponentShowcase';
-import TemplateShowcase from './components/showcase/TemplateShowcase';
+gsap.registerPlugin(ScrollTrigger);
 
 // Parse route from URL pathname, supporting /components/:id and /templates/:id
 interface RouteState {
@@ -88,7 +83,7 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Initialize Global Lenis Smooth Scroll (Desktop Only)
+  // Initialize Global Lenis Smooth Scroll & GSAP ScrollTrigger Synchronization (Desktop Only)
   useEffect(() => {
     // Disable Lenis on touch/mobile to preserve native 120Hz iOS ProMotion scrolling & gestures
     if (
@@ -99,13 +94,13 @@ function App() {
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.25,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.8,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.6,
       infinite: false,
       prevent: (node) => {
         return (
@@ -117,15 +112,18 @@ function App() {
       },
     });
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    // Synchronize Lenis scroll position with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
 
-    const rafId = requestAnimationFrame(raf);
+    const updateTicker = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateTicker);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };
   }, []);
@@ -203,91 +201,83 @@ function App() {
   );
 
   return (
-    <NotificationProvider>
-      <div className="app-layout">
-        {/* Background ambient lighting */}
-        <div className="bg-spotlight" />
-        <div className="bg-grid-mesh" />
+    <div className="app-layout">
+      {/* Background ambient lighting */}
+      <div className="bg-spotlight" />
+      <div className="bg-grid-mesh" />
 
-        {/* World-Class Command Palette / Search Engine Modal */}
-        <CommandPalette
-          isOpen={isSearchOpen}
-          onClose={() => setIsSearchOpen(false)}
-          onSelectComponent={handleSelectComponent}
-          onSelectTemplate={handleSelectTemplate}
-        />
+      {/* World-Class Command Palette / Search Engine Modal */}
+      <CommandPalette
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onSelectComponent={handleSelectComponent}
+        onSelectTemplate={handleSelectTemplate}
+      />
 
-        {/* Desktop Fixed Left Sidebar (hidden on mobile via CSS) */}
-        <Sidebar
-          onSelectComponent={handleSelectComponent}
-          selectedComponentId={selectedComponentId}
-          onSelectTemplate={handleSelectTemplate}
-          selectedTemplateId={selectedTemplateId}
-          activeSection={currentPage === 'templates' ? 'templates' : 'components'}
-        />
+      {/* Desktop Fixed Left Sidebar (hidden on mobile via CSS) */}
+      <Sidebar
+        onSelectComponent={handleSelectComponent}
+        selectedComponentId={selectedComponentId}
+        onSelectTemplate={handleSelectTemplate}
+        selectedTemplateId={selectedTemplateId}
+        activeSection={currentPage === 'templates' ? 'templates' : 'components'}
+      />
 
-        {/* Sovereign 3D Scale & Slide Mobile Drawer Architecture */}
-        <MobileDrawerLayout
-          isOpen={isMobileDrawerOpen}
-          onOpen={() => setIsMobileDrawerOpen(true)}
-          onClose={() => setIsMobileDrawerOpen(false)}
-          onNavigate={handleNavigate}
-          onOpenSearch={() => setIsSearchOpen(true)}
-          currentPage={currentPage}
-          headerContent={
-            <>
-              {/* Top Navbar */}
-              <Navbar
-                onNavigate={handleNavigate}
-                onOpenSearch={() => setIsSearchOpen(true)}
-                onToggleMobileDrawer={() => setIsMobileDrawerOpen((prev) => !prev)}
-                isDrawerOpen={isMobileDrawerOpen}
-              />
-
-              {/* Apple Dynamic Island Notification Pill right under Navbar */}
-              <AppleIslandNotification />
-            </>
-          }
-          sidebarContent={
-            <Sidebar
-              className="is-mobile-drawer"
-              onSelectComponent={(id) => {
-                handleSelectComponent(id);
-                setIsMobileDrawerOpen(false);
-              }}
-              selectedComponentId={selectedComponentId}
-              onSelectTemplate={(id) => {
-                handleSelectTemplate(id);
-                setIsMobileDrawerOpen(false);
-              }}
-              selectedTemplateId={selectedTemplateId}
-              activeSection={currentPage === 'templates' ? 'templates' : 'components'}
-              onItemClick={() => setIsMobileDrawerOpen(false)}
-            />
+      {/* Sovereign 3D Scale & Slide Mobile Drawer Architecture */}
+      <MobileDrawerLayout
+        isOpen={isMobileDrawerOpen}
+        onOpen={() => setIsMobileDrawerOpen(true)}
+        onClose={() => setIsMobileDrawerOpen(false)}
+        onNavigate={handleNavigate}
+        onOpenSearch={() => setIsSearchOpen(true)}
+        currentPage={currentPage}
+        headerContent={
+          <Navbar
+            onNavigate={handleNavigate}
+            onOpenSearch={() => setIsSearchOpen(true)}
+            onToggleMobileDrawer={() => setIsMobileDrawerOpen((prev) => !prev)}
+            isDrawerOpen={isMobileDrawerOpen}
+          />
+        }
+        sidebarContent={
+          <Sidebar
+            className="is-mobile-drawer"
+            onSelectComponent={(id) => {
+              handleSelectComponent(id);
+              setIsMobileDrawerOpen(false);
+            }}
+            selectedComponentId={selectedComponentId}
+            onSelectTemplate={(id) => {
+              handleSelectTemplate(id);
+              setIsMobileDrawerOpen(false);
+            }}
+            selectedTemplateId={selectedTemplateId}
+            activeSection={currentPage === 'templates' ? 'templates' : 'components'}
+            onItemClick={() => setIsMobileDrawerOpen(false)}
+          />
+        }
+      >
+        {/* Main Content View with Zero-Load Dynamic Code Splitting */}
+        <Suspense
+          fallback={
+            <main className="page-transition-fallback" style={{ minHeight: '80vh' }} />
           }
         >
-          {/* Main Content View with Zero-Load Dynamic Code Splitting */}
-          <Suspense
-            fallback={
-              <main className="page-transition-fallback" style={{ minHeight: '80vh' }} />
-            }
-          >
-            {currentPage === 'home' ? (
-              <HomePage
-                onNavigateToComponents={handleSelectComponent}
-                onNavigateToTemplates={handleSelectTemplate}
-              />
-            ) : currentPage === 'templates' ? (
-              <TemplateShowcase templateId={selectedTemplateId} />
-            ) : (
-              <ComponentShowcase componentId={selectedComponentId} />
-            )}
-          </Suspense>
-        </MobileDrawerLayout>
+          {currentPage === 'home' ? (
+            <HomePage
+              onNavigateToComponents={handleSelectComponent}
+              onNavigateToTemplates={handleSelectTemplate}
+            />
+          ) : currentPage === 'templates' ? (
+            <TemplateShowcase templateId={selectedTemplateId} />
+          ) : (
+            <ComponentShowcase componentId={selectedComponentId} />
+          )}
+        </Suspense>
+      </MobileDrawerLayout>
 
-        <Analytics />
-      </div>
-    </NotificationProvider>
+      <Analytics />
+    </div>
   );
 }
 

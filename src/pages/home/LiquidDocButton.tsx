@@ -20,9 +20,13 @@ export const LiquidDocButton: React.FC<LiquidDocButtonProps> = ({
   const velocityRef = useRef(0);
   const targetRef = useRef(0);
   const animFrameRef = useRef<number | null>(null);
+  const renderRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     targetRef.current = isHovered ? 1 : 0;
+    if (renderRef.current && !animFrameRef.current) {
+      animFrameRef.current = requestAnimationFrame(renderRef.current);
+    }
   }, [isHovered]);
 
   useEffect(() => {
@@ -217,10 +221,7 @@ export const LiquidDocButton: React.FC<LiquidDocButtonProps> = ({
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-
-    // Spring simulation render loop at 120 FPS
+    // Spring simulation render loop with idle sleep (0% idle GPU usage)
     const render = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -240,7 +241,11 @@ export const LiquidDocButton: React.FC<LiquidDocButtonProps> = ({
         progressRef.current *= 0.85;
       }
 
-      if (Math.abs(progressRef.current - target) < 0.0008 && Math.abs(velocityRef.current) < 0.0015) {
+      const isSettled =
+        Math.abs(progressRef.current - target) < 0.0008 &&
+        Math.abs(velocityRef.current) < 0.0015;
+
+      if (isSettled) {
         progressRef.current = target;
         velocityRef.current = 0;
       }
@@ -270,12 +275,20 @@ export const LiquidDocButton: React.FC<LiquidDocButtonProps> = ({
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-      animFrameRef.current = requestAnimationFrame(render);
+      // Idle sleep optimization: only loop if motion is continuing
+      if (!isSettled) {
+        animFrameRef.current = requestAnimationFrame(render);
+      } else {
+        animFrameRef.current = null;
+      }
     };
 
+    // Store render function ref for on-demand waking
+    renderRef.current = render;
     animFrameRef.current = requestAnimationFrame(render);
 
     return () => {
+      renderRef.current = null;
       if (animFrameRef.current) {
         cancelAnimationFrame(animFrameRef.current);
       }

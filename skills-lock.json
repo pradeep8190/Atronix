@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "shader-for-interfaces": {
+      "source": "v2space-labs/shader-for-interfaces",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "64f910f2083446e130c8f1ab22f1dcc3e9bca3dd6db13134479a70e2dc9f8e78"
+    }
+  }
+}

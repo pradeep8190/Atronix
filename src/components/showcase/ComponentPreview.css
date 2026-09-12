@@ -84,33 +84,6 @@
   overflow: hidden !important;
 }
 
-/* Seamless Full-Bleed Preview for Lens Strip (Zero Subcard, Edge-to-Edge) */
-.preview-sandbox:has(.lens-strip-root),
-.preview-sandbox.lens-preview-sandbox {
-  padding: 0 !important;
-  min-height: 520px;
-  background-color: #090a0f !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 
-    0 24px 60px rgba(0, 0, 0, 0.95),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-  overflow: hidden !important;
-}
-
-/* Seamless Full-Bleed Preview for Atmosphere Card (Zero Subcard, Edge-to-Edge) */
-.preview-sandbox:has(.atronix-atmosphere-card),
-.preview-sandbox:has(.atronix-climate-weather),
-.preview-sandbox.atmosphere-preview-sandbox {
-  padding: 0 !important;
-  min-height: 520px;
-  background: radial-gradient(circle at 50% 45%, #151821 0%, #0c0e14 55%, #06070a 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 
-    0 24px 60px rgba(0, 0, 0, 0.95),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-  overflow: hidden !important;
-}
-
 @media (max-width: 768px) {
   .preview-sandbox {
     min-height: 380px;
