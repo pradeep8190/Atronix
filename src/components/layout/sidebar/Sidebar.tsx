@@ -19,6 +19,7 @@ interface SidebarProps {
   activeSection?: 'components' | 'templates';
   className?: string;
   onItemClick?: () => void;
+  onNavigate?: (page: 'home' | 'components' | 'templates' | 'about') => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -29,6 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   activeSection = 'components',
   className,
   onItemClick,
+  onNavigate,
 }) => {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     updates: true,
@@ -45,7 +47,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const updatesItems = [
-    { label: 'About Developer', href: '#developer' },
+    {
+      label: 'About Developer',
+      href: '/about',
+      onClick: (e: React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        if (onNavigate) {
+          onNavigate('about');
+        } else {
+          window.history.pushState({ page: 'about' }, '', '/about');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }
+        onItemClick?.();
+      },
+    },
     { label: 'Twitter @atronixui', href: 'https://twitter.com/atronixui' },
   ];
 

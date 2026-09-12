@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { Navbar, Sidebar, MobileDrawerLayout, CommandPalette } from './components/layout';
-import { HomePage, ComponentShowcase, TemplateShowcase } from './pages';
+import { HomePage, ComponentShowcase, TemplateShowcase, AboutDevPage } from './pages';
 import { componentsRegistry, templatesRegistry } from './data';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Parse route from URL pathname, supporting /components/:id and /templates/:id
 interface RouteState {
-  page: 'home' | 'components' | 'templates';
+  page: 'home' | 'components' | 'templates' | 'about';
   componentId: string;
   templateId?: string;
 }
@@ -23,6 +23,11 @@ const parseRouteFromUrl = (): RouteState => {
   }
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+  const hash = window.location.hash.toLowerCase();
+
+  if (pathname.startsWith('/about') || hash === '#developer' || hash === '#about') {
+    return { page: 'about', componentId: 'frost-vault', templateId: 'testimonials' };
+  }
 
   if (pathname.startsWith('/templates')) {
     const parts = pathname.split('/').filter(Boolean);
@@ -60,7 +65,12 @@ function App() {
   useEffect(() => {
     const currentRoute = parseRouteFromUrl();
     const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
-    if (currentRoute.page === 'components') {
+    if (currentRoute.page === 'about') {
+      const canonicalPath = '/about';
+      if (pathname !== canonicalPath || window.location.hash) {
+        window.history.replaceState(currentRoute, '', canonicalPath);
+      }
+    } else if (currentRoute.page === 'components') {
       const canonicalPath = `/components/${currentRoute.componentId}`;
       if (pathname !== canonicalPath) {
         window.history.replaceState(currentRoute, '', canonicalPath);
@@ -73,14 +83,18 @@ function App() {
     }
   }, []);
 
-  // Listen to browser Back/Forward navigation (popstate)
+  // Listen to browser Back/Forward navigation (popstate) & hash changes
   useEffect(() => {
     const handlePopState = () => {
       setRoute(parseRouteFromUrl());
     };
 
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
   }, []);
 
   // Initialize Global Lenis Smooth Scroll & GSAP ScrollTrigger Synchronization (Desktop Only)
@@ -132,6 +146,8 @@ function App() {
   useEffect(() => {
     if (currentPage === 'home') {
       document.title = 'Atronix UI — Physical Realism for the Modern Web';
+    } else if (currentPage === 'about') {
+      document.title = 'About Developer — Atronix';
     } else if (currentPage === 'templates') {
       const tmpl = templatesRegistry[selectedTemplateId];
       const tmplName = tmpl ? tmpl.name : 'Template';
@@ -170,7 +186,7 @@ function App() {
   }, []);
 
   const handleNavigate = useCallback(
-    (page: 'home' | 'components' | 'templates') => {
+    (page: 'home' | 'components' | 'templates' | 'about') => {
       setIsMobileDrawerOpen(false);
       if (page === 'home') {
         const targetPath = window.location.pathname === '/' ? '/' : '/home';
@@ -178,6 +194,12 @@ function App() {
           window.history.pushState({ page: 'home' }, '', targetPath);
         }
         setRoute((prev) => ({ ...prev, page: 'home' }));
+      } else if (page === 'about') {
+        const targetPath = '/about';
+        if (window.location.pathname !== targetPath) {
+          window.history.pushState({ page: 'about' }, '', targetPath);
+        }
+        setRoute((prev) => ({ ...prev, page: 'about' }));
       } else if (page === 'templates') {
         const tId = route.templateId || 'testimonials';
         const targetPath = `/templates/${tId}`;
@@ -200,6 +222,19 @@ function App() {
     [selectedComponentId, route.templateId]
   );
 
+  if (currentPage === 'about') {
+    return (
+      <Suspense
+        fallback={
+          <main style={{ minHeight: '100vh', background: '#060608' }} />
+        }
+      >
+        <AboutDevPage />
+        <Analytics />
+      </Suspense>
+    );
+  }
+
   return (
     <div className="app-layout">
       {/* Background ambient lighting */}
@@ -221,6 +256,7 @@ function App() {
         onSelectTemplate={handleSelectTemplate}
         selectedTemplateId={selectedTemplateId}
         activeSection={currentPage === 'templates' ? 'templates' : 'components'}
+        onNavigate={handleNavigate}
       />
 
       {/* Sovereign 3D Scale & Slide Mobile Drawer Architecture */}
@@ -254,6 +290,7 @@ function App() {
             selectedTemplateId={selectedTemplateId}
             activeSection={currentPage === 'templates' ? 'templates' : 'components'}
             onItemClick={() => setIsMobileDrawerOpen(false)}
+            onNavigate={handleNavigate}
           />
         }
       >

@@ -1,0 +1,508 @@
+/* Retro Pinterest White Editorial Theme — Clean & Seamless */
+.retro-page-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  user-select: text;
+}
+
+.retro-page-container ::selection {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Interactive Background Dot Canvas */
+.retro-dots-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Colossal 404 in Background with Soft Low Opacity */
+.retro-bg-404 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(16rem, 38vw, 36rem);
+  font-weight: 900;
+  line-height: 0.75;
+  letter-spacing: -0.06em;
+  color: rgba(0, 0, 0, 0.03);
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+  text-align: center;
+  animation: bgShockwaveBloom 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Two-Column Editorial Layout with Landing Earthquake Shock */
+.retro-canvas {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 56px;
+  align-items: center;
+  animation: canvasImpactShock 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform;
+}
+
+@media (min-width: 900px) {
+  .retro-canvas {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 80px;
+  }
+}
+
+/* LEFT COLUMN: Vintage Pinterest Typography */
+.retro-col-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Giant Headline — Comedic Anvil Slam */
+.retro-headline {
+  font-size: clamp(5.5rem, 13vw, 10rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
+  color: #000000;
+  margin: 0 0 32px 0;
+  text-transform: none;
+  animation: headlineAnvilDrop 0.65s cubic-bezier(0.18, 0.89, 0.32, 1.25) forwards;
+  will-change: transform, opacity;
+}
+
+/* Main Body Paragraph */
+.retro-body-text {
+  font-size: clamp(1.15rem, 2.3vw, 1.4rem);
+  line-height: 1.55;
+  color: #3f3f46;
+  font-weight: 400;
+  margin: 0 0 44px 0;
+  max-width: 490px;
+  animation: textShockRattle 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+/* Courtesy Note — Neatly paired directly above Go back */
+.retro-sub-note {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #71717a;
+  margin: 0 0 10px 0;
+  max-width: 440px;
+  animation: textShockRattle 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+/* Retro Red Go Back Link — Soft Low Opacity */
+.retro-back-wrapper {
+  display: flex;
+  align-items: center;
+  animation: textShockRattle 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+.retro-back-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(220, 38, 38, 0.72);
+  font-size: 1.15rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.retro-back-btn:hover {
+  color: rgba(220, 38, 38, 0.95);
+  transform: translateX(-4px);
+}
+
+.retro-back-icon {
+  stroke-width: 2px;
+  transition: transform 0.2s ease;
+}
+
+.retro-back-btn:hover .retro-back-icon {
+  transform: translateX(-2px);
+}
+
+.retro-back-text {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 1.5px;
+}
+
+/* RIGHT COLUMN: Seamless Open Interactive Stage (NO CARD) */
+.retro-col-right {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  animation: rightRattleBounce 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+
+.retro-open-stage {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+/* Status Indicator Row */
+.stage-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stage-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+  animation: stageBlink 1.4s infinite alternate;
+}
+
+@keyframes stageBlink {
+  0% { opacity: 0.25; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1.1); }
+}
+
+.stage-status-title {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #a1a1aa;
+}
+
+.stage-ping-count {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #71717a;
+  background: #f4f4f5;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  margin-left: auto;
+}
+
+/* Action Buttons */
+.stage-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Primary Ping Button */
+.stage-ping-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #09090b;
+  color: #ffffff;
+  border: 1px solid #09090b;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.stage-ping-btn:hover:not(:disabled) {
+  background: #27272a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.stage-ping-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.stage-ping-btn.is-busy {
+  opacity: 0.75;
+  cursor: wait;
+}
+
+.stage-btn-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ef4444;
+}
+
+.stage-badge {
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 9999px;
+}
+
+/* Chai Button */
+.stage-chai-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fefce8;
+  color: #a16207;
+  border: 1px solid #fef08a;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stage-chai-btn:hover {
+  background: #fef08a;
+  transform: translateY(-1px);
+}
+
+/* Open Message Output (No Box Border) */
+.stage-msg-container {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+}
+
+.stage-msg-output {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  animation: stageMsgIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes stageMsgIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stage-msg-prefix {
+  color: #ef4444;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.stage-msg-text {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #09090b;
+  line-height: 1.45;
+}
+
+.stage-msg-output.is-urgent .stage-msg-text {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.stage-msg-idle {
+  font-size: 0.88rem;
+  color: #a1a1aa;
+}
+
+.stage-msg-idle strong {
+  color: #71717a;
+}
+
+/* Open Meter Track */
+.stage-meter-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stage-meter-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.stage-meter-title {
+  color: #a1a1aa;
+  font-family: ui-monospace, monospace;
+}
+
+.stage-meter-status {
+  color: #71717a;
+  font-family: ui-monospace, monospace;
+}
+
+.stage-meter-track {
+  width: 100%;
+  height: 4px;
+  background: #f4f4f5;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.stage-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* Mini Specs */
+.stage-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid #f4f4f5;
+}
+
+.stage-spec-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+}
+
+.spec-label {
+  color: #a1a1aa;
+}
+
+.spec-val {
+  color: #3f3f46;
+  font-weight: 600;
+}
+
+.spec-danger {
+  color: #dc2626;
+}
+
+/* ==========================================================================
+   LANDING SHOCK / COMEDIC ANVIL IMPACT KEYFRAMES
+   ========================================================================== */
+
+/* 1. Anvil Drop Impact for F*ck! */
+@keyframes headlineAnvilDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-160px) scale(1.35) rotate(-3deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0) scale(0.92) rotate(1deg);
+  }
+  68% {
+    transform: translateY(-14px) scale(1.05) rotate(-0.5deg);
+  }
+  84% {
+    transform: translateY(4px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+/* 2. Whole Screen Earthquake Shudder upon Anvil Impact */
+@keyframes canvasImpactShock {
+  0%, 42% {
+    transform: scale(1);
+  }
+  48% {
+    transform: translate3d(-8px, 6px, 0) scale(1.03);
+  }
+  56% {
+    transform: translate3d(9px, -7px, 0) scale(1.015);
+  }
+  65% {
+    transform: translate3d(-6px, 4px, 0) scale(1.008);
+  }
+  74% {
+    transform: translate3d(4px, -3px, 0) scale(1.002);
+  }
+  85% {
+    transform: translate3d(-2px, 1px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* 3. Secondary Text Rattled by the Seismic Impact */
+@keyframes textShockRattle {
+  0%, 45% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.02);
+  }
+  80% {
+    transform: translateY(3px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 4. Right Side Interactive Elements Rattled & Settling */
+@keyframes rightRattleBounce {
+  0%, 48% {
+    opacity: 0;
+    transform: translateY(34px) scale(0.95);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.02);
+  }
+  82% {
+    transform: translateY(4px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 5. Colossal Background 404 Shockwave Bloom */
+@keyframes bgShockwaveBloom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.65);
+  }
+  50% {
+    opacity: 0.08;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  100% {
+    opacity: 0.03;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

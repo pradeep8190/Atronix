@@ -6,7 +6,13 @@ const CORNER = 6;
 const DASH =
   "repeating-linear-gradient(to top, transparent 0 2px, currentColor 2px 4px)";
 
-export type HookRailItem = string | { label: string; href?: string };
+export type HookRailItem =
+  | string
+  | {
+      label: string;
+      href?: string;
+      onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+    };
 
 export type HookRailProps = Omit<ComponentProps<"nav">, "onChange"> & {
   items: HookRailItem[];
@@ -189,8 +195,12 @@ export function HookRail({
               setHoverIndex(index);
               setFocusInside(true);
             },
-            onBlur: () => setFocusInside(false),
-            onClick: () => select(index),
+            onClick: (e: React.MouseEvent<HTMLElement>) => {
+              select(index);
+              if (typeof item !== "string" && item.onClick) {
+                item.onClick(e);
+              }
+            },
             className: `hook-rail-item ${isActive ? "active" : "inactive"}`,
           };
 
